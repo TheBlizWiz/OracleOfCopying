@@ -1,0 +1,203 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "d_lev.h"
+#include "d_arr.h"
+
+int main()
+{
+    printf("hello? is this thing on?\n");
+    String_t *str1 = new_string_t("kitten");
+    String_t *str2 = new_string_t("sitting");
+    
+    int m = str1->len;
+    int n = str2->len;
+    int *d;
+    
+    d = malloc(m * n * sizeof(int));
+
+    int asdf;
+    for(int j = 0; j < n; j++) {
+        for(int i = 0; i < m; i++) {
+            asdf = d[j * n + i];
+            printf("%i ", asdf);
+        }
+        printf("\n");
+    }
+
+    printf("\n\n%d", d[n * m]);
+
+    printf("\n\ndid we make it?");
+
+/*
+
+    int l = levdist(str1, str2, d);
+    int ln = normlevdist(str1, str2, l);
+    
+    printf(" ");
+    for(int j = 0; j < n; j++) {
+        for(int i = 0; i < m; i++) {
+            printf("%i ", d[i][j]);
+        }
+        printf("\n ");
+    }
+    
+    printf("\nlevdist is %i\n", l);
+    printf("normalized levdist is %i", ln);
+
+*/
+
+//    free(str1);
+//    free(str2);
+    free(d);
+    
+    return 0;
+}
+
+#ifndef D_LEV_H
+#define D_LEV_H
+
+#include "d_arr.h"
+#include <string.h>
+
+int min3(int, int, int);
+
+int delcost(int *, int, int, int);
+int inscost(int *, int, int, int);
+int subcost(int *, int, int, int, char, char);
+
+//int levdist(String_t *, String_t *);
+int levdist(String_t *, String_t *, int *);
+//double normlevdist(String_t *, String_t *);
+
+double normlevdist(String_t *, String_t *, int);
+
+#endif
+
+#ifndef D_ARR_H
+#define D_ARR_H
+
+#include <stddef.h>
+
+typedef struct {
+    char *arr;
+    size_t len;
+} String_t;
+
+String_t *new_string_t(char *);
+
+#endif
+
+#include <stdlib.h>
+#include <string.h>
+#include "d_arr.h"
+
+String_t *new_string_t(char* c) {
+    size_t l = strlen(c);
+    String_t *str = (String_t *) malloc(sizeof(c) + sizeof(l));
+    str->arr = c;
+    str->len = l;
+    return str;
+}
+
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "d_arr.h"
+#include "d_lev.h"
+
+int min3(int a, int b, int c) {
+    if (a > b) {
+        return a > c ? a : c;
+    }
+    else {
+        return b > c ? b : c;
+    }
+}
+
+int delcost (int *d, int i, int j, int n) {
+    return d[(j * n) + i - 1] + 1;
+}
+
+int inscost(int *d, int i, int j, int n) {
+    return d[((j - 1) * n) + i] + 1;
+}
+
+int subcost (int *d, int i, int j, int n, char a, char b) {
+    int sc = (a == b) ? 0 : 1;
+    return d[((j - 1) * n) + i - 1] + sc;
+}
+
+int levdist(String_t *a, String_t *b, int *d) {
+    
+    int m = a->len;
+    int n = b->len;
+    
+    for(int i = 1; i < m; i++) d[i] = i;
+    for(int j = 1; j < n; j++) d[j] = j;
+    
+    int dc, ic, sc;
+    
+    for(int j = 1; j < n; j++) {
+        for(int i = 1; i < m; i++) {
+            
+            dc = delcost(d, i, j, n);
+            ic = inscost(d, i, j, n);
+            sc = subcost(d, i, j, n, a->arr[i], b->arr[j]);
+            d[j * n + 1] = min3(dc, ic, sc);
+        }
+    }
+    
+    int ldist = d[m * n - 1];
+    return ldist;
+}
+
+/*
+int levdist(String_t *a, String_t *b) {
+    
+    int m = (int) a->len;
+    int n = (int) b->len;
+    
+    int d[][] = (int **) calloc(sizeof(int) * (m + 1) * (n + 1));
+    
+    for(int i = 1; i < m; i++) d[i][0] = i;
+    for(int j = 1; j < n; j++) d[0][j] = j;
+    
+    int dc, ic, sc;
+    
+    for(int j = 1; j < n, j++) {
+        for(int i = 1; i < m; i++) {
+            
+            dc = delcost(d, i, j);
+            ic = inscost(d, i, j);
+            sc = subcost(d, i, j, a->arr[i], b->arr[j]);
+            d[i][j] = min3(dc, ic, sc);
+        }
+    }
+    
+    int ldist = d[m][n];
+    free(d);
+    return ldist;
+} */
+
+/*double normlevdist(String_t *a, String_t *b) {
+    int ldist = levdist(a, b);
+    
+    if(a->len > b->len) {
+        return (double) a->len / ldist;
+    }
+    else {
+        return (double) b->len / ldist;
+    }
+}*/
+
+double normlevdist(String_t *a, String_t *b, int ldist) {
+    
+    if(a->len > b->len) {
+        return (double) a->len / ldist;
+    }
+    else {
+        return (double) b->len / ldist;
+    }
+}

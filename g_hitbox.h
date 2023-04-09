@@ -31,7 +31,7 @@
     A--------B
   */
 typedef struct {
-    u16 yxA, yxB, yxC, yxD;
+    LocalPoint_t A, B, C, D;
     i16 ztop;
     i16 zbottom;
 } Hitbox_t;
@@ -39,7 +39,5 @@ typedef struct {
 Hitbox_t hbox_new(u8, u8, u8, u8, u8, u8, u8, u8, i16, i16);
 Hitbox_t hbox_newdefault();
 Hitbox_t hbox_newsquished(u16, u16, u16, u16, i16, i16);
-
-u8 *hbox_getpoint(u16);
 
 #endif

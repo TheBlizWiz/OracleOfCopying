@@ -7,16 +7,28 @@
 #include "d_string.h"
 #include "d_common.h"
 
-    // this is very wip, its honestly more of a placeholder for trying to block out
-    // how tiles are going to work...
+#ifndef QOI_IMPLEMENTATION
+#define QOI_IMPLEMENTATION
+#include "..\qoi\qoi.h"
+#endif
 
-    typedef uint32_t* Image_t;
+typedef u32 Color_t;
 
-    typedef struct {
-        String_t *fpath;
-        u8 xdim, ydim;
-        size_t length;
-        size_t alloc;
-    } ImageData_t;
+typedef struct {
+    u32 wdt;
+    u32 hgt;
+    u8  coldepth;
+    u8  colspace;
+    Size_t pxarrlen;
+    Color_t pxarr[];
+} Image_t;
+
+Image_t *img_open(String_t);
+
+Image_t *img_copy(Image_t *);
+
+Image_t img_resize(Image_t, u8, u8);
+
+Image_t img_rotate(Image_t, double);
 
 #endif

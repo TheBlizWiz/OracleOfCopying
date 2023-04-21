@@ -25,24 +25,8 @@
         Image_t *flrtex;
     } StaticTile_t;
 
-
-
-    typedef struct {
-        TileType_e type;
-
-        String_t *name;
-        Hitbox_t hitbox;
-        i32 elevation;
-        bool hasalpha;
-
-        Image_t *basetex;
-        Image_t *alptex;
-        Image_t *flrtex;
-
-        bool isalive;
-        
-    } DynamicTile_t;
-
-
+    StaticTile_t stile_new(TileType_e, String_t, Hitbox_t, i32, bool, Image_t *, Image_t *, Image_t *);
+    void stile_free(StaticTile_t);
+    
 
 #endif

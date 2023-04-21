@@ -18,11 +18,25 @@
 #define ZT_POS_DEFAULT 255
 #define ZB_POS_DEFAULT 0
 
+// used in r_image.c
+
+#define AGL_PI_HALVES 1.57079632679
+#define AGL_PI 3.14159265359
+#define AGL_3PI_HALVES 4.71238898038
+#define AGL_2PI 6.28318530718
+#define AGL_NEG_PI_HALVES -1.57079632679
+#define AGL_NEG_PI -3.14159265359
+#define AGL_NEG_3PI_HALVES -4.71238898038
+#define AGL_NEG_2PI -6.28318530718
+#define IMG_ROT_EPSILON 0.0025
 
 
 // ****************************
 // |         ERROR CODES      |
 // ****************************
+
+// this one is special, return 0 if no errors happen
+#define ERROR_NOERROR 0
 
 // used in d_utils.h
 #define ERROR_ISNULL_FILE -1

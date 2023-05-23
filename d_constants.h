@@ -5,6 +5,12 @@
 // |      CONSTANT VALUES     |
 // *****************************
 
+// used anywhere
+#define NULLADDR 0x0
+
+// used in m_rng.c
+#define BITMASK_12 0x03FF
+
 // Used in d_string.h
 #define NULL_CHAR_SIZE 1
 #define INDEX_STR_LEN -1

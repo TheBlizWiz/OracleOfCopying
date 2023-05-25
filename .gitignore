@@ -1,7 +1,6 @@
 textures/
-test.c
-test.exe
 dgmaster.exe
-qoi/qoiconv.exe
 sm64_object.c
-idk.c
+ooc.exe
+.vs/
+SDL2.dll

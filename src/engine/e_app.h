@@ -26,7 +26,7 @@ typedef struct {
   * \param  int     rdrflags  - Flags for SDL_CreateRenderer(), usually SDL_RENDERER_ACCELERATED
   * \return Error_t           - Error code, check d_constants.h
   */
-Error_t app_start(App_t, int, int, int);
+Error_t app_start(App_t *, int, int, int);
 
 /**
  * Stop Oracle of Copying.
@@ -36,9 +36,9 @@ Error_t app_start(App_t, int, int, int);
  * \param  int   initflags - Flags for SDL_Init(), use the same ones as in app_start()
  * \return Error_t         - Error code, currently broken, only returns ERROR_NOERROR
  */
-Error_t app_stop(App_t, int);
+Error_t app_stop(App_t *, int);
 
-Error_t app_doevents(SDL_Event);
+Error_t app_doevents(SDL_Event *);
 
 
 

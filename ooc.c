@@ -20,30 +20,7 @@ int main(int argc, char *argv[]) {
     App_t ooc;
     memset(&ooc, 0, sizeof(App_t)); // malloc on stack
 
-    //app_start(ooc, SDL_INIT_EVERYTHING, SDL_WINDOW_ALLOW_HIGHDPI, SDL_RENDERER_ACCELERATED);
-
-    if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
-        printf("SDL failed to initialize: %s", SDL_GetError());
-        return (int) ERROR_SDL_INIT_FAILURE;
-    }
-
-    ooc.wdw = SDL_CreateWindow(GAME_WINDOW_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_SIZE_X, SCREEN_SIZE_Y, SDL_WINDOW_ALLOW_HIGHDPI);
-
-    if (ooc.wdw == NULL) {
-        printf("Failed to init ooc.wdw: %s\n", SDL_GetError());
-        return (int) ERROR_SDL_CREATEWINDOW_FAILURE;
-    }
-
-    if (SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear") == SDL_FALSE) {
-        printf("Failed to set SDL Hint, %s\n", SDL_GetError());
-    }
-
-    ooc.rdr = SDL_CreateRenderer(ooc.wdw, -1, SDL_RENDERER_ACCELERATED);
-
-    if (ooc.rdr == NULL) {
-        printf("Failed to init ooc.rdr: %s\n", SDL_GetError());
-        return (int) ERROR_SDL_CREATERENDERER_FAILURE;
-    }
+    app_start(&ooc, SDL_INIT_EVERYTHING, SDL_WINDOW_ALLOW_HIGHDPI, SDL_RENDERER_ACCELERATED);
 
     SDL_Event evt;
     int run = 1;
@@ -55,7 +32,7 @@ int main(int argc, char *argv[]) {
     int y = 0;
 
     while (run) {
-       Error_t e = app_doevents(evt);
+       Error_t e = app_doevents(&evt);
 
        if (e == ERROR_DOEVENTS_TIMETOQUIT) {
            run = 0;
@@ -94,11 +71,7 @@ int main(int argc, char *argv[]) {
        SDL_Delay(15);
     }
 
-    //app_stop(ooc, SDL_INIT_EVERYTHING);
-    SDL_DestroyRenderer(ooc.rdr);
-    SDL_DestroyWindow(ooc.wdw);
-    SDL_QuitSubSystem(SDL_INIT_EVERYTHING);
-    SDL_Quit();
+    app_stop(&ooc, SDL_INIT_EVERYTHING);
 
     return 0;
 }

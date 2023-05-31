@@ -3,24 +3,35 @@
 
 #include "d_common.h"
 
-/** Get next random int from table
-  * This is the "global" version, for RNG calls that *don't* affect gameplay
-  * In other words, if you call RNG and you're *not* in game, use rng_gnext()
-  * Otherwise, use rng_lnext()
+/** Get next random int from table.
+  * This is the "global" version, for RNG calls that *don't* affect gameplay.
+  * In other words, if you call RNG and you're *not* in game, use rng_gnext().
+  * Otherwise, use rng_lnext().
+  *
+  * \param  void - None
+  * \return u16  - Random u16 value from RNG_TABLE
   */
-u16  rng_gnext (void);
+u16  rng_gnext(void);
 
-/** Get next random int from table
-  * This is the "local" version, for RNG calls that *do* affect gameplay
-  * In other words, if you call RNG and you *are* in game, use rng_lnext();
-  * Otherwise, use rng_gnext();
+/**
+  * Get next random int from table.
+  * This is the "local" version, for RNG calls that *do* affect gameplay.
+  * In other words, if you call RNG and you *are* in game, use rng_lnext().
+  * Otherwise, use rng_gnext().
+  *
+  * \param  void - None
+  * \return u16  - random u16 value from RNG_TABLE
   */
-u16  rng_lnext (void);
+u16  rng_lnext(void);
 
-/** Reset rng table
+/**
+  * Resets rng table.
   * Sets rng_gnext() and rng_lnext() back to the start of the table
-  * by setting grindx and lrindx back to zero
+  * by setting grindx and lrindx back to zero.
+  *
+  * \param  void - None
+  * \return void - None
   */
-void rng_reset (void);
+void rng_reset(void);
 
 #endif

@@ -16,13 +16,13 @@ struct strdata {
 
 Strdata_t *str_alloc(Size_t length) {
     Strdata_t *sdat = malloc(sizeof(Strdata_t) + length + NULL_CHAR_SIZE);
-    sdat->alloc = length+1;
+    sdat->alloc = length + 1;
     sdat->length = length;
     return sdat;
 }
 
 Strdata_t *str_getdata(String_t s) {
-    return (Strdata_t *)&s[-sizeof(Strdata_t)];
+    return (Strdata_t *) &s[-sizeof(Strdata_t)];
 }
 
 String_t str_new(const char *carr) {
@@ -33,7 +33,8 @@ String_t str_new(const char *carr) {
         sdat = str_alloc(carrlen);
         memcpy(&sdat->buf, carr, carrlen);
         sdat->buf[carrlen] = '\0';
-    } else {
+    }
+    else {
         sdat = str_alloc(0);
         sdat->buf[0] = '\0';
     }
@@ -73,13 +74,14 @@ void str_insert(String_t *s, Size_t pos, const char *carr) {
         Strdata_t *new_sdat = str_alloc(newlen);
 
         memcpy(new_sdat->buf, sdat->buf, pos);
-        memcpy(&new_sdat->buf[pos+carrlen], &sdat->buf[pos], sdat->length-pos);
+        memcpy(&new_sdat->buf[pos + carrlen], &sdat->buf[pos], sdat->length - pos);
 
         free(sdat);
         sdat = new_sdat;
 
-    } else {
-        memmove(&sdat->buf[pos], &sdat->buf[pos+carrlen], sdat->length - pos);
+    }
+    else {
+        memmove(&sdat->buf[pos], &sdat->buf[pos + carrlen], sdat->length - pos);
     }
 
     sdat->length = newlen;
@@ -91,7 +93,7 @@ void str_insert(String_t *s, Size_t pos, const char *carr) {
     *s = sdat->buf;
 }
 
-void str_replace(String_t* s, Size_t pos, Size_t len, const char *carr) {
+void str_replace(String_t *s, Size_t pos, Size_t len, const char *carr) {
     Strdata_t *sdat = str_getdata(*s);
 
     Size_t carrlen = strlen(carr);
@@ -102,14 +104,15 @@ void str_replace(String_t* s, Size_t pos, Size_t len, const char *carr) {
         Strdata_t *new_sdat = str_alloc(newlen);
 
         memcpy(new_sdat->buf, sdat->buf, pos);
-        memcpy(&new_sdat->buf[pos+carrlen], &sdat->buf[pos+len], sdat->length-pos-len);
+        memcpy(&new_sdat->buf[pos + carrlen], &sdat->buf[pos + len], sdat->length - pos - len);
 
         free(sdat);
 
         sdat = new_sdat;
 
-    } else {
-        memmove(&sdat->buf[pos+carrlen], &sdat->buf[pos+len], sdat->length-pos-len);
+    }
+    else {
+        memmove(&sdat->buf[pos + carrlen], &sdat->buf[pos + len], sdat->length - pos - len);
     }
 
     sdat->length = newlen;
@@ -123,12 +126,12 @@ void str_replace(String_t* s, Size_t pos, Size_t len, const char *carr) {
 
 void str_remove(String_t s, Size_t pos, Size_t len) {
     Strdata_t *sdat = str_getdata(s);
-    memmove(&sdat->buf[pos], &sdat->buf[pos+len], sdat->length - pos);
+    memmove(&sdat->buf[pos], &sdat->buf[pos + len], sdat->length - pos);
     sdat->length -= len;
     sdat->buf[sdat->length] = '\0';
 }
 
-void str_clear (String_t s) {
+void str_clear(String_t s) {
     str_remove(s, 0, str_getlen(s));
 };
 
@@ -137,22 +140,22 @@ void str_free(String_t s) {
 }
 
 Size_t str_getlen(String_t s) {
-    return ((Size_t *)s)[INDEX_STR_LEN];
+    return ((Size_t *) s)[INDEX_STR_LEN];
 }
 
 Size_t str_getalloc(String_t s) {
-    return ((Size_t *)s)[INDEX_STR_ALLOC];
+    return ((Size_t *) s)[INDEX_STR_ALLOC];
 }
 
 Size_t str_indexof(String_t src, Size_t pos, const char *tgt) {
     Size_t tgtlen = strlen(tgt);
     Size_t srclen = str_getlen(src);
 
-    if(srclen <= 0 || tgtlen < 0 || tgtlen > srclen || pos > srclen || pos < 0) {
+    if (srclen <= 0 || tgtlen < 0 || tgtlen > srclen || pos > srclen || pos < 0) {
         return (Size_t) -1;
     }
 
-    if(tgtlen == 0) {
+    if (tgtlen == 0) {
         return srclen;
     }
 
@@ -160,22 +163,22 @@ Size_t str_indexof(String_t src, Size_t pos, const char *tgt) {
     Size_t tgtidx = 0;
 
     // search for first instance of tgt[0] in src starting at pos
-    for(srcidx = pos; srcidx < srclen; srcidx++) {
+    for (srcidx = pos; srcidx < srclen; srcidx++) {
          // src[srcidx] == tgt[0]
-        if(src[srcidx] == tgt[tgtidx]) {
+        if (src[srcidx] == tgt[tgtidx]) {
             // continue to see if src[srcidx + 1] == tgt[1] and so on until tgt[tgtlen - 1]
-            if(tgtlen == 1) {
+            if (tgtlen == 1) {
                 return srcidx;
             }
             else {
                 tgtidx++;
             }
 
-            for(Size_t srcidx2 = srcidx + 1; srcidx2 < srclen && tgtidx < tgtlen; srcidx2++) {
-                if((src[srcidx2] == tgt[tgtidx]) && (tgtidx + 1 == tgtlen)) {
+            for (Size_t srcidx2 = srcidx + 1; srcidx2 < srclen && tgtidx < tgtlen; srcidx2++) {
+                if ((src[srcidx2] == tgt[tgtidx]) && (tgtidx + 1 == tgtlen)) {
                     return srcidx;
                 }
-                else if((src[srcidx2] == tgt[tgtidx]) && (tgtidx + 1 != tgtlen))  {
+                else if ((src[srcidx2] == tgt[tgtidx]) && (tgtidx + 1 != tgtlen)) {
                     tgtidx++;
                 }
                 else {
@@ -194,12 +197,12 @@ bool str_contains(String_t src, const char *tgt) {
 
 void str_sanitize(String_t s) {
     Size_t slen = str_getlen(s);
-    if(slen == 0) {
+    if (slen == 0) {
         return;
     }
 
-    for(Size_t i = 0; i < slen; i++) {
-        if(iscntrl((int) s[i]) && s[i] != '\0') {
+    for (Size_t i = 0; i < slen; i++) {
+        if (iscntrl((int) s[i]) && s[i] != '\0') {
             str_remove(s, i, 1);
             i--;
             slen = str_getlen(s);
@@ -208,19 +211,19 @@ void str_sanitize(String_t s) {
 }
 
 void str_tolower(String_t s) {
-    for(Size_t i = 0; i < str_getlen(s); i++) {
+    for (Size_t i = 0; i < str_getlen(s); i++) {
         s[i] = tolower(s[i]);
     }
 }
 
 void str_toupper(String_t s) {
-    for(Size_t i = 0; i < str_getlen(s); i++) {
+    for (Size_t i = 0; i < str_getlen(s); i++) {
         s[i] = toupper(s[i]);
     }
 }
 
 u8 str_equals(String_t s, const char *c) {
-    if(strcmp(s, c) == 0) {
+    if (strcmp(s, c) == 0) {
         return 1;
     }
     else {

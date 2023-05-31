@@ -1,6 +1,6 @@
-#include "m_rng.h"
-#include "d_common.h"
-#include "d_constants.h"
+#include <m_rng.h>
+#include <d_common.h>
+#include <d_constants.h>
 
 // Min value: 0
 // Max value: 1023
@@ -141,7 +141,7 @@ u16 lrindx = 0;
 
 u16 rng_gnext(void) {
     // prevents rollover w/out if statement
-    grindx = ((grindx++) & BITMASK_12); 
+    grindx = ((grindx++) & BITMASK_12);
     return RNG_TABLE[grindx];
 }
 

@@ -11,7 +11,7 @@ Requires:
     -"stb_image_write.h" (https://github.com/nothings/stb/blob/master/stb_image_write.h)
     -"qoi.h" (https://github.com/phoboslab/qoi/blob/master/qoi.h)
 
-Compile with: 
+Compile with:
     gcc qoiconv.c -std=c99 -O3 -o qoiconv
 
 */
@@ -43,17 +43,17 @@ int main(int argc, char **argv) {
     void *pixels = NULL;
     int w, h, channels;
     if (STR_ENDS_WITH(argv[1], ".png")) {
-        if(!stbi_info(argv[1], &w, &h, &channels)) {
+        if (!stbi_info(argv[1], &w, &h, &channels)) {
             printf("Couldn't read header %s\n", argv[1]);
             exit(1);
         }
 
         // Force all odd encodings to be RGBA
-        if(channels != 3) {
+        if (channels != 3) {
             channels = 4;
         }
 
-        pixels = (void *)stbi_load(argv[1], &w, &h, NULL, channels);
+        pixels = (void *) stbi_load(argv[1], &w, &h, NULL, channels);
     }
     else if (STR_ENDS_WITH(argv[1], ".qoi")) {
         qoi_desc desc;
@@ -75,9 +75,9 @@ int main(int argc, char **argv) {
     else if (STR_ENDS_WITH(argv[2], ".qoi")) {
         encoded = qoi_write(argv[2], pixels, &(qoi_desc){
             .width = w,
-            .height = h, 
-            .channels = channels,
-            .colorspace = QOI_SRGB
+                .height = h,
+                .channels = channels,
+                .colorspace = QOI_SRGB
         });
     }
 

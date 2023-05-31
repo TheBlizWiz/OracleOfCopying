@@ -9,7 +9,7 @@
 
 #ifndef QOI_IMPLEMENTATION
 #define QOI_IMPLEMENTATION
-#include "..\qoi\qoi.h"
+#include <qoi/qoi.h>
 #endif
 
 typedef u32 Color_t;

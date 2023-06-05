@@ -1,18 +1,15 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <time.h>
 
 #include "SDL.h"
+#include "SDL_image.h"
 
 #include "engine/e_app.h"
 #include "defs/d_common.h"
 #include "defs/d_constants.h"
-#include "defs/d_utils.h"
 
 int main(int argc, char *argv[]) {
-
-    srand(time(0));
 
     App_t ooc;
     memset(&ooc, 0, sizeof(App_t)); // malloc on stack
@@ -21,12 +18,46 @@ int main(int argc, char *argv[]) {
 
     SDL_Event evt;
     int run = 1;
-    int i = 0;
-    int r = 0;
-    int g = 0;
-    int b = 0;
-    int x = 0;
-    int y = 0;
+
+    SDL_Texture *tex_chest_closed = NULLADDR;
+    SDL_Texture *tex_chest_open = NULLADDR;
+    SDL_Texture *tex_gemstone = NULLADDR;
+
+    tex_chest_closed = IMG_LoadTexture(ooc.rdr, "D:/OracleOfCopying/OracleOfCopying/textures/oracle_chest_closed.qoi");
+    if (!tex_chest_closed) { 
+        printf("failed to load the closed chest: %s\n", SDL_GetError()); 
+    }
+
+    tex_chest_open = IMG_LoadTexture(ooc.rdr, "D:/OracleOfCopying/OracleOfCopying/textures/oracle_chest_open.qoi");
+    if (!tex_chest_open) { 
+        printf("failed to load the open chest: %s\n", SDL_GetError()); 
+    }
+
+    tex_gemstone = IMG_LoadTexture(ooc.rdr, "D:/OracleOfCopying/OracleOfCopying/textures/oracle_gem_diamond.qoi");
+    if (!tex_gemstone) { 
+        printf("failed to load the diamond: %s\n", SDL_GetError()); 
+    }
+
+    SDL_Rect tex_chest_closed_rect, tex_chest_open_rect, tex_gemstone_rect;
+    memset(&tex_chest_closed_rect, 0, sizeof(SDL_Rect));
+    memset(&tex_chest_open_rect, 0, sizeof(SDL_Rect));
+    memset(&tex_gemstone_rect, 0, sizeof(SDL_Rect));
+
+
+    tex_chest_closed_rect.x = 64;
+    tex_chest_closed_rect.y = 64;
+    tex_chest_closed_rect.w = 32;
+    tex_chest_closed_rect.h = 32;
+
+    tex_chest_open_rect.x = 64;
+    tex_chest_open_rect.y = 64;
+    tex_chest_open_rect.w = 32;
+    tex_chest_open_rect.h = 32;
+
+    tex_gemstone_rect.x = 64;
+    tex_gemstone_rect.y = 32;
+    tex_gemstone_rect.w = 32;
+    tex_gemstone_rect.h = 32;
 
     while (run) {
         Error_t e = app_doevents(&evt);
@@ -35,38 +66,24 @@ int main(int argc, char *argv[]) {
             run = 0;
             break;
         }
-
-        i = rng(1, 10000);
-
-        if (i == 1) {
-            if (SDL_SetRenderDrawColor(ooc.rdr, 0, 0, 0, 0) < 0) {
-                printf("failed to set render draw color when i == 1: %s\n", SDL_GetError());
-            }
-
-            if (SDL_RenderClear(ooc.rdr) < 0) {
-                printf("failed to clear render when i == 1: %s\n", SDL_GetError());
-            }
-        }
-        else {
-            r = rng(128, 255);
-            g = rng(128, 255);
-            b = rng(128, 255);
-            x = rng(0, 800);
-            y = rng(0, 600);
-
-            if (SDL_SetRenderDrawColor(ooc.rdr, r, g, b, 255) < 0) {
-                printf("failed to set render draw color when i != 1, %s\n", SDL_GetError());
-            }
-
-            if (SDL_RenderDrawPoint(ooc.rdr, x, y) < 0) {
-                printf("failed to draw point to screen, %s\n", SDL_GetError());
-            }
-        }
-
+        SDL_RenderClear(ooc.rdr);
+        SDL_RenderCopy(ooc.rdr, tex_chest_closed, NULLADDR, &tex_chest_closed_rect);
         SDL_RenderPresent(ooc.rdr);
-
-        SDL_Delay(15);
+        SDL_Delay(1000);
+        SDL_RenderClear(ooc.rdr);
+        SDL_RenderCopy(ooc.rdr, tex_chest_open, NULLADDR, &tex_chest_open_rect);
+        SDL_RenderPresent(ooc.rdr);
+        SDL_Delay(1000);
+        SDL_RenderClear(ooc.rdr);
+        SDL_RenderCopy(ooc.rdr, tex_chest_open, NULLADDR, &tex_chest_open_rect);
+        SDL_RenderCopy(ooc.rdr, tex_gemstone, NULLADDR, &tex_gemstone_rect);
+        SDL_RenderPresent(ooc.rdr);
+        SDL_Delay(1000);
     }
+
+    SDL_DestroyTexture(tex_chest_closed);
+    SDL_DestroyTexture(tex_chest_open);
+    SDL_DestroyTexture(tex_gemstone);
 
     app_stop(&ooc, SDL_INIT_EVERYTHING);
 

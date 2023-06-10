@@ -29,7 +29,7 @@ Size_t file_readline(String_t *strptr, FILE *f) {
         String_t str = str_new(NULL);
         strptr = &str;
         if (strptr == NULLADDR) {
-            return (Size_t) ERROR_MEMORY_NOSPACE;
+            return (Size_t) ERROR_MALLOC_NOSPACE_READLINE;
         }
     }
 

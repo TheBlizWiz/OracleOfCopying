@@ -30,6 +30,13 @@
 
 // used in r_image.c
 
+#define IMG_POS_X 0
+#define IMG_POS_Y 0
+#define IMG_SIZE_X 32
+#define IMG_SIZE_Y 32
+
+
+
 #define AGL_PI_HALVES 1.57079632679
 #define AGL_PI 3.14159265359
 #define AGL_3PI_HALVES 4.71238898038
@@ -47,14 +54,23 @@
 // |         ERROR CODES      |
 // ****************************
 
+
 // this one is special, return 0 if no errors happen
 #define ERROR_NOERROR 0
 
+#define ERROR_MALLOC_NOSPACE 1
+#define ERROR_REALLOC_NOSPACE 2
+#define ERROR_ISNULLADDR 3
+#define ERROR_ISNOTNULLADDR 4
+#define ERROR_SDL_GENERIC 5
+
 // used in r_app.h and r_app.c
 
-#define ERROR_SDL_INIT_FAILURE 1
-#define ERROR_SDL_CREATEWINDOW_FAILURE 2
-#define ERROR_SDL_CREATERENDERER_FAILURE 3
+#define ERROR_SDL_INIT_FAILURE 100
+#define ERROR_SDL_CREATEWINDOW_FAILURE 101
+#define ERROR_SDL_CREATERENDERER_FAILURE 102
+
+
 
 // used in e_app.c
 
@@ -71,10 +87,11 @@
 #define ERROR_DOEVENTS_DEFAULTCASE 900
 
 // used in d_utils.c
+// these exist because we need Size_t to intentionally be out of bounds
 #define ERROR_ISNULL_FILE -1
 #define ERROR_ISNULL_STRPTR -2
 #define ERROR_ISVALUE_EOF -3
-#define ERROR_MEMORY_NOSPACE -4
+#define ERROR_MALLOC_NOSPACE_READLINE -4
 
 
 

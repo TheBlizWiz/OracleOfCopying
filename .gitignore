@@ -1,0 +1,12 @@
+.vs/
+x64/
+OracleOfCopying.sln
+OoCDLL/OoCDLL.vcxproj
+OoCDLL/OoCDLL.vcxproj.filters
+OoCDLL/OoCDLL.vcxproj.user
+OracleOfCopying/textures/
+OracleOfCopying/x64/
+OracleOfCopying/SDL2.dll
+OracleOfCopying/OracleOfCopying.vcxproj
+OracleOfCopying/OracleOfCopying.vcxproj.filters
+OracleOfCopying/OracleOfCopying.vcxproj.user

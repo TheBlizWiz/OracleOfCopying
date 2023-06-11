@@ -1,7 +1,7 @@
 #ifndef D_UTILS_H
 #define D_UTILS_H
 
-#ifdef DLL_EXPORT
+#ifdef OOCDLL_EXPORTS
 #define D_UTILS_API __declspec(dllexport)
 #else
 #define D_UTILS_API __declspec(dllimport)

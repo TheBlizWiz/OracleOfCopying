@@ -1,84 +1,106 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
 #include <ctype.h>
 
-#include "../../oocdll.h"
+#include "defs/d_common.h"
+#include "defs/d_constants.h"
 #include "d_string.h"
 
-// MSVC is yelling at me warning me about null pointers and malloc/realloc leaks
-// but I will cross that bridge if I come to it
-
-typedef struct {
-    Size_t alloc;
-    Size_t length;
-    char buf[];
-} Strdata_t;
-
-Strdata_t *str_alloc(Size_t length) {
-    Strdata_t *sdat = malloc(sizeof(Strdata_t) + length + NULL_CHAR_SIZE);
-    sdat->alloc = length + 1;
-    sdat->length = length;
-    return sdat;
+Strdata_t *str_alloc(Size_t len) {
+    Strdata_t *sdat = malloc(sizeof(Strdata_t) + len + NULL_CHAR_SIZE);
+    if (sdat) {
+        sdat->alloc = len + 1;
+        sdat->length = len;
+        return sdat;
+    }
+    else
+        return NULLADDR;
 }
 
 Strdata_t *str_getdata(String_t s) {
-    return (Strdata_t *) &s[0 - sizeof(Strdata_t)];
+    if (!s)
+        return NULLADDR;
+    else
+        return (Strdata_t *) &s[0 - sizeof(Strdata_t)];
 }
 
 String_t str_new(const char *carr) {
-    Strdata_t *sdat = NULL;
+    Strdata_t *sdat = NULLADDR;
 
-    if (carr != NULL) {
+    if (carr) {
         Size_t carrlen = strlen(carr);
         sdat = str_alloc(carrlen);
-        memcpy(&sdat->buf, carr, carrlen);
-        sdat->buf[carrlen] = '\0';
+
+        if (sdat) {
+            memcpy(&sdat->buf, carr, carrlen);
+            sdat->buf[carrlen] = '\0';
+        }
+        else
+            return NULLADDR;
     }
     else {
         sdat = str_alloc(0);
-        sdat->buf[0] = '\0';
+        if (sdat)
+            sdat->buf[0] = '\0';
+        else
+            return NULLADDR;
     }
 
     return sdat->buf;
 }
 
-void str_append(String_t *s, const char *carr) {
+Error_t str_append(String_t *s, const char *carr) {
+    if (!s || !carr)
+        return ERROR_ISNULLADDR;
+
     Strdata_t *sdat = str_getdata(*s);
 
     Size_t carrlen = strlen(carr);
 
     Size_t newlen = sdat->length + carrlen;
 
-    if (sdat->alloc <= newlen + NULL_CHAR_SIZE) {
-        sdat = realloc(sdat, sizeof(Strdata_t) + newlen);
-        sdat->alloc = newlen + NULL_CHAR_SIZE;
+    if (sdat->alloc <= newlen + NULL_CHAR_SIZE && sdat->alloc != 0) {
+        Strdata_t *sdat_tmp = (Strdata_t *) realloc(sdat, sizeof(Strdata_t) + newlen);
+        if (!sdat_tmp) {
+            return ERROR_REALLOC_NOSPACE;
+        }
+        else {
+            sdat = sdat_tmp;
+            sdat->alloc = newlen + NULL_CHAR_SIZE;
+            memcpy(&sdat->buf[sdat->length], carr, carrlen);
+            sdat->length = newlen;
+            sdat->buf[newlen] = '\0';
+            *s = sdat->buf;
+        }
     }
-
-    memcpy(&sdat->buf[sdat->length], carr, carrlen);
-
-    sdat->length = newlen;
-
-    sdat->buf[newlen] = '\0';
-
-    *s = sdat->buf;
+    return ERROR_NOERROR;
 }
 
-void str_insert(String_t *s, Size_t pos, const char *carr) {
+Error_t str_insert(String_t *s, Size_t pos, const char *carr) {
+    if (!s || !carr)
+        return ERROR_ISNULLADDR;
+
     Strdata_t *sdat = str_getdata(*s);
+
+    if (pos > sdat->length || pos < 0)
+        return ERROR_INDEX_OOB;
 
     Size_t carrlen = strlen(carr);
 
     Size_t newlen = sdat->length + carrlen;
 
-    if (sdat->alloc <= newlen + NULL_CHAR_SIZE) {
+    if (sdat->alloc <= newlen + NULL_CHAR_SIZE && sdat->alloc != 0) {
         Strdata_t *new_sdat = str_alloc(newlen);
+        if (new_sdat) {
+            memcpy(new_sdat->buf, sdat->buf, pos);
+            memcpy(&new_sdat->buf[pos + carrlen], &sdat->buf[pos], sdat->length - pos);
 
-        memcpy(new_sdat->buf, sdat->buf, pos);
-        memcpy(&new_sdat->buf[pos + carrlen], &sdat->buf[pos], sdat->length - pos);
-
-        free(sdat);
-        sdat = new_sdat;
+            free(sdat);
+            sdat = new_sdat;
+        }
+        else {
+            return ERROR_MALLOC_NOSPACE;
+        }
 
     }
     else {
@@ -92,25 +114,38 @@ void str_insert(String_t *s, Size_t pos, const char *carr) {
     sdat->buf[newlen] = '\0';
 
     *s = sdat->buf;
+    return ERROR_NOERROR;
 }
 
-void str_replace(String_t *s, Size_t pos, Size_t len, const char *carr) {
+Error_t str_replace(String_t *s, Size_t pos, Size_t len, const char *carr) {
+    if (!s || !carr)
+        return ERROR_ISNULLADDR;
+
     Strdata_t *sdat = str_getdata(*s);
+
+    if (pos <= 0 || pos > sdat->length)
+        return ERROR_INDEX_OOB;
+    if (len <= 0 || len > sdat->length)
+        return ERROR_LENGTH_INVALIDVALUE;
+
 
     Size_t carrlen = strlen(carr);
 
     Size_t newlen = sdat->length + carrlen - len;
 
-    if (sdat->alloc <= newlen + NULL_CHAR_SIZE) {
+    if (sdat->alloc <= newlen + NULL_CHAR_SIZE && sdat->alloc != 0) {
         Strdata_t *new_sdat = str_alloc(newlen);
+        if (new_sdat) {
 
-        memcpy(new_sdat->buf, sdat->buf, pos);
-        memcpy(&new_sdat->buf[pos + carrlen], &sdat->buf[pos + len], sdat->length - pos - len);
+            memcpy(new_sdat->buf, sdat->buf, pos);
+            memcpy(&new_sdat->buf[pos + carrlen], &sdat->buf[pos + len], sdat->length - pos - len);
 
-        free(sdat);
+            free(sdat);
 
-        sdat = new_sdat;
-
+            sdat = new_sdat;
+        }
+        else
+            return ERROR_REALLOC_NOSPACE;
     }
     else {
         memmove(&sdat->buf[pos + carrlen], &sdat->buf[pos + len], sdat->length - pos - len);
@@ -123,49 +158,52 @@ void str_replace(String_t *s, Size_t pos, Size_t len, const char *carr) {
     sdat->buf[newlen] = '\0';
 
     *s = sdat->buf;
+
+    return ERROR_NOERROR;
 }
 
-void str_remove(String_t s, Size_t pos, Size_t len) {
+Error_t str_remove(String_t s, Size_t pos, Size_t len) {
+    if (!s)
+        return ERROR_ISNULLADDR;
+
     Strdata_t *sdat = str_getdata(s);
+
+    if (pos <= 0 || pos > sdat->length)
+        return ERROR_INDEX_OOB;
+    if (len <= 0 || len > sdat->length)
+        return ERROR_LENGTH_INVALIDVALUE;
+
     memmove(&sdat->buf[pos], &sdat->buf[pos + len], sdat->length - pos);
     sdat->length -= len;
     sdat->buf[sdat->length] = '\0';
+
+    return ERROR_NOERROR;
 }
 
-void str_clear(String_t s) {
-    str_remove(s, 0, str_getlen(s));
+Error_t str_clear(String_t s) {
+    return str_remove(s, 0, str_getlen(s));
 };
 
 void str_free(String_t s) {
     free(str_getdata(s));
 }
 
-Size_t str_getlen(String_t s) {
-    return ((Size_t *) s)[INDEX_STR_LEN];
-}
-
-Size_t str_getalloc(String_t s) {
-    return ((Size_t *) s)[INDEX_STR_ALLOC];
-}
-
 Size_t str_indexof(String_t src, Size_t pos, const char *tgt) {
     Size_t tgtlen = strlen(tgt);
     Size_t srclen = str_getlen(src);
 
-    if (srclen <= 0 || tgtlen < 0 || tgtlen > srclen || pos > srclen || pos < 0) {
+    if (srclen <= 0 || tgtlen < 0 || tgtlen > srclen || pos > srclen || pos < 0)
         return (Size_t) -1;
-    }
 
-    if (tgtlen == 0) {
+    if (tgtlen == 0)
         return srclen;
-    }
 
     Size_t srcidx = pos;
     Size_t tgtidx = 0;
 
     // search for first instance of tgt[0] in src starting at pos
     for (srcidx = pos; srcidx < srclen; srcidx++) {
-         // src[srcidx] == tgt[0]
+        // src[srcidx] == tgt[0]
         if (src[srcidx] == tgt[tgtidx]) {
             // continue to see if src[srcidx + 1] == tgt[1] and so on until tgt[tgtlen - 1]
             if (tgtlen == 1) {
@@ -193,41 +231,71 @@ Size_t str_indexof(String_t src, Size_t pos, const char *tgt) {
 }
 
 u8 str_contains(String_t src, const char *tgt) {
-    return (str_indexof(src, 0, tgt) >= 0) ? 1 : 0;
+    if (!src || !tgt)
+        return 0;
+    else
+        return (str_indexof(src, 0, tgt) >= 0) ? 1 : 0;
 }
 
-void str_sanitize(String_t s) {
+Size_t str_getlen(String_t s) {
+    if (!s)
+        return ERROR_ISNULL_STRPTR;
+    else
+        return ((Size_t *) s)[INDEX_STR_LEN];
+}
+
+Size_t str_getalloc(String_t s) {
+    if (!s)
+        return ERROR_ISNULL_STRPTR;
+    else
+        return ((Size_t *) s)[INDEX_STR_ALLOC];
+}
+
+Error_t str_sanitize(String_t s) {
+    if (!s)
+        return ERROR_ISNULLADDR;
+
     Size_t slen = str_getlen(s);
     if (slen == 0) {
-        return;
+        return ERROR_NOERROR;
     }
 
     for (Size_t i = 0; i < slen; i++) {
-        if (iscntrl((int) s[i]) && s[i] != '\0') {
+        if (iscntrl((int) s[i]) && s[i] != '\0') { // TODO: can we remove null chars safely?
             str_remove(s, i, 1);
             i--;
             slen = str_getlen(s);
         }
     }
+
+    return ERROR_NOERROR;
 }
 
-void str_tolower(String_t s) {
+Error_t tolower(String_t s) {
+    if (!s)
+        return ERROR_ISNULLADDR;
+
     for (Size_t i = 0; i < str_getlen(s); i++) {
         s[i] = tolower(s[i]);
     }
+
+    return ERROR_NOERROR;
 }
 
-void str_toupper(String_t s) {
+Error_t str_toupper(String_t s) {
+    if (!s)
+        return ERROR_ISNULLADDR;
+
     for (Size_t i = 0; i < str_getlen(s); i++) {
         s[i] = toupper(s[i]);
     }
+
+    return ERROR_NOERROR;
 }
 
-u8 str_equals(String_t s, const char *c) {
-    if (strcmp(s, c) == 0) {
-        return 1;
-    }
-    else {
+u8 str_equals(String_t s, const char *carr) {
+    if (!s || !carr)
         return 0;
-    }
+    else 
+        return (strcmp(s, carr) == 0) ? 1 : 0;
 }

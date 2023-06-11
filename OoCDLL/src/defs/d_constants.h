@@ -35,8 +35,6 @@
 #define IMG_SIZE_X 32
 #define IMG_SIZE_Y 32
 
-
-
 #define AGL_PI_HALVES 1.57079632679
 #define AGL_PI 3.14159265359
 #define AGL_3PI_HALVES 4.71238898038
@@ -62,13 +60,22 @@
 #define ERROR_REALLOC_NOSPACE 2
 #define ERROR_ISNULLADDR 3
 #define ERROR_ISNOTNULLADDR 4
-#define ERROR_SDL_GENERIC 5
+#define ERROR_INDEX_OOB 5
+
+
+
+#define ERROR_SDL_GENERIC 100
 
 // used in r_app.h and r_app.c
 
-#define ERROR_SDL_INIT_FAILURE 100
-#define ERROR_SDL_CREATEWINDOW_FAILURE 101
-#define ERROR_SDL_CREATERENDERER_FAILURE 102
+#define ERROR_SDL_INIT_FAILURE 101
+#define ERROR_SDL_CREATEWINDOW_FAILURE 102
+#define ERROR_SDL_CREATERENDERER_FAILURE 103
+
+// used in d_string.c
+
+#define ERROR_LENGTH_INVALIDVALUE 201
+
 
 
 
@@ -99,8 +106,5 @@
 // |         STRINGS          |
 // ****************************
 #define GAME_WINDOW_NAME "Oracle of Copying"
-
-
-
 
 #endif

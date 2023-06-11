@@ -112,7 +112,10 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>D:\OracleOfCopying\OoCDLL\src\;C:\Users\thebl\source\repos\SDL\include;C:\Users\thebl\source\repos\SDL_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\MSVC\source\repos\SDL_image;E:\MSVC\source\repos\SDL2\include;E:\MSVC\source\repos\OracleOfCopying\OoCDLL\src</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -130,7 +133,10 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>D:\OracleOfCopying\OoCDLL\src\;C:\Users\thebl\source\repos\SDL\include;C:\Users\thebl\source\repos\SDL_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\MSVC\source\repos\SDL_image;E:\MSVC\source\repos\SDL2\include;E:\MSVC\source\repos\OracleOfCopying\OoCDLL\src</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -166,6 +172,15 @@
     <ClCompile Include="src\defs\d_utils.c" />
     <ClCompile Include="src\engine\e_app.c" />
     <ClCompile Include="src\game\g_hitbox.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2.lib" />
+    <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2main.lib" />
+    <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2test.lib" />
+    <Library Include="..\..\SDL_image\VisualC\x64\Release\SDL2_image.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\SDL_image\VisualC\x64\Release\SDL2_image.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

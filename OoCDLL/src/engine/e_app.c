@@ -2,7 +2,7 @@
 
 #include "SDL.h"
 
-#include "engine/e_app.h"
+#include "e_app.h"
 #include "defs/d_common.h"
 #include "defs/d_constants.h"
 

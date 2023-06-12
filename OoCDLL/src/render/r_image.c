@@ -4,13 +4,12 @@
 #include "SDL.h"
 #include "SDL_image.h"
 
-#include "render/r_image.h"
-#include "engine/e_app.h"
+#include "r_image.h"
 #include "defs/d_common.h"
 #include "defs/d_constants.h"
 #include "defs/d_utils.h"
 
-Error_t *img_new(Image_t *imgptr, App_t ooc, const char *fpath, u32 posx, u32 posy, u32 imgw, u32 imgh) {
+Error_t img_new(Image_t *imgptr, App_t ooc, const char *fpath, u32 posx, u32 posy, u32 imgw, u32 imgh) {
     if (imgptr) {
         return (Error_t) ERROR_ISNOTNULLADDR;
     }
@@ -36,7 +35,7 @@ Error_t *img_new(Image_t *imgptr, App_t ooc, const char *fpath, u32 posx, u32 po
     return (Error_t) ERROR_NOERROR;
 }
 
-Error_t *img_newdefault(Image_t *imgptr, App_t ooc, const char *fpath) {
+Error_t img_newdefault(Image_t *imgptr, App_t ooc, const char *fpath) {
     if (imgptr) {
         return (Error_t) ERROR_ISNOTNULLADDR;
     }
@@ -70,7 +69,7 @@ Error_t img_render(Image_t *imgptr, App_t ooc, u32 posx, u32 posy) {
     imgptr->rect.x = posx;
     imgptr->rect.y = posy;
 
-    if (SDL_RenderCopy(ooc.rdr, imgptr, NULLADDR, &imgptr->rect) < 0) {
+    if (SDL_RenderCopy(ooc.rdr, imgptr->tex, NULLADDR, &imgptr->rect) < 0) {
         printf("couldn't render image at (%d, %d): %s\n", posx, posy, SDL_GetError());
         return ERROR_SDL_GENERIC;
     }

@@ -2,8 +2,8 @@
 #include <string.h>
 #include <ctype.h>
 
-#include "defs/d_common.h"
-#include "defs/d_constants.h"
+#include "d_common.h"
+#include "d_constants.h"
 #include "d_string.h"
 
 Strdata_t *str_alloc(Size_t len) {
@@ -271,7 +271,7 @@ Error_t str_sanitize(String_t s) {
     return ERROR_NOERROR;
 }
 
-Error_t tolower(String_t s) {
+Error_t str_tolower(String_t s) {
     if (!s)
         return ERROR_ISNULLADDR;
 

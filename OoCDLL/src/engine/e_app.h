@@ -1,18 +1,24 @@
 #ifndef R_APP_H
 #define R_APP_H
 
+#ifdef OOCDLL_EXPORTS
+#define E_APP_API __declspec(dllexport)
+#else
+#define E_APP_API __declspec(dllimport)
+#endif
+
 #include "SDL.h"
 #include "defs/d_common.h"
 
 /**
   * Struct that holds SDL_Window and SDL_Renderer.
   * This is the struct that holds the game program window.
-  * 
+  *
   * \param SDL_Window   *wdw  - pointer to a SDL_Window, usually as a local stack address (&wdw)
   * \param SDL_Renderer *rdr  - pointer to a SDL_Renderer, usually as a local stack address (&rdr)
   */
-typedef struct {
-    SDL_Window   *wdw;
+E_APP_API typedef struct {
+    SDL_Window *wdw;
     SDL_Renderer *rdr;
 } App_t;
 
@@ -26,7 +32,7 @@ typedef struct {
   * \param  int     rdrflags  - Flags for SDL_CreateRenderer(), usually SDL_RENDERER_ACCELERATED
   * \return Error_t           - Error code, check d_constants.h
   */
-Error_t app_start(App_t *, int, int, int);
+E_APP_API Error_t app_start(App_t *, int, int, int);
 
 /**
  * Stop Oracle of Copying.
@@ -36,9 +42,9 @@ Error_t app_start(App_t *, int, int, int);
  * \param  int   initflags - Flags for SDL_Init(), use the same ones as in app_start()
  * \return Error_t         - Error code, currently broken, only returns ERROR_NOERROR
  */
-Error_t app_stop(App_t *, int);
+E_APP_API Error_t app_stop(App_t *, int);
 
-Error_t app_doevents(SDL_Event *);
+E_APP_API Error_t app_doevents(SDL_Event *);
 
 
 

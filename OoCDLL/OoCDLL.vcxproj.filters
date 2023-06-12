@@ -18,9 +18,6 @@
     <ClInclude Include="framework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\defs\d_common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -33,42 +30,42 @@
     <ClInclude Include="src\defs\d_string.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\oocdll.h">
+    <ClInclude Include="oocdll.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\defs\d_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\g_entity.h">
+    <ClInclude Include="src\math\m_rng.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\g_enums.h">
+    <ClInclude Include="src\render\r_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\g_hitbox.h">
+    <ClInclude Include="src\render\r_atlas.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\e_app.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\defs\d_string.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\oocdll.c">
+    <ClCompile Include="oocdll.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\defs\d_utils.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\g_hitbox.c">
+    <ClCompile Include="src\math\m_rng.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\render\r_image.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\render\r_atlas.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

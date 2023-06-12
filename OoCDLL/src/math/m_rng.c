@@ -1,4 +1,4 @@
-#include "math/m_rng.h"
+#include "m_rng.h"
 #include "defs/d_common.h"
 #include "defs/d_constants.h"
 
@@ -140,15 +140,23 @@ u16 grindx = 0;
 u16 lrindx = 0;
 
 u16 rng_gnext(void) {
-    // prevents rollover w/out if statement
-    grindx = ((grindx++) & BITMASK_12);
-    return RNG_TABLE[grindx];
+    if (grindx < 0 && grindx < 1024) {
+        return RNG_TABLE[grindx];
+    }
+    else {
+        grindx = 0;
+        return RNG_TABLE[grindx];
+    }
 }
 
 u16 rng_lnext(void) {
-    // prevents rollover w/out if statement
-    lrindx = ((lrindx++) & BITMASK_12);
-    return RNG_TABLE[lrindx];
+    if (lrindx < 0 && lrindx < 1024) {
+        return RNG_TABLE[lrindx];
+    }
+    else {
+        lrindx = 0;
+        return RNG_TABLE[lrindx];
+    }
 }
 
 void rng_reset(void) {

@@ -1,6 +1,8 @@
 #ifndef G_OBJECT_H
 #define G_OBJECT_H
 
+/*
+
 #include "defs/d_common.h"
 #include "render/r_image.h"
 
@@ -19,7 +21,7 @@ typedef struct {
     Hitbox_t      hbox;
     Image_t     **otex;
     
-    /*
+    
     The way I plan on this working is to make a common
     block of memory after all of the above fields that's the
     same size, wasted memory be damned
@@ -47,7 +49,7 @@ typedef struct {
           how its written and how it works dont seem to match...
 
           need to look into it...
-    */
+    
     union { 
         void                   *tovoid       [128];
         const void             *toconstvoid  [128];
@@ -61,13 +63,15 @@ typedef struct {
         struct PlayerSpawnData *toplayerspawn[128];
         struct EnemySpawnData  *toenemyspawn [128];
 
-        /* 
-          TODO: some way to keep this auto made or
-                at least nice and organized?
-        */
+        //
+        //  TODO: some way to keep this auto made or
+        //        at least nice and organized?
+        //
 
     } classdata;
 
 } Object_t;
+
+*/
 
 #endif

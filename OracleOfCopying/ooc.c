@@ -5,9 +5,7 @@
 #include "SDL.h"
 #include "SDL_image.h"
 
-#include "engine/e_app.h"
-#include "defs/d_common.h"
-#include "defs/d_constants.h"
+#include "oocdll.h"
 
 int main(int argc, char *argv[]) {
 
@@ -23,17 +21,17 @@ int main(int argc, char *argv[]) {
     SDL_Texture *tex_chest_open = NULLADDR;
     SDL_Texture *tex_gemstone = NULLADDR;
 
-    tex_chest_closed = IMG_LoadTexture(ooc.rdr, "E:/MSVC/source/repos/OracleOfCopying/OracleOfCopying/textures/oracle_chest_closed.qoi");
+    tex_chest_closed = IMG_LoadTexture(ooc.rdr, "./textures/oracle_chest_closed.qoi");
     if (!tex_chest_closed) { 
         printf("failed to load the closed chest: %s\n", SDL_GetError()); 
     }
 
-    tex_chest_open = IMG_LoadTexture(ooc.rdr, "E:/MSVC/source/repos/OracleOfCopying/OracleOfCopying/textures/oracle_chest_open.qoi");
+    tex_chest_open = IMG_LoadTexture(ooc.rdr, "./textures/oracle_chest_open.qoi");
     if (!tex_chest_open) { 
         printf("failed to load the open chest: %s\n", SDL_GetError()); 
     }
 
-    tex_gemstone = IMG_LoadTexture(ooc.rdr, "E:/MSVC/source/repos/OracleOfCopying/OracleOfCopying/textures/oracle_gem_diamond.qoi");
+    tex_gemstone = IMG_LoadTexture(ooc.rdr, "./textures/oracle_gem_diamond.qoi");
     if (!tex_gemstone) { 
         printf("failed to load the diamond: %s\n", SDL_GetError()); 
     }

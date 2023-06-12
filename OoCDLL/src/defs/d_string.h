@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "defs/d_common.h"
+#include "d_common.h"
 
 /**
  * String on heap (malloc). Works just like a char * so use it just like that.

@@ -1,12 +1,13 @@
 #ifndef G_TILE_H
 #define G_TILE_H
 
+/*
 #include "defs/d_common.h"
 #include "game/g_enums.h"
 #include "game/g_hitbox.h"
 #include "render/r_image.h"
 
-/**
+
     Struct for Tiles, which are the building blocks of maps
     They are non interactable and not dynamic
     Every space should have a tile in the map
@@ -63,7 +64,7 @@
     Create new Tiles with tile_new(TileClass_e, i8, i16, i16, i16, i16, i16, Image_t **, Image_t **)
     Free Tiles with tile_free(Tile_t *)
 
-*/
+
 typedef struct {
 
     TileClass_e tclass;
@@ -80,5 +81,5 @@ typedef struct {
 
 Tile_t *tile_new(TileClass_e, i8, i16, i16, i16, i16, Hitbox_t, Image_t **, Image_t **);
 void tile_free(Tile_t *);
-
+*/
 #endif

@@ -70,6 +70,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(MSBuildProjectDirectory)\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(MSBuildProjectDirectory)\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -110,8 +116,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;OOCDLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>E:\MSVC\source\repos\SDL_image;E:\MSVC\source\repos\SDL2\include;E:\MSVC\source\repos\OracleOfCopying\OoCDLL\src</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -131,8 +138,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;OOCDLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>E:\MSVC\source\repos\SDL_image;E:\MSVC\source\repos\SDL2\include;E:\MSVC\source\repos\OracleOfCopying\OoCDLL\src</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -148,30 +156,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
-    <ClInclude Include="src\oocdll.h" />
-    <ClInclude Include="pch.h" />
+    <ClInclude Include="src\math\m_rng.h" />
+    <ClInclude Include="oocdll.h" />
     <ClInclude Include="src\defs\d_common.h" />
     <ClInclude Include="src\defs\d_constants.h" />
     <ClInclude Include="src\defs\d_string.h" />
     <ClInclude Include="src\defs\d_utils.h" />
     <ClInclude Include="src\engine\e_app.h" />
-    <ClInclude Include="src\game\g_entity.h" />
-    <ClInclude Include="src\game\g_enums.h" />
-    <ClInclude Include="src\game\g_hitbox.h" />
+    <ClInclude Include="src\render\r_atlas.h" />
+    <ClInclude Include="src\render\r_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="src\oocdll.c" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="src\math\m_rng.c" />
+    <ClCompile Include="oocdll.c" />
     <ClCompile Include="src\defs\d_string.c" />
     <ClCompile Include="src\defs\d_utils.c" />
     <ClCompile Include="src\engine\e_app.c" />
-    <ClCompile Include="src\game\g_hitbox.c" />
+    <ClCompile Include="src\render\r_atlas.c" />
+    <ClCompile Include="src\render\r_image.c" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2.lib" />

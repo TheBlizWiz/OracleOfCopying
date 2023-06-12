@@ -9,7 +9,8 @@
 
 #include <stdio.h>
 
-#include "../../oocdll.h"
+#include "d_constants.h"
+#include "d_common.h"
 
 /**
  * Reads a line of text from a file and puts it into a String_t.

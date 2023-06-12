@@ -1,3 +1,4 @@
+/*
 #include <stdlib.h>
 
 #include "game/g_tile.h"
@@ -23,3 +24,4 @@ Tile_t *tile_new(TileClass_e tclass, i8 roomid, i16 gposx, i16 gposy, i16 elev, 
 void tile_free(Tile_t *tile) {
     free(tile);
 }
+*/

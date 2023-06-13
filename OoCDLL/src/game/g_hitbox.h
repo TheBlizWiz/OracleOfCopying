@@ -1,7 +1,13 @@
 #ifndef G_HITBOX_H
 #define G_HITBOX_H
 
-#include "oocdll.h"
+#ifdef OOCDLL_EXPORTS
+#define G_HITBOX_API __declspec(dllexport)
+#else
+#define G_HITBOX_API __declspec(dllimport)
+#endif
+
+#include "defs/d_common.h"
 
 /**
     Hitbox looks like this:
@@ -30,7 +36,7 @@
     |        |
     A--------B
   */
-typedef struct {
+G_HITBOX_API typedef struct {
     u8 Ax, Ay, Bx, By, Cx, Cy, Dx, Dy;
     i16 ztop;
     i16 zbottom;

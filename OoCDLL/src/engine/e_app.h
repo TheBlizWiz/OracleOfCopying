@@ -44,6 +44,12 @@ E_APP_API Error_t app_start(App_t *, int, int, int);
  */
 E_APP_API Error_t app_stop(App_t *, int);
 
+/**
+  * Handle events for OoC
+  *
+  * \param  SDL_Event *evt    - Event sent over from SDL
+  * \return Error_t           - Error code, check d_constants.h
+  */
 E_APP_API Error_t app_doevents(SDL_Event *);
 
 

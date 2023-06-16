@@ -10,9 +10,13 @@
 
 #include "game/g_hitbox.h"
 
+#include "libs/hashmap/hashmap.h"
+
 #include "math/m_rng.h"
 
-#include "render/r_atlas.h"
 #include "render/r_image.h"
+#include "render/r_sdl.h"
+
+#include "utils/u_hash.h"
 
 #endif

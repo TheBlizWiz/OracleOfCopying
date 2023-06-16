@@ -21,32 +21,32 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{513d07e8-83da-4b85-b5a0-de225af7ce45}</ProjectGuid>
-    <RootNamespace>OoCDLL</RootNamespace>
+    <ProjectGuid>{586728d4-1cab-48f9-8fde-319c6313a7b5}</ProjectGuid>
+    <RootNamespace>AtlasGen</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -71,24 +71,21 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(MSBuildProjectDirectory)\$(Platform)\$(Configuration)\</OutDir>
+    <LibraryPath>E:\MSVC\source\repos\OracleOfCopying\OoCDLL\x64\Release;E:\MSVC\source\repos\SDL2\VisualC\x64\Release;E:\MSVC\source\repos\SDL_image\VisualC\x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(MSBuildProjectDirectory)\$(Platform)\$(Configuration)\</OutDir>
+    <LibraryPath>E:\MSVC\source\repos\OracleOfCopying\OoCDLL\x64\Release;E:\MSVC\source\repos\SDL2\VisualC\x64\Release;E:\MSVC\source\repos\SDL_image\VisualC\x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;OOCDLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -97,37 +94,32 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;OOCDLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;OOCDLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>
-      </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>E:\MSVC\source\repos\SDL_image;E:\MSVC\source\repos\SDL2\include;E:\MSVC\source\repos\OracleOfCopying\OoCDLL\src</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>E:\MSVC\source\repos\OracleOfCopying\AtlasGen\src;E:\MSVC\source\repos\OracleOfCopying\OoCDLL;E:\MSVC\source\repos\OracleOfCopying\OoCDLL\src;E:\MSVC\source\repos\SDL_image;E:\MSVC\source\repos\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>oocdll.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>E:\MSVC\source\repos\SDL2\VisualC\x64\Debug;E:\MSVC\source\repos\SDL_image\VisualC\x64\Debug;E:\MSVC\source\repos\OracleOfCopying\OoCDLL\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -136,59 +128,31 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;OOCDLL_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>
-      </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>E:\MSVC\source\repos\SDL_image;E:\MSVC\source\repos\SDL2\include;E:\MSVC\source\repos\OracleOfCopying\OoCDLL\src</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <AdditionalIncludeDirectories>E:\MSVC\source\repos\OracleOfCopying\AtlasGen\src;E:\MSVC\source\repos\OracleOfCopying\OoCDLL;E:\MSVC\source\repos\OracleOfCopying\OoCDLL\src;E:\MSVC\source\repos\SDL_image;E:\MSVC\source\repos\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>oocdll.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>E:\MSVC\source\repos\OracleOfCopying\OoCDLL\x64\Release;E:\MSVC\source\repos\SDL_image\VisualC\x64\Release;E:\MSVC\source\repos\SDL2\VisualC\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="src\game\g_hitbox.h" />
-    <ClInclude Include="src\libs\hashmap\hashmap.h" />
-    <ClInclude Include="src\math\m_rng.h" />
-    <ClInclude Include="oocdll.h" />
-    <ClInclude Include="src\defs\d_common.h" />
-    <ClInclude Include="src\defs\d_constants.h" />
-    <ClInclude Include="src\defs\d_string.h" />
-    <ClInclude Include="src\defs\d_utils.h" />
-    <ClInclude Include="src\engine\e_app.h" />
-    <ClInclude Include="src\render\r_image.h" />
-    <ClInclude Include="src\render\r_sdl.h" />
-    <ClInclude Include="src\utils\u_hash.h" />
+    <ClCompile Include="src\atlasgen.c" />
+    <ClCompile Include="src\cargs\c_cmdargs.c" />
+    <ClCompile Include="src\node\n_node.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\game\g_hitbox.c" />
-    <ClCompile Include="src\libs\hashmap\hashmap.c" />
-    <ClCompile Include="src\math\m_rng.c" />
-    <ClCompile Include="oocdll.c" />
-    <ClCompile Include="src\defs\d_string.c" />
-    <ClCompile Include="src\defs\d_utils.c" />
-    <ClCompile Include="src\engine\e_app.c" />
-    <ClCompile Include="src\render\r_image.c" />
-    <ClCompile Include="src\render\r_sdl.c" />
-    <ClCompile Include="src\utils\u_hash.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2.lib" />
-    <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2main.lib" />
-    <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2test.lib" />
-    <Library Include="..\..\SDL_image\VisualC\x64\Release\SDL2_image.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\SDL_image\VisualC\x64\Release\SDL2_image.dll" />
+    <ClInclude Include="src\atlasgen.h" />
+    <ClInclude Include="src\cargs\c_cmdargs.h" />
+    <ClInclude Include="src\node\n_node.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

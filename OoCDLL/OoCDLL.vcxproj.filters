@@ -42,7 +42,16 @@
     <ClInclude Include="src\render\r_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\render\r_atlas.h">
+    <ClInclude Include="src\game\g_hitbox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\u_hash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libs\hashmap\hashmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\render\r_sdl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -65,7 +74,16 @@
     <ClCompile Include="src\render\r_image.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\render\r_atlas.c">
+    <ClCompile Include="src\game\g_hitbox.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\u_hash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libs\hashmap\hashmap.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\render\r_sdl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

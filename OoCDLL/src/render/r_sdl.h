@@ -1,0 +1,20 @@
+#ifndef R_SDL_H
+#define R_SDL_H
+
+#ifdef OOCDLL_EXPORTS
+#define R_SDL_API __declspec(dllexport)
+#else
+#define R_SDL_API __declspec(dllimport)
+#endif
+
+#include "SDL.h"
+#include "SDL_image.h"
+
+#include "defs/d_common.h"
+
+R_SDL_API u32 SDL_GetPixel(SDL_Surface *, u32, u32);
+R_SDL_API void SDL_SetPixel(SDL_Surface *, u32, u32, u32);
+R_SDL_API void SDL_BlitRotated(SDL_Surface *, SDL_Surface *, u32, u32);
+
+
+#endif

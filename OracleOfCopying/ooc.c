@@ -16,46 +16,18 @@ int main(int argc, char *argv[]) {
 
     SDL_Event evt;
     int run = 1;
+    
+    /*
 
-    SDL_Texture *tex_chest_closed = NULLADDR;
-    SDL_Texture *tex_chest_open = NULLADDR;
-    SDL_Texture *tex_gemstone = NULLADDR;
+    struct hashmap *hmap = hashmap_new(sizeof(Image_t), 64, 0, 0, hash_imghash, hash_imgcmp, NULL, NULL);
+    
 
-    tex_chest_closed = IMG_LoadTexture(ooc.rdr, "../../OracleOfCopying/textures/oracle_chest_closed.qoi");
-    if (!tex_chest_closed) { 
-        printf("failed to load the closed chest: %s\n", SDL_GetError()); 
+    for (int i = 0; i < NUM_IMAGES_TO_LOAD; i++) {
+        hashmap_set(hmap, &(Image_t) {
+            .fpath = file_readline(
     }
 
-    tex_chest_open = IMG_LoadTexture(ooc.rdr, "../../OracleOfCopying/textures/oracle_chest_open.qoi");
-    if (!tex_chest_open) { 
-        printf("failed to load the open chest: %s\n", SDL_GetError()); 
-    }
-
-    tex_gemstone = IMG_LoadTexture(ooc.rdr, "../../OracleOfCopying/textures/oracle_gem_diamond.qoi");
-    if (!tex_gemstone) { 
-        printf("failed to load the diamond: %s\n", SDL_GetError()); 
-    }
-
-    SDL_Rect tex_chest_closed_rect, tex_chest_open_rect, tex_gemstone_rect;
-    memset(&tex_chest_closed_rect, 0, sizeof(SDL_Rect));
-    memset(&tex_chest_open_rect, 0, sizeof(SDL_Rect));
-    memset(&tex_gemstone_rect, 0, sizeof(SDL_Rect));
-
-
-    tex_chest_closed_rect.x = 64;
-    tex_chest_closed_rect.y = 64;
-    tex_chest_closed_rect.w = 32;
-    tex_chest_closed_rect.h = 32;
-
-    tex_chest_open_rect.x = 64;
-    tex_chest_open_rect.y = 64;
-    tex_chest_open_rect.w = 32;
-    tex_chest_open_rect.h = 32;
-
-    tex_gemstone_rect.x = 64;
-    tex_gemstone_rect.y = 32;
-    tex_gemstone_rect.w = 32;
-    tex_gemstone_rect.h = 32;
+    */
 
     while (run) {
         Error_t e = app_doevents(&evt);
@@ -64,24 +36,10 @@ int main(int argc, char *argv[]) {
             run = 0;
             break;
         }
-        SDL_RenderClear(ooc.rdr);
-        SDL_RenderCopy(ooc.rdr, tex_chest_closed, NULLADDR, &tex_chest_closed_rect);
-        SDL_RenderPresent(ooc.rdr);
-        SDL_Delay(1000);
-        SDL_RenderClear(ooc.rdr);
-        SDL_RenderCopy(ooc.rdr, tex_chest_open, NULLADDR, &tex_chest_open_rect);
-        SDL_RenderPresent(ooc.rdr);
-        SDL_Delay(1000);
-        SDL_RenderClear(ooc.rdr);
-        SDL_RenderCopy(ooc.rdr, tex_chest_open, NULLADDR, &tex_chest_open_rect);
-        SDL_RenderCopy(ooc.rdr, tex_gemstone, NULLADDR, &tex_gemstone_rect);
-        SDL_RenderPresent(ooc.rdr);
-        SDL_Delay(1000);
-    }
 
-    SDL_DestroyTexture(tex_chest_closed);
-    SDL_DestroyTexture(tex_chest_open);
-    SDL_DestroyTexture(tex_gemstone);
+
+        SDL_Delay(15);
+    }
 
     app_stop(&ooc, SDL_INIT_EVERYTHING);
 

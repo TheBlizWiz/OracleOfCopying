@@ -1,0 +1,19 @@
+Rendering Pipeline:
+
+-- atlasgen.exe --
+
+1.  Load all .qoi files used in a level from disk
+2.  Convert them to SDL_Surfaces
+3.  Place them into a new atlas image .qoi file in the most efficient way possible
+4.  Write individual SDL_Surface metadata into a new .json file
+5.  Merge all SDL_Surfaces into one massive SDL_Surface
+6.  De-convert merged SDL_Surface into .qoi file
+7.  Save .qoi file as atlas image
+
+-- ooc.exe --
+
+8.  Load atlas image .qoi file
+9.  Load atlas metadata .json file
+10. Create new merged SDL_Surface
+11. Convert to merged SDL_Texture
+12. As needed for rendering, create new individual SDL_Textures from the merged SDL_Texture

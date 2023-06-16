@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OracleOfCopying", "OracleOf
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OoCDLL", "OoCDLL\OoCDLL.vcxproj", "{513D07E8-83DA-4B85-B5A0-DE225AF7CE45}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AtlasGen", "AtlasGen\AtlasGen.vcxproj", "{586728D4-1CAB-48F9-8FDE-319C6313A7B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{513D07E8-83DA-4B85-B5A0-DE225AF7CE45}.Release|x64.Build.0 = Release|x64
 		{513D07E8-83DA-4B85-B5A0-DE225AF7CE45}.Release|x86.ActiveCfg = Release|Win32
 		{513D07E8-83DA-4B85-B5A0-DE225AF7CE45}.Release|x86.Build.0 = Release|Win32
+		{586728D4-1CAB-48F9-8FDE-319C6313A7B5}.Debug|x64.ActiveCfg = Debug|x64
+		{586728D4-1CAB-48F9-8FDE-319C6313A7B5}.Debug|x64.Build.0 = Debug|x64
+		{586728D4-1CAB-48F9-8FDE-319C6313A7B5}.Debug|x86.ActiveCfg = Debug|Win32
+		{586728D4-1CAB-48F9-8FDE-319C6313A7B5}.Debug|x86.Build.0 = Debug|Win32
+		{586728D4-1CAB-48F9-8FDE-319C6313A7B5}.Release|x64.ActiveCfg = Release|x64
+		{586728D4-1CAB-48F9-8FDE-319C6313A7B5}.Release|x64.Build.0 = Release|x64
+		{586728D4-1CAB-48F9-8FDE-319C6313A7B5}.Release|x86.ActiveCfg = Release|Win32
+		{586728D4-1CAB-48F9-8FDE-319C6313A7B5}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

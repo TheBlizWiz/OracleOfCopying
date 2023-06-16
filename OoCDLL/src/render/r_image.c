@@ -9,6 +9,7 @@
 #include "defs/d_constants.h"
 #include "defs/d_utils.h"
 
+/*
 Error_t img_new(Image_t *imgptr, App_t ooc, const char *fpath, u32 posx, u32 posy, u32 imgw, u32 imgh) {
     if (imgptr) {
         return (Error_t) ERROR_ISNOTNULLADDR;

@@ -11,6 +11,7 @@
 #include "game/g_hitbox.h"
 
 #include "libs/hashmap/hashmap.h"
+#include "libs/dirent/dirent.h"
 
 #include "math/m_rng.h"
 

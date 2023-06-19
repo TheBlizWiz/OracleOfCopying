@@ -1,5 +1,5 @@
-#ifndef N_NODE_H
-#define N_NODE_H
+#ifndef I_NODE_H
+#define I_NODE_H
 
 #include "oocdll.h"
 
@@ -16,6 +16,6 @@ struct AtlasNode {
 };
 
 AtlasNode_t *node_find(AtlasNode_t *, u32, u32, u32);
-void node_split(AtlasNode_t *, u32, u32, u32);
+Error_t node_split(AtlasNode_t *, u32, u32, u32);
 
 #endif

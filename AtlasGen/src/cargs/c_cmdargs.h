@@ -9,7 +9,6 @@ typedef struct {
     String_t dirpath;
 } Cmdargs_t;
 
-Cmdargs_t cmdargs_get(int, char **);
-
+Cmdargs_t cmdargs_get(int, char *[]);
 
 #endif

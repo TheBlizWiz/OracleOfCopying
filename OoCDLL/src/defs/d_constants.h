@@ -54,6 +54,13 @@
 #define IMG_ROT_EPSILON 0.004363323
 
 
+// -------------
+// | ATLASGEN  |
+// -------------
+
+#define DEFAULT_ATLAS_PADDING 0
+#define DEFAULT_ATLAS_IMAGE_SIZE 1024
+
 // ****************************
 // |         ERROR CODES      |
 // ****************************
@@ -112,5 +119,10 @@
 // |         STRINGS          |
 // ****************************
 #define GAME_WINDOW_NAME "Oracle of Copying"
+
+#define ATLASGEN_DEFAULT_DIR_PATH "E:/MSVC/source/repos/OracleOfCopying/OracleOfCopying/textures"
+#define ATLASGEN_SIZE_ARGV "-size"
+#define ATLASGEN_PAD_ARGV "-padding"
+#define ATLASGEN_DIR_ARGV "-directory"
 
 #endif

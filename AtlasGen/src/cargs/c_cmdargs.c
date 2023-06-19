@@ -5,20 +5,21 @@
 
 Cmdargs_t cmdargs_get(int argc, char *argv[]) {
     Cmdargs_t cargs;
+    memset(&cargs, 0, sizeof(Cmdargs_t));
 
-    cargs.aimgsize = 1024;
-    cargs.padding = 0;
-    cargs.dirpath = str_new("E:/MSVC/source/repos/OracleOfCopying/OracleOfCopying/textures");
+    cargs.aimgsize = DEFAULT_ATLAS_IMAGE_SIZE;
+    cargs.padding = DEFAULT_ATLAS_PADDING;
+    cargs.dirpath = str_new(ATLASGEN_DEFAULT_DIR_PATH);
 
     for (int i = 0; i < argc; i++) {
-        if(strcmp(argv[i], "-s") == 0 || strcmp(argv[i], "-size") == 0) {
+        if (strncmp(argv[i], ATLASGEN_SIZE_ARGV, strlen(argv[i])) == 0) {
             cargs.aimgsize = atoi(argv[i + 1]);
         }
-        if (strcmp(argv[i], "-p") == 0 || strcmp(argv[i], "-pad") == 0 || strcmp(argv[i], "-padding") == 0) {
+        if (strncmp(argv[i], ATLASGEN_PAD_ARGV, strlen(argv[i])) == 0) {
             cargs.padding = atoi(argv[i + 1]);
         }
-        if (strcmp(argv[i], "-d") == 0 || strcmp(argv[i], "-dir") == 0 || strcmp(argv[i], "-directory") == 0) {
-                cargs.dirpath = str_replace(cargs.dirpath, 0, str_getlen(cargs.dirpath), argv[i + 1]);
+        if (strncmp(argv[i], ATLASGEN_DIR_ARGV, strlen(argv[i])) == 0) {
+            cargs.dirpath = str_replace(cargs.dirpath, 0, str_getlen(cargs.dirpath), argv[i + 1]);
         }
     }
 

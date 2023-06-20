@@ -23,8 +23,8 @@ int simg_countimg(const char *dpath) {
                     char *path_tmp = (char *) malloc(strlen(dpath) + strlen(dent->d_name) + 2);
                     if (path_tmp) {
                         path = path_tmp;
-                        sprintf(path, "%s/%s", dpath, dent->d_name);
-                        numimgs += simg_countimgs(path);
+                        sprintf_s(path, "%s/%s", dpath, dent->d_name);
+                        numimgs += simg_countimg(path);
                         free(path);
                     }
                 }
@@ -51,12 +51,12 @@ void simg_loadimg(int *imgnum, const char *dir, SurfaceImage_t *imgarr) {
                 path = path_tmp;
                 if (dent->d_type == DT_DIR) {
                     if (dent->d_name[0] != '.') {
-                        sprintf(path, "%s/%s", dir, dent->d_name);
+                        sprintf_s(path, "%s/%s", dir, dent->d_name);
                         simg_loadimg(imgnum, path, imgarr);
                     }
                 }
                 else {
-                    sprintf(path, "%s/%s", dir, dent->d_name);
+                    sprintf_s(path, "%s/%s", dir, dent->d_name);
 
                     imgarr[*imgnum].surf = IMG_Load(path);
 

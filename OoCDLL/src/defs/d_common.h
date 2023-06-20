@@ -8,7 +8,6 @@
 #endif
 
 #include <stdint.h>
-#include "SDL.h"
 
 D_COMMON_API typedef uint8_t  u8;
 D_COMMON_API typedef uint16_t u16;

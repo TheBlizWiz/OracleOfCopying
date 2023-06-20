@@ -20,7 +20,7 @@
 HASHMAP_H_API typedef struct hashmap Hashmap_t;
 
 // hashmap is an open addressed hash map using robinhood hashing.
-HASHMAP_H_API struct hashmap {
+struct hashmap {
     void *(*malloc) (Size_t);
     void *(*realloc) (void *, Size_t);
     void (*free) (void *);

@@ -19,6 +19,8 @@
 
 R_IMAGE_API typedef struct {
     u8 wdt, hgt;
+    const char *fpath;
+    Size_t fpathlen;
     SDL_Surface *tex;
     SDL_Rect *rect;
 } Image_t;

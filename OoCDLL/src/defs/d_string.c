@@ -49,6 +49,22 @@ String_t str_new(const char *carr) {
     return sdat->buf;
 }
 
+String_t str_newfromlen(Size_t len) {
+    Strdata_t *sdat = str_alloc(len + NULL_CHAR_SIZE);
+
+    if (sdat) {
+        for (Size_t i = 0; i <= len; i++) {
+            sdat->buf[i] = 'A';
+        }
+        sdat->buf[len] = '\0';
+        return sdat->buf;
+    }
+    else {
+        return NULLADDR;
+    }
+
+}
+
 Error_t str_append(String_t *s, const char *carr) {
     if (!s || !carr)
         return ERROR_ISNULLADDR;

@@ -16,11 +16,12 @@ typedef struct {
     SDL_Surface *surf;
     u32 w;
     u32 h;
+    u8 isrotated;
     String_t fpath;
 } SurfaceImage_t;
 
-int simg_countimg(const char *);
-void simg_loadimg(int *, const char *, SurfaceImage_t *);
-int simg_imgcmp(const void *, const void *);
+int simg_countimg(const char *dpath);
+void simg_loadimg(int *imgnum, const char *dir, SurfaceImage_t *imgarr);
+int simg_imgcmp(const void *a, const void *b);
 
 #endif

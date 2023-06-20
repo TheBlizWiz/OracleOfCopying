@@ -443,7 +443,7 @@ bool hashmap_iter(Hashmap_t *map, Size_t *i, void **item) {
 //
 // default: SipHash-2-4
 //-----------------------------------------------------------------------------
-static u64 SIP64(const uint8_t *in, const Size_t inlen, u64 seed0,
+static u64 SIP64(const u8 *in, const Size_t inlen, u64 seed0,
     u64 seed1) {
 #define U8TO64_LE(p) \
     {  (((u64)((p)[0])) | ((u64)((p)[1]) << 8) | \
@@ -451,13 +451,13 @@ static u64 SIP64(const uint8_t *in, const Size_t inlen, u64 seed0,
         ((u64)((p)[4]) << 32) | ((u64)((p)[5]) << 40) | \
         ((u64)((p)[6]) << 48) | ((u64)((p)[7]) << 56)) }
 #define U64TO8_LE(p, v) \
-    { U32TO8_LE((p), (uint32_t)((v))); \
-      U32TO8_LE((p) + 4, (uint32_t)((v) >> 32)); }
+    { U32TO8_LE((p), (u32)((v))); \
+      U32TO8_LE((p) + 4, (u32)((v) >> 32)); }
 #define U32TO8_LE(p, v) \
-    { (p)[0] = (uint8_t)((v)); \
-      (p)[1] = (uint8_t)((v) >> 8); \
-      (p)[2] = (uint8_t)((v) >> 16); \
-      (p)[3] = (uint8_t)((v) >> 24); }
+    { (p)[0] = (u8)((v)); \
+      (p)[1] = (u8)((v) >> 8); \
+      (p)[2] = (u8)((v) >> 16); \
+      (p)[3] = (u8)((v) >> 24); }
 #define ROTL(x, b) (u64)(((x) << (b)) | ((x) >> (64 - (b))))
 #define SIPROUND \
     { v0 += v1; v1 = ROTL(v1, 13); \
@@ -468,13 +468,13 @@ static u64 SIP64(const uint8_t *in, const Size_t inlen, u64 seed0,
       v3 ^= v0; \
       v2 += v1; v1 = ROTL(v1, 17); \
       v1 ^= v2; v2 = ROTL(v2, 32); }
-    u64 k0 = U8TO64_LE((uint8_t *) &seed0);
-    u64 k1 = U8TO64_LE((uint8_t *) &seed1);
+    u64 k0 = U8TO64_LE((u8 *) &seed0);
+    u64 k1 = U8TO64_LE((u8 *) &seed1);
     u64 v3 = UINT64_C(0x7465646279746573) ^ k1;
     u64 v2 = UINT64_C(0x6c7967656e657261) ^ k0;
     u64 v1 = UINT64_C(0x646f72616e646f6d) ^ k1;
     u64 v0 = UINT64_C(0x736f6d6570736575) ^ k0;
-    const uint8_t *end = in + inlen - (inlen % sizeof(u64));
+    const u8 *end = in + inlen - (inlen % sizeof(u64));
     for (; in != end; in += 8) {
         u64 m = U8TO64_LE(in);
         v3 ^= m;
@@ -500,7 +500,7 @@ static u64 SIP64(const uint8_t *in, const Size_t inlen, u64 seed0,
     SIPROUND; SIPROUND; SIPROUND; SIPROUND;
     b = v0 ^ v1 ^ v2 ^ v3;
     u64 out = 0;
-    U64TO8_LE((uint8_t *) &out, b);
+    U64TO8_LE((u8 *) &out, b);
     return out;
 }
 
@@ -510,25 +510,25 @@ static u64 SIP64(const uint8_t *in, const Size_t inlen, u64 seed0,
 //
 // Murmur3_86_128
 //-----------------------------------------------------------------------------
-static u64 MM86128(const void *key, const int len, uint32_t seed) {
+static u64 MM86128(const void *key, const int len, u32 seed) {
 #define	ROTL32(x, r) ((x << r) | (x >> (32 - r)))
 #define FMIX32(h) h^=h>>16; h*=0x85ebca6b; h^=h>>13; h*=0xc2b2ae35; h^=h>>16;
-    const uint8_t *data = (const uint8_t *) key;
+    const u8 *data = (const u8 *) key;
     const int nblocks = len / 16;
-    uint32_t h1 = seed;
-    uint32_t h2 = seed;
-    uint32_t h3 = seed;
-    uint32_t h4 = seed;
-    uint32_t c1 = 0x239b961b;
-    uint32_t c2 = 0xab0e9789;
-    uint32_t c3 = 0x38b34ae5;
-    uint32_t c4 = 0xa1e38b93;
-    const uint32_t *blocks = (const uint32_t *) (data + nblocks * 16);
+    u32 h1 = seed;
+    u32 h2 = seed;
+    u32 h3 = seed;
+    u32 h4 = seed;
+    u32 c1 = 0x239b961b;
+    u32 c2 = 0xab0e9789;
+    u32 c3 = 0x38b34ae5;
+    u32 c4 = 0xa1e38b93;
+    const u32 *blocks = (const u32 *) (data + nblocks * 16);
     for (int i = -nblocks; i; i++) {
-        uint32_t k1 = blocks[i * 4 + 0];
-        uint32_t k2 = blocks[i * 4 + 1];
-        uint32_t k3 = blocks[i * 4 + 2];
-        uint32_t k4 = blocks[i * 4 + 3];
+        u32 k1 = blocks[i * 4 + 0];
+        u32 k2 = blocks[i * 4 + 1];
+        u32 k3 = blocks[i * 4 + 2];
+        u32 k4 = blocks[i * 4 + 3];
         k1 *= c1; k1 = ROTL32(k1, 15); k1 *= c2; h1 ^= k1;
         h1 = ROTL32(h1, 19); h1 += h2; h1 = h1 * 5 + 0x561ccd1b;
         k2 *= c2; k2 = ROTL32(k2, 16); k2 *= c3; h2 ^= k2;
@@ -538,11 +538,11 @@ static u64 MM86128(const void *key, const int len, uint32_t seed) {
         k4 *= c4; k4 = ROTL32(k4, 18); k4 *= c1; h4 ^= k4;
         h4 = ROTL32(h4, 13); h4 += h1; h4 = h4 * 5 + 0x32ac3b17;
     }
-    const uint8_t *tail = (const uint8_t *) (data + nblocks * 16);
-    uint32_t k1 = 0;
-    uint32_t k2 = 0;
-    uint32_t k3 = 0;
-    uint32_t k4 = 0;
+    const u8 *tail = (const u8 *) (data + nblocks * 16);
+    u32 k1 = 0;
+    u32 k2 = 0;
+    u32 k3 = 0;
+    u32 k4 = 0;
     switch (len & 15) {
         case 15: k4 ^= tail[14] << 16; /* fall through */
         case 14: k4 ^= tail[13] << 8; /* fall through */
@@ -598,8 +598,8 @@ static u64 XXH_read64(const void *memptr) {
     return val;
 }
 
-static uint32_t XXH_read32(const void *memptr) {
-    uint32_t val;
+static u32 XXH_read32(const void *memptr) {
+    u32 val;
     memcpy(&val, memptr, sizeof(val));
     return val;
 }
@@ -609,12 +609,12 @@ static u64 XXH_rotl64(u64 x, int r) {
 }
 
 static u64 xxh3(const void *data, Size_t len, u64 seed) {
-    const uint8_t *p = (const uint8_t *) data;
-    const uint8_t *const end = p + len;
+    const u8 *p = (const u8 *) data;
+    const u8 *const end = p + len;
     u64 h64;
 
     if (len >= 32) {
-        const uint8_t *const limit = end - 32;
+        const u8 *const limit = end - 32;
         u64 v1 = seed + XXH_PRIME_1 + XXH_PRIME_2;
         u64 v2 = seed + XXH_PRIME_2;
         u64 v3 = seed + 0;
@@ -707,7 +707,7 @@ static u64 xxh3(const void *data, Size_t len, u64 seed) {
 // hashmap_sip returns a hash value for `data` using SipHash-2-4.
 u64 hashmap_sip(const void *data, Size_t len, u64 seed0,
     u64 seed1) {
-    return SIP64((uint8_t *) data, len, seed0, seed1);
+    return SIP64((u8 *) data, len, seed0, seed1);
 }
 
 // hashmap_murmur returns a hash value for `data` using Murmur3_86_128.

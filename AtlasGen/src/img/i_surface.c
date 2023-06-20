@@ -20,12 +20,18 @@ int simg_countimg(const char *dpath) {
         while ((dent = readdir(d)) != NULL) {
             if (dent->d_type == DT_DIR) {
                 if (dent->d_name[0] != '.') {
-                    char *path_tmp = (char *) malloc(strlen(dpath) + strlen(dent->d_name) + 2);
+                    Size_t tmpsize = strlen(dpath) + strlen(dent->d_name) + 2;
+                    char *path_tmp = (char *) malloc(tmpsize);
                     if (path_tmp) {
                         path = path_tmp;
-                        sprintf_s(path, "%s/%s", dpath, dent->d_name);
+                        sprintf_s(path, tmpsize, "%s/%s", dpath, dent->d_name);
                         numimgs += simg_countimg(path);
                         free(path);
+                    }
+                    else {
+                        printf("no malloc space for simg_countimg\n");
+                        closedir(d);
+                        return -1;
                     }
                 }
             }
@@ -46,17 +52,18 @@ void simg_loadimg(int *imgnum, const char *dir, SurfaceImage_t *imgarr) {
 
     if ((d = opendir(dir)) != NULL) {
         while ((dent = readdir(d)) != NULL) {
-            char *path_tmp = (char *) malloc(strlen(dir) + strlen(dent->d_name) + 2);
+            Size_t tmpsize = strlen(dir) + strlen(dent->d_name) + 2;
+            char *path_tmp = (char *) malloc(tmpsize);
             if (path_tmp) {
                 path = path_tmp;
                 if (dent->d_type == DT_DIR) {
                     if (dent->d_name[0] != '.') {
-                        sprintf_s(path, "%s/%s", dir, dent->d_name);
+                        sprintf_s(path, tmpsize, "%s/%s", dir, dent->d_name);
                         simg_loadimg(imgnum, path, imgarr);
                     }
                 }
                 else {
-                    sprintf_s(path, "%s/%s", dir, dent->d_name);
+                    sprintf_s(path, tmpsize, "%s/%s", dir, dent->d_name);
 
                     imgarr[*imgnum].surf = IMG_Load(path);
 
@@ -67,8 +74,13 @@ void simg_loadimg(int *imgnum, const char *dir, SurfaceImage_t *imgarr) {
                     }
                 }
                 free(path);
+                closedir(d);
             }
-            closedir(dir);
+            else {
+                printf("no malloc space for simg_loadimg\n");
+                closedir(d);
+                return;
+            }
         }
     }
 }

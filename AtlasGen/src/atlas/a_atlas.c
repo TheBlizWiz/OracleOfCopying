@@ -3,7 +3,7 @@
 #include "SDL_image.h"
 
 #include "img/i_surface.h"
-#include "a_node.h";
+#include "a_node.h"
 #include "a_atlas.h"
 
 Atlas_t *atlas_new(u32 w, u32 h, String_t dirpath, const char *fname) {
@@ -16,8 +16,8 @@ Atlas_t *atlas_new(u32 w, u32 h, String_t dirpath, const char *fname) {
         String_t fpath_tmp = str_newfromlen(tmp_size);
         if (fpath_tmp) {
             atlas->fpath = fpath_tmp;
-            str_replace(atlas->fpath, 0, str_getlen(dirpath), dirpath);
-            str_replace(atlas->fpath, str_getlen(dirpath), strlen(fname), fname);
+            str_replace(&atlas->fpath, 0, str_getlen(dirpath), dirpath);
+            str_replace(&atlas->fpath, str_getlen(dirpath), strlen(fname), fname);
 
             atlas->surf = SDL_CreateRGBSurface(0, w, h, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
             if (atlas->surf) {

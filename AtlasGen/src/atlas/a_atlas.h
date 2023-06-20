@@ -3,7 +3,7 @@
 
 #include "oocdll.h"
 #include "img/i_surface.h"
-#include "a_node.h";
+#include "a_node.h"
 
 typedef struct {
     SDL_Surface *surf;

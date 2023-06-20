@@ -31,8 +31,11 @@ AtlasNode_t *node_find(AtlasNode_t *head, u32 w, u32 h, u32 pad) {
     if (head->used) {
         AtlasNode_t *n = NULLADDR;
 
-        if ((n = node_find(&head->nextleft, w, h, pad)) != NULLADDR || (n = node_find(&head->nextright, w, h, pad)) != NULLADDR) {
+        if ((n = node_find(head->nextleft, w, h, pad)) != NULLADDR || (n = node_find(head->nextright, w, h, pad)) != NULLADDR) {
             return n;
+        }
+        else {
+            return NULLADDR;
         }
     }
     else if (w <= head->w && h <= head->h) {

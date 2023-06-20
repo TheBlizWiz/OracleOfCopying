@@ -90,8 +90,8 @@ int main(int argc, char *argv[]) {
                             atlas->w = argvs.aimgsize;
                             atlas->h = argvs.aimgsize;
                             atlas->surf = SDL_CreateRGBSurface(0, atlas->w, atlas->h, 32, (u32) 0xFF000000, (u32) 0x00FF0000, (u32) 0x0000FF00, (u32) 0x000000FF);
-                            str_replace(atlas->fpath, 0, str_getlen(argvs.dirpath), argvs.dirpath);
-                            str_replace(atlas->fpath, str_getlen(argvs.dirpath), strlen("\\atlas.qoi"), "\\atlas.qoi");
+                            str_replace(&atlas->fpath, 0, str_getlen(argvs.dirpath), argvs.dirpath);
+                            str_replace(&atlas->fpath, str_getlen(argvs.dirpath), strlen("\\atlas.qoi"), "\\atlas.qoi");
 
                             for (int i = 0; i < numimg; i++) {
                                 printf("[%003d / %003d] %s\n", i + 1, numimg, images[i].fpath);
@@ -100,7 +100,7 @@ int main(int argc, char *argv[]) {
                                 str_free(images[i].fpath);
                             }
 
-                            SDL_SaveQOI(atlas->surf, "E:/source/repos/OracleOfCopying/OracleOfCopying/textures/atlases/atlas.qoi");
+                            IMG_SaveQOI(atlas->surf, "E:/source/repos/OracleOfCopying/OracleOfCopying/textures/atlases/atlas.qoi");
 
                             free(images);
                             free(atlas);

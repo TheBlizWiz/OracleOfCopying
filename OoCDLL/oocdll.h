@@ -12,6 +12,7 @@
 
 #include "libs/hashmap/hashmap.h"
 #include "libs/dirent/dirent.h"
+#include "libs/cjson/cjson.h"
 
 #include "math/m_rng.h"
 

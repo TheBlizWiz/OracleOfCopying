@@ -19,7 +19,7 @@ Cmdargs_t cmdargs_get(int argc, char *argv[]) {
             cargs.padding = atoi(argv[i + 1]);
         }
         if (strncmp(argv[i], ATLASGEN_DIR_ARGV, strlen(argv[i])) == 0) {
-            cargs.dirpath = str_replace(cargs.dirpath, 0, str_getlen(cargs.dirpath), argv[i + 1]);
+            str_replace(&cargs.dirpath, 0, str_getlen(cargs.dirpath), argv[i + 1]);
         }
     }
 

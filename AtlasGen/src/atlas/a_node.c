@@ -1,13 +1,14 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+//#include <stdio.h>
+//#include <stdlib.h>
+//#include <string.h>
 
-#include "a_node.h"
-#include "oocdll.h"
+//#include "a_node.h"
+//#include "oocdll.h"
 
-#include "SDL.h"
-#include "SDL_image.h"
+//#include "SDL.h"
+//#include "SDL_image.h"
 
+/*
 AtlasNode_t *node_new(u32 x, u32 y, u32 w, u32 h) {
     AtlasNode_t *node = (AtlasNode_t *) malloc(sizeof(AtlasNode_t));
     if (node) {
@@ -85,3 +86,12 @@ Error_t node_split(AtlasNode_t *node, u32 w, u32 h, u32 pad) {
         return ERROR_ISNULLADDR;
     }
 }
+
+void node_freedeep(AtlasNode_t *head) {
+    if (head && head->used) {
+        node_freedeep(head->nextleft);
+        node_freedeep(head->nextright);
+        free(head);
+    }
+}
+*/

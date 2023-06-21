@@ -1,19 +1,96 @@
-#include <stdio.h>
-#include <stdlib.h>
+//#include <stdio.h>
+//#include <stdlib.h>
 
-#include "SDL.h"
-#include "SDL_image.h"
-#include "oocdll.h"
+//#include "SDL.h"
+//#include "SDL_image.h"
+//#include "oocdll.h"
 
-#include "windows.h"
+//#include "atlas/a_node.h"
+//#include "atlas/a_atlas.h"
+//#include "img/i_surface.h"
+//#include "cargs/c_cmdargs.h"
 
-#include "atlas/a_node.h"
-#include "atlas/a_atlas.h"
-#include "img/i_surface.h"
-#include "cargs/c_cmdargs.h"
+int main(int argc, char *argv[]) {
+ /*
+    Cmdargs_t cargs;
+    AtlasNode_t *headnode;
+    Atlas_t *atlas;
+    SurfaceImage_t **imgarr;
+    SurfaceImage_t ***imgarrptr;
+    SDL_Rect dest;
+    cJSON *headjson, *tailjson;
+    String_t jsonfname;
+    FILE *f;
+    int numimgs;
 
+    SDL_Init(SDL_INIT_VIDEO);
 
+    cargs = cmdargs_get(argc, argv);
 
+    headnode = node_new(0, 0, cargs.aimgsize, cargs.aimgsize);
+
+    atlas = atlas_new(cargs.aimgsize, cargs.aimgsize, cargs.dirpath, "\\atlases\\atlas.qoi");
+
+    jsonfname = str_new("");
+    str_append(&jsonfname, cargs.dirpath);
+    str_append(&jsonfname, "\\atlases\\atlas.json");
+
+    headjson = cJSON_CreateArray();
+
+    numimgs = simg_countimgs(cargs.dirpath);
+
+    imgarrptr = simg_imginit(imgarr, numimgs);
+
+    for (int i = 0; i < numimgs; i++) {
+        simg_loadimgs(i, cargs.dirpath, imgarrptr);
+    }
+    simg_sortimgs(imgarrptr, numimgs);
+
+    for (int i = 0; i < numimgs; i++) {
+        memset(&dest, 0, sizeof(SDL_Rect));
+        if (atlas_add(atlas, headnode, &images[i], dest, cargs.padding)) {
+
+            tailjson = cJSON_CreateObject();
+
+            cJSON_AddStringToObject(tailjson, "f", images[i].fpath);
+            cJSON_AddNumberToObject(tailjson, "x", dest.x);
+            cJSON_AddNumberToObject(tailjson, "y", dest.y);
+            cJSON_AddNumberToObject(tailjson, "w", dest.w);
+            cJSON_AddNumberToObject(tailjson, "h", dest.h);
+            cJSON_AddNumberToObject(tailjson, "r", images[i].isrotated);
+
+            cJSON_AddItemToArray(headjson, tailjson);
+        }
+
+    }
+    
+    char *json = cJSON_Print(headjson);
+
+    if (fopen_s(&f, jsonfname, "wb") != 0) {
+        if (f) {
+            fprintf(f, "%s", json);
+            fclose(f);
+        }
+    }
+
+    IMG_SaveQOI(atlas->surf, atlas->fpath);
+
+    simg_freedeep(images, numimgs);
+    atlas_free(atlas);
+    node_freedeep(headnode);
+    str_free(jsonfname);
+    free(json);
+    cJSON_Delete(headjson);
+    str_free(cargs.dirpath);
+
+    SDL_QuitSubSystem(SDL_INIT_VIDEO);
+    SDL_Quit();
+
+*/
+    return 0;
+}
+
+/*
 int main(int argc, char *argv[]) {
     // the logic is here but with how many new and free there are here
     // i need to go through and clean all this up
@@ -117,3 +194,4 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
+*/

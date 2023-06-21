@@ -71,10 +71,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(MSBuildProjectDirectory)\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(MSBuildProjectDirectory)\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="src\game\g_hitbox.h" />
+    <ClInclude Include="src\libs\cjson\cjson.h" />
     <ClInclude Include="src\libs\dirent\dirent.h" />
     <ClInclude Include="src\libs\hashmap\hashmap.h" />
     <ClInclude Include="src\math\m_rng.h" />
@@ -169,9 +170,12 @@
     <ClInclude Include="src\render\r_image.h" />
     <ClInclude Include="src\render\r_sdl.h" />
     <ClInclude Include="src\utils\u_hash.h" />
+    <ClInclude Include="src\utils\u_linklist.h" />
+    <ClInclude Include="src\utils\u_tree.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\game\g_hitbox.c" />
+    <ClCompile Include="src\libs\cjson\cjson.c" />
     <ClCompile Include="src\libs\hashmap\hashmap.c" />
     <ClCompile Include="src\math\m_rng.c" />
     <ClCompile Include="oocdll.c" />
@@ -181,6 +185,8 @@
     <ClCompile Include="src\render\r_image.c" />
     <ClCompile Include="src\render\r_sdl.c" />
     <ClCompile Include="src\utils\u_hash.c" />
+    <ClCompile Include="src\utils\u_linklist.c" />
+    <ClCompile Include="src\utils\u_tree.c" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2.lib" />

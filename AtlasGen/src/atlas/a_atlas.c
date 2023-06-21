@@ -1,12 +1,13 @@
-#include "oocdll.h"
-#include "SDL.h"
-#include "SDL_image.h"
+//#include "oocdll.h"
+//#include "SDL.h"
+//#include "SDL_image.h"
 
-#include "img/i_surface.h"
-#include "a_node.h"
-#include "a_atlas.h"
-
+//#include "img/i_surface.h"
+//#include "a_node.h"
+//#include "a_atlas.h"
+/*
 Atlas_t *atlas_new(u32 w, u32 h, String_t dirpath, const char *fname) {
+ 
     Atlas_t *atlas = (Atlas_t *) malloc(sizeof(Atlas_t));
     if (atlas) {
         atlas->w = w;
@@ -42,7 +43,7 @@ Atlas_t *atlas_new(u32 w, u32 h, String_t dirpath, const char *fname) {
     }
 }
 
-void atlas_add(Atlas_t *atlas, AtlasNode_t *head, SurfaceImage_t *img, u32 pad) {
+u8 atlas_add(Atlas_t *atlas, AtlasNode_t *head, SurfaceImage_t *img, SDL_Rect dest, u32 pad) {
 
     AtlasNode_t *node = node_find(head, img->w, img->h, pad);
     if (!node) {
@@ -55,8 +56,6 @@ void atlas_add(Atlas_t *atlas, AtlasNode_t *head, SurfaceImage_t *img, u32 pad) 
             node->w = img->h;
         }
 
-        SDL_Rect dest;
-        memset(&dest, 0, sizeof(SDL_Rect));
         dest.x = node->x;
         dest.y = node->y;
         dest.w = node->w;
@@ -69,8 +68,17 @@ void atlas_add(Atlas_t *atlas, AtlasNode_t *head, SurfaceImage_t *img, u32 pad) 
             SDL_BlitSurface(img->surf, NULL, atlas->surf, &dest);
         }
 
+        return 1;
     }
     else {
         printf("Couldn't add %s to atlas image...\n", img->fpath);
+        return 0;
     }
 }
+
+void atlas_free(Atlas_t *atlas) {
+    str_free(atlas->fpath);
+    SDL_FreeSurface(atlas->surf);
+    free(atlas);
+}
+*/

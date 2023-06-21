@@ -71,10 +71,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>E:\MSVC\source\repos\OracleOfCopying\OoCDLL\x64\Release;E:\MSVC\source\repos\SDL2\VisualC\x64\Release;E:\MSVC\source\repos\SDL_image\VisualC\x64\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>E:\MSVC\source\repos\OracleOfCopying\x64\Debug;E:\MSVC\source\repos\SDL2\VisualC\x64\Release;E:\MSVC\source\repos\SDL_image\VisualC\x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LibraryPath>E:\MSVC\source\repos\OracleOfCopying\OoCDLL\x64\Release;E:\MSVC\source\repos\SDL2\VisualC\x64\Release;E:\MSVC\source\repos\SDL_image\VisualC\x64\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>E:\MSVC\source\repos\OracleOfCopying\x64\Release;E:\MSVC\source\repos\SDL2\VisualC\x64\Release;E:\MSVC\source\repos\SDL_image\VisualC\x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -17,3 +17,11 @@ OracleOfCopying/OracleOfCopying.vcxproj.user
 /OracleOfCopying/OracleOfCopying.vcxproj
 /OracleOfCopying/OracleOfCopying.vcxproj.filters
 x64/Debug/
+atlas_texture_test/
+/x64/Debug/SDL2_image.dll
+/x64/Release/SDL2_image.dll
+/AtlasGen/AtlasGen.vcxproj
+/AtlasGen/AtlasGen.vcxproj.user
+/OoCDLL/OoCDLL.vcxproj
+/OoCDLL/OoCDLL.vcxproj.filters
+/OoCDLL/OoCDLL.vcxproj.user

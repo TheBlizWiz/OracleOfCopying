@@ -5,7 +5,7 @@
 // Min value: 0
 // Max value: 1023
 // Every value appears only once
-const i16 RNG_TABLE[1024] = {
+const u16 RNG_TABLE[1024] = {
      881,  314,  632,  622,  357,  972,  208,  893,
      692, 1016,  119,  197, 1005,  424,  203,  296,
      951,   74,  269,  550,  426,  961,  414,  487,
@@ -140,23 +140,11 @@ u16 grindx = 0;
 u16 lrindx = 0;
 
 u16 rng_gnext(void) {
-    if (grindx < 0 && grindx < 1024) {
-        return RNG_TABLE[grindx];
-    }
-    else {
-        grindx = 0;
-        return RNG_TABLE[grindx];
-    }
+    return RNG_TABLE[grindx & BITMASK_12];
 }
 
 u16 rng_lnext(void) {
-    if (lrindx < 0 && lrindx < 1024) {
-        return RNG_TABLE[lrindx];
-    }
-    else {
-        lrindx = 0;
-        return RNG_TABLE[lrindx];
-    }
+    return RNG_TABLE[lrindx & BITMASK_12];
 }
 
 void rng_reset(void) {

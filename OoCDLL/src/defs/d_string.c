@@ -139,9 +139,9 @@ Error_t str_replace(String_t *s, Size_t pos, Size_t len, const char *carr) {
 
     Strdata_t *sdat = str_getdata(*s);
 
-    if (pos <= 0 || pos > sdat->length)
+    if (pos < 0 || pos > sdat->length)
         return ERROR_INDEX_OOB;
-    if (len <= 0 || len > sdat->length)
+    if (len < 0 || len > sdat->length)
         return ERROR_LENGTH_INVALIDVALUE;
 
 

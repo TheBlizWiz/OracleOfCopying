@@ -128,7 +128,7 @@ D_STRING_API Error_t str_clear(String_t s);
  * \param  - String_t s - string to free
  * \return - None
  */
-D_STRING_API void str_free(String_t s);
+D_STRING_API Error_t str_free(String_t s);
 
 /**
  * Returns the first index of src that has the entirety of *tgt in order starting at index position pos
@@ -150,6 +150,10 @@ D_STRING_API Size_t str_indexof(String_t src, Size_t pos, const char *tgt);
  * \return - 0 if s or tgt is null, 1 if src contains tgt, 0 if it does not
  */
 D_STRING_API u8 str_contains(String_t src, const char *tgt);
+
+D_STRING_API i32 str_contains_fptr(const void *string_t_src, const void *const_char_tgt);
+
+D_STRING_API i32 str_cmp_fptr(const void *string_t_src, const void *string_t_tgt);
 
 /**
  * Gets the length in chars. Does not include null char at end.

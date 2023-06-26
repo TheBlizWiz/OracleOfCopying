@@ -4,7 +4,6 @@
 #include "d_string.h"
 #include "d_utils.h"
 
-
 Size_t file_readline(String_t *strptr, FILE *f) {
     Size_t pos = 0;
     char c = 0;
@@ -31,7 +30,9 @@ Size_t file_readline(String_t *strptr, FILE *f) {
     }
 
     while (c != EOF) {
-        str_append(strptr, (char[2]) { c, '\0' });
+        str_append(strptr, (char[2]) {
+            c, '\0'
+        });
 
         if (c == '\n' || c == '\r') {
             break;

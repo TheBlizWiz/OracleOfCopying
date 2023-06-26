@@ -146,17 +146,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\atlasgen.c" />
-    <ClCompile Include="src\atlas\a_atlas.c" />
-    <ClCompile Include="src\cargs\c_cmdargs.c" />
-    <ClCompile Include="src\atlas\a_node.c" />
-    <ClCompile Include="src\img\i_surface.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\atlasgen.h" />
-    <ClInclude Include="src\atlas\a_atlas.h" />
-    <ClInclude Include="src\cargs\c_cmdargs.h" />
-    <ClInclude Include="src\atlas\a_node.h" />
-    <ClInclude Include="src\img\i_surface.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

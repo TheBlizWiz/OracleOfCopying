@@ -49,11 +49,11 @@ TreeNode_t *tree_find(u32 key, TreeNode_t *leaf) {
     }
 }
 
-Error_t tree_freetree(TreeNode_t *leaf) {
+Error_t tree_freetree(TreeNode_t *leaf, Error_t(*data_free)(void *)) {
     if (leaf) {
-        tree_freetree(leaf->left);
-        tree_freetree(leaf->right);
-        free(leaf->data);
+        tree_freetree(leaf->left, (*data_free)(leaf->data));
+        tree_freetree(leaf->right, (*data_free)(leaf->data));
+        (*data_free)(leaf->data);
         free(leaf);
     }
 }

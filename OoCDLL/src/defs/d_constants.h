@@ -69,12 +69,16 @@
 // this one is special, return 0 if no errors happen
 #define ERROR_NOERROR 0
 
-#define ERROR_MALLOC_NOSPACE 1
-#define ERROR_REALLOC_NOSPACE 2
-#define ERROR_ISNULLADDR 3
-#define ERROR_ISNOTNULLADDR 4
-#define ERROR_INDEX_OOB 5
-
+#define ERROR_GENERIC 1
+#define ERROR_MALLOC_NOSPACE 2
+#define ERROR_REALLOC_NOSPACE 3
+#define ERROR_ISNULLADDR 4
+#define ERROR_ISNOTNULLADDR 5
+#define ERROR_INDEX_OOB 6
+#define ERROR_SWITCH_DEFAULTCASE 7
+#define ERROR_INVALID_PARAMS 8
+#define ERROR_SEARCH_NORESULTS 9
+#define ERROR_LOGIC_CONTRADICTION 10
 
 
 #define ERROR_SDL_GENERIC 100
@@ -85,12 +89,9 @@
 #define ERROR_SDL_CREATEWINDOW_FAILURE 102
 #define ERROR_SDL_CREATERENDERER_FAILURE 103
 
-// used in d_string.c
+// used in d_string.c and u_linklist.c
 
 #define ERROR_LENGTH_INVALIDVALUE 201
-
-
-
 
 // used in e_app.c
 

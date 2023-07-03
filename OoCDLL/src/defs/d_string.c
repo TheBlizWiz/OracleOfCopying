@@ -211,6 +211,18 @@ Error_t str_free(String_t s) {
     }
 }
 
+Error_t str_free_fnptr(void *string_t_s) {
+    String_t s = (String_t) string_t_s;
+    if (s) {
+        free(str_getdata(s));
+        return ERROR_NOERROR;
+    }
+    else {
+        errprintf("ERROR: string is null, can't free\n");
+        return ERROR_ISNULLADDR;
+    }
+}
+
 Size_t str_indexof(String_t src, Size_t pos, const char *tgt) {
     Size_t tgtlen = strlen(tgt);
     Size_t srclen = str_getlen(src);
@@ -262,7 +274,7 @@ u8 str_contains(String_t src, const char *tgt) {
     }
 }
 
-i32 str_contains_fptr(const void *string_t_src, const void *const_char_tgt) {
+i32 str_contains_fnptr(const void *string_t_src, const void *const_char_tgt) {
     if (!string_t_src || !const_char_tgt) {
         return 0;
     }
@@ -271,7 +283,7 @@ i32 str_contains_fptr(const void *string_t_src, const void *const_char_tgt) {
     }
 }
 
-i32 str_cmp_fptr(const void *string_t_src, const void *string_t_tgt) {
+i32 str_cmp_fnptr(const void *string_t_src, const void *string_t_tgt) {
     String_t strsrc = (String_t) string_t_src;
     String_t strtgt = (String_t) string_t_tgt;
     return (i32) strcmp((const char *) strsrc, (const char *) strtgt);

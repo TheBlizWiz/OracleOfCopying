@@ -63,6 +63,9 @@
     <ClInclude Include="src\utils\u_linklist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\utils\u_linklist_test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\engine\e_app.c">
@@ -99,6 +102,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\utils\u_linklist.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\u_linklist_test.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -9,7 +9,7 @@
 
 #include "defs/d_common.h"
 
-U_LINKLIST_API List_t *list_new(u32 key, void *data, DataFree_fnptr datafree, DataCmp_fnptr datacmp);
+U_LINKLIST_API List_t *list_new(void);
 
 U_LINKLIST_API ListNode_t *listnode_new(u32 key, void *data, DataFree_fnptr datafree, DataCmp_fnptr datacmp);
 
@@ -31,15 +31,11 @@ U_LINKLIST_API ListNode_t *list_gettail(List_t *list);
 
 U_LINKLIST_API ListNode_t *list_searchbykey(List_t *list, u32 tgtkey);
 
-U_LINKLIST_API Error_t list_sortbykey(List_t *list);
-
-U_LINKLIST_API Error_t list_addsortedbykey(List_t *list, ListNode_t *newnode);
+U_LINKLIST_API Error_t list_isortbykey(List_t *list, ListNode_t *head);
 
 U_LINKLIST_API ListNode_t *list_searchbydata(List_t *list, const void *tgtdata);
 
-U_LINKLIST_API Error_t list_sortbydata(List_t *list);
-
-U_LINKLIST_API Error_t list_addsortedbydata(List_t *list, ListNode_t *node);
+U_LINKLIST_API Error_t list_isortbydata(List_t *list, ListNode_t *head);
 
 U_LINKLIST_API Error_t list_renumberkeys(List_t *list);
 

@@ -7,32 +7,17 @@
 
 #include "utils/u_linklist.h"
 
-List_t *list_new(u32 key, void *data, DataFree_fnptr datafree, DataCmp_fnptr datacmp) {
-    if (data) {
-        List_t *list = (List_t *) malloc(sizeof(List_t));
-        if (list) {
-            memset(list, 0, sizeof(List_t));
 
-            ListNode_t *node = listnode_new(key, data, datafree, datacmp);
-            if (node) {
-                list->headptr = &node;
-                list->size = 1;
-                return list;
-            }
-            else {
-                errprintf("ERROR: malloc for first ListNode_t failed, can't make new list. Returning list with size zero...\n");
-                list->headptr = NULLADDR;
-                list->size = 0;
-                return list;
-            }
-        }
-        else {
-            errprintf("ERROR: no malloc space for new List_t *.\n");
-            return NULLADDR;
-        }
+List_t *list_new(void) {
+    List_t *list = (List_t *) malloc(sizeof(List_t));
+    if (list) {
+        memset(list, 0, sizeof(List_t));
+        list->headptr = NULLADDR;
+        list->size = 0;
+        return list;
     }
     else {
-        errprintf("ERROR: *data is null, can't make new ListNode_t *.\n");
+        errprintf("ERROR: no malloc space for new List_t *.\n");
         return NULLADDR;
     }
 }
@@ -60,51 +45,26 @@ ListNode_t *listnode_new(u32 key, void *data, DataFree_fnptr datafree, DataCmp_f
     }
 }
 
-
 Error_t list_add(List_t *list, u32 key, void *data, DataFree_fnptr datafree, DataCmp_fnptr datacmp) {
     if (data) {
         if (list) {
-            if (list->size > 0) {
-                if (list->headptr) {
-                    if ((*list->headptr)) {
-                        ListNode_t *node = listnode_new(key, data, datafree, datacmp);
-                        if (node) {
-                            node->next = (*list->headptr);
-                            list->headptr = &node;
-                            list->size++;
-                            return (Error_t) ERROR_NOERROR;
-                        }
-                        else {
-                            errprintf("ERROR: malloc for ListNode_t failed, can't add to list.\n");
-                            return (Error_t) ERROR_MALLOC_NOSPACE;
-                        }
-                    }
-                    else {
-                        errprintf("ERROR: *list has size greater than zero but the node at **headptr is null! Can't add node to list...\n");
-                        return (Error_t) ERROR_ISNULLADDR;
-                    }
-                }
-                else {
-                    errprintf("ERROR: *list has size greater than zero but headptr is null. Can't add node to list.\n");
-                    return (Error_t) ERROR_ISNULLADDR;
-                }
-            }
-            else if (list->size == 0) {
+            if (list->size >= 0) {
                 ListNode_t *node = listnode_new(key, data, datafree, datacmp);
-                if (node) {
-                    list->headptr = &node;
-                    list->size = 1;
+                if (list->headptr) {
+                    node->next = (*list->headptr);
+                    (*list->headptr) = node;
+                    list->size++;
                     return (Error_t) ERROR_NOERROR;
                 }
-                else {
-                    errprintf("WARNING: malloc for ListNode_t failed, can't add to list.\n");
-                    list->headptr = NULLADDR;
-                    list->size = 0;
-                    return (Error_t) ERROR_MALLOC_NOSPACE;
+                else { // list is empty
+                    node->next = NULLADDR;
+                    list->headptr = &node;
+                    list->size++;
+                    return (Error_t) ERROR_NOERROR;
                 }
             }
             else {
-                errprintf("URGENT ERROR: List_t *list has a size less than zero? How did this happen? Can't add to list...\n");
+                errprintf("ERROR: List_t *list has a size less than zero? How did this happen? Won't add to list...\n");
                 return (Error_t) ERROR_LENGTH_INVALIDVALUE;
             }
         }
@@ -119,7 +79,6 @@ Error_t list_add(List_t *list, u32 key, void *data, DataFree_fnptr datafree, Dat
 
     }
 }
-
 
 /*
 ListNode_t *list_add(ListNode_t *head, u32 key, void *data, DataFree_fnptr datafree, DataCmp_fnptr datacmp) {
@@ -242,81 +201,40 @@ ListNode_t *list_searchbykey(List_t *list, u32 tgtkey) {
     }
 }
 
-Error_t list_sortbykey(List_t *list) {
+Error_t list_isortbykey(List_t *list, ListNode_t *head) {
     if (list) {
-        if (list->size > 1) {
-            if (list->headptr) {
-                if ((*list->headptr)) {
-                    ListNode_t *curr = (*list->headptr);
-                    Error_t e = ERROR_NOERROR;
-                    while (curr) {
-                        ListNode_t *next = curr->next;
-                        e = list_addsortedbykey(list, curr);
-                        curr = next;
+        if (head) {
+            if (head->next) {
+                ListNode_t *newlisthead = NULLADDR;
+
+                while (head) {
+                    ListNode_t *curhead = head;
+                    ListNode_t **trail = &newlisthead;
+                    head = head->next;
+
+                    while ((*trail) && (*trail)->key > curhead->key) {
+                        trail = &(*trail)->next;
                     }
-                    return (Error_t) ERROR_NOERROR + e;
+
+                    curhead->next = (*trail);
+                    (*trail) = curhead;
                 }
-                else {
-                    errprintf("ERROR: *list has size greater than zero but the node at headptr is null! Can't sort list...\n");
-                    return (Error_t) ERROR_ISNULLADDR;
-                }
+
+                list->headptr = &newlisthead;
+                return (Error_t) ERROR_NOERROR;
             }
             else {
-                errprintf("ERROR: list->headptr is null, can't find head of list\n");
-                return (Error_t) ERROR_ISNULLADDR;
-            }
-        }
-        else if (list->size == 1) {
-            errprintf("NOTE: list only has 1 node, already sorted");
-            return (Error_t) ERROR_NOERROR;
-        }
-        else if (list->size == 0) {
-            errprintf("NOTE: List is empty, nothing to sort\n");
-            return (Error_t) ERROR_NOERROR;
-        }
-        else {
-            errprintf("ERROR: *list has size less than zero! Can't sort list...\n");
-            return (Error_t) ERROR_LENGTH_INVALIDVALUE;
-        }
-    }
-    else {
-        errprintf("ERROR: List_t *list is null, can't sort list.\n");
-        return (Error_t) ERROR_ISNULLADDR;
-    }
-}
-
-Error_t list_addsortedbykey(List_t *list, ListNode_t *newnode) {
-    if (list) {
-        if (list->headptr) {
-            if ((*list->headptr)) {
-                ListNode_t *curr = (*list->headptr);
-
-                if (curr->key >= newnode->key) { // if newnode needs to be the new head
-                    newnode->next = curr;
-                    list->headptr = &newnode;
-                    return (Error_t) ERROR_NOERROR;
-                }
-                else {
-                    while (curr->next && curr->next->key < newnode->key) {
-                        curr = curr->next;
-                    }
-                    newnode->next = curr->next;
-                    curr->next = newnode;
-                    return (Error_t) ERROR_NOERROR;
-                }
-            }
-            else {
-                errprintf("ERROR: node at list->headptr is null, can't find list\n");
-                return (Error_t) ERROR_ISNULLADDR;
+                errprintf("ERROR: list of size 1, can't sort list\n");
+                return (Error_t) ERROR_INVALID_PARAMS;
             }
         }
         else {
-            errprintf("ERROR: list->headptr is null, can't find list\n");
+            errprintf("ERROR: head node is null\n");
             return (Error_t) ERROR_ISNULLADDR;
         }
     }
     else {
-        errprintf("ERROR: list is null, can't find list\n");
+        errprintf("ERROR: list is null\n");
         return (Error_t) ERROR_ISNULLADDR;
     }
 }
@@ -363,81 +281,40 @@ ListNode_t *list_searchbydata(List_t *list, const void *tgtdata) {
     }
 }
 
-Error_t list_sortbydata(List_t *list) {
+Error_t list_isortbydata(List_t *list, ListNode_t *head) {
     if (list) {
-        if (list->size > 1) {
-            if (list->headptr) {
-                if ((*list->headptr)) {
-                    ListNode_t *curr = (*list->headptr);
-                    Error_t e = ERROR_NOERROR;
-                    while (curr) {
-                        ListNode_t *next = curr->next;
-                        e = list_addsortedbydata(list, curr);
-                        curr = next;
+        if (head) {
+            if (head->next) {
+                ListNode_t *newlisthead = NULLADDR;
+
+                while (head) {
+                    ListNode_t *curhead = head;
+                    ListNode_t **trail = &newlisthead;
+                    head = head->next;
+
+                    while ((*trail) && ((*trail)->datacmp((*trail)->data, curhead->data) == 1)) {
+                        trail = &(*trail)->next;
                     }
-                    return (Error_t) ERROR_NOERROR + e;
+
+                    curhead->next = (*trail);
+                    (*trail) = curhead;
                 }
-                else {
-                    errprintf("ERROR: *list has size greater than zero but the node at headptr is null! Can't sort list...\n");
-                    return (Error_t) ERROR_ISNULLADDR;
-                }
+
+                list->headptr = &newlisthead;
+                return (Error_t) ERROR_NOERROR;
             }
             else {
-                errprintf("ERROR: list->headptr is null, can't find head of list\n");
-                return (Error_t) ERROR_ISNULLADDR;
-            }
-        }
-        else if (list->size == 1) {
-            errprintf("NOTE: list only has 1 node, already sorted");
-            return (Error_t) ERROR_NOERROR;
-        }
-        else if (list->size == 0) {
-            errprintf("NOTE: List is empty, nothing to sort\n");
-            return (Error_t) ERROR_NOERROR;
-        }
-        else {
-            errprintf("ERROR: *list has size less than zero! Can't sort list...\n");
-            return (Error_t) ERROR_LENGTH_INVALIDVALUE;
-        }
-    }
-    else {
-        errprintf("ERROR: List_t *list is null, can't sort list.\n");
-        return (Error_t) ERROR_ISNULLADDR;
-    }
-}
-
-Error_t list_addsortedbydata(List_t *list, ListNode_t *newnode) {
-    if (list) {
-        if (list->headptr) {
-            if ((*list->headptr)) {
-                ListNode_t *curr = (*list->headptr);
-
-                if ((newnode->datacmp((const void *) newnode->data, (const void *) curr->data)) <= 0) { // if newnode needs to be the new head
-                    newnode->next = curr;
-                    list->headptr = &newnode;
-                    return (Error_t) ERROR_NOERROR;
-                }
-                else {
-                    while (curr->next && (newnode->datacmp((const void *) newnode->data, (const void *) curr->data)) > 0) {
-                        curr = curr->next;
-                    }
-                    newnode->next = curr->next;
-                    curr->next = newnode;
-                    return (Error_t) ERROR_NOERROR;
-                }
-            }
-            else {
-                errprintf("ERROR: node at list->headptr is null, can't find list\n");
-                return (Error_t) ERROR_ISNULLADDR;
+                errprintf("ERROR: list of size 1, can't sort list\n");
+                return (Error_t) ERROR_INVALID_PARAMS;
             }
         }
         else {
-            errprintf("ERROR: list->headptr is null, can't find list\n");
+            errprintf("ERROR: head node is null\n");
             return (Error_t) ERROR_ISNULLADDR;
         }
     }
     else {
-        errprintf("ERROR: list is null, can't find list\n");
+        errprintf("ERROR: list is null\n");
         return (Error_t) ERROR_ISNULLADDR;
     }
 }

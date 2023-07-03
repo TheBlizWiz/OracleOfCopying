@@ -44,11 +44,12 @@ D_COMMON_API typedef i32(*DataCmp_fnptr)(const void *nodedata, const void *tgtda
 struct TreeNode {
     u32 key;
     void *data;
+    DataFree_fnptr datafree;
+    DataCmp_fnptr datacmp;
+
     struct TreeNode *left;
     struct TreeNode *right;
 
-    DataFree_fnptr datafree;
-    DataCmp_fnptr datacmp;
 };
 
 struct Tree {
@@ -59,10 +60,10 @@ struct Tree {
 struct ListNode {
     u32 key;
     void *data;
-    struct ListNode *next;
-
     DataFree_fnptr datafree;
     DataCmp_fnptr datacmp;
+
+    struct ListNode *next;
 };
 
 struct List {

@@ -170,8 +170,7 @@
     <ClInclude Include="src\render\r_image.h" />
     <ClInclude Include="src\render\r_sdl.h" />
     <ClInclude Include="src\utils\u_hash.h" />
-    <ClInclude Include="src\utils\u_linklist.h" />
-    <ClInclude Include="src\utils\u_linklist_test.h" />
+    <ClInclude Include="src\utils\u_list.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\game\g_hitbox.c" />
@@ -185,8 +184,7 @@
     <ClCompile Include="src\render\r_image.c" />
     <ClCompile Include="src\render\r_sdl.c" />
     <ClCompile Include="src\utils\u_hash.c" />
-    <ClCompile Include="src\utils\u_linklist.c" />
-    <ClCompile Include="src\utils\u_linklist_test.c" />
+    <ClCompile Include="src\utils\u_list.c" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2.lib" />

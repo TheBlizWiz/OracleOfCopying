@@ -44,6 +44,16 @@ Size_t file_readline(String_t *strptr, FILE *f) {
     return str_getlen(*strptr);
 }
 
+const char *file_getextension(const char *fname) {
+    const char *dot = strrchr(fname, '.');
+    if (!dot || dot == fname) {
+        return "";
+    }
+    else {
+        return dot + 1;
+    }
+}
+
 u8 dbl_epsilon(double d, double exptval, double epsilon) {
     u8 b1 = (d <= (exptval + epsilon));
     u8 b2 = (d >= (exptval - epsilon));

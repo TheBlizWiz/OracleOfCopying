@@ -31,6 +31,8 @@
  */
 D_UTILS_API Size_t file_readline(String_t *, FILE *);
 
+D_UTILS_API const char *file_getextension(const char *fname);
+
 /**
  * Returns true if double d is equal to exptval + or - epsilon. Used to give a bit of tolerance for double values.
  * \param double d - input value

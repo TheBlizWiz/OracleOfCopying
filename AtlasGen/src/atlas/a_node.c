@@ -1,15 +1,14 @@
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-//#include "a_node.h"
-//#include "oocdll.h"
+#include "a_node.h"
+#include "oocdll.h"
 
-//#include "SDL.h"
-//#include "SDL_image.h"
+#include "SDL.h"
+#include "SDL_image.h"
 
-/*
-AtlasNode_t *node_new(u32 x, u32 y, u32 w, u32 h) {
+AtlasNode_t *atlasnode_new(u32 x, u32 y, u32 w, u32 h) {
     AtlasNode_t *node = (AtlasNode_t *) malloc(sizeof(AtlasNode_t));
     if (node) {
         node->x = x;
@@ -18,8 +17,8 @@ AtlasNode_t *node_new(u32 x, u32 y, u32 w, u32 h) {
         node->h = h;
         node->used = 0;
 
-        node->nextleft = NULLADDR;
-        node->nextright = NULLADDR;
+        node->left = NULLADDR;
+        node->right = NULLADDR;
         return node;
     }
     else {
@@ -28,11 +27,11 @@ AtlasNode_t *node_new(u32 x, u32 y, u32 w, u32 h) {
 
 }
 
-AtlasNode_t *node_find(AtlasNode_t *head, u32 w, u32 h, u32 pad) {
+AtlasNode_t *atlasnode_find(AtlasNode_t *head, u32 w, u32 h, u32 pad) {
     if (head->used) {
         AtlasNode_t *n = NULLADDR;
 
-        if ((n = node_find(head->nextleft, w, h, pad)) != NULLADDR || (n = node_find(head->nextright, w, h, pad)) != NULLADDR) {
+        if ((n = atlasnode_find(head->left, w, h, pad)) != NULLADDR || (n = atlasnode_find(head->right, w, h, pad)) != NULLADDR) {
             return n;
         }
         else {
@@ -40,7 +39,7 @@ AtlasNode_t *node_find(AtlasNode_t *head, u32 w, u32 h, u32 pad) {
         }
     }
     else if (w <= head->w && h <= head->h) {
-        node_split(head, w, h, pad);
+        atlasnode_split(head, w, h, pad);
         return head;
     }
     else {
@@ -48,26 +47,26 @@ AtlasNode_t *node_find(AtlasNode_t *head, u32 w, u32 h, u32 pad) {
     }
 }
 
-Error_t node_split(AtlasNode_t *node, u32 w, u32 h, u32 pad) {
+Error_t atlasnode_split(AtlasNode_t *node, u32 w, u32 h, u32 pad) {
     if (node) {
         node->used = 1;
 
-        AtlasNode_t *tmp1 = node_new(0, 0, 0, 0);
-        AtlasNode_t *tmp2 = node_new(0, 0, 0, 0);
+        AtlasNode_t *tmp1 = atlasnode_new(0, 0, 0, 0);
+        AtlasNode_t *tmp2 = atlasnode_new(0, 0, 0, 0);
         if (tmp1) {
             if (tmp2) {
-                node->nextleft = tmp1;
-                node->nextright = tmp2;
+                node->left = tmp1;
+                node->right = tmp2;
 
-                node->nextleft->x = node->x + w + pad;
-                node->nextleft->y = node->y;
-                node->nextleft->w = node->w - w - pad;
-                node->nextleft->h = h;
+                node->left->x = node->x + w + pad;
+                node->left->y = node->y;
+                node->left->w = node->w - w - pad;
+                node->left->h = h;
 
-                node->nextright->x = node->x;
-                node->nextright->y = node->y + h + pad;
-                node->nextright->w = node->w;
-                node->nextright->h = node->h - h - pad;
+                node->right->x = node->x;
+                node->right->y = node->y + h + pad;
+                node->right->w = node->w;
+                node->right->h = node->h - h - pad;
                 return ERROR_NOERROR;
             }
             else {
@@ -87,11 +86,10 @@ Error_t node_split(AtlasNode_t *node, u32 w, u32 h, u32 pad) {
     }
 }
 
-void node_freedeep(AtlasNode_t *head) {
+void atlasnode_freedeep(AtlasNode_t *head) {
     if (head && head->used) {
-        node_freedeep(head->nextleft);
-        node_freedeep(head->nextright);
+        atlasnode_freedeep(head->left);
+        atlasnode_freedeep(head->right);
         free(head);
     }
 }
-*/

@@ -258,3 +258,17 @@ Error_t *list_split(ListNode_t *currhead, ListNode_t **newhead, ListNode_t **new
 
     return ERROR_NOERROR;
 }
+
+void list_renumber(ListNode_t *head) {
+    _list_renumber(head, 0);
+}
+
+void _list_renumber(ListNode_t *head, u32 newkey) {
+    if (!head) {
+        return;
+    }
+    else {
+        head->key = newkey;
+        _list_renumber(head->next, newkey + 1);
+    }
+}

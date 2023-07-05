@@ -1,9 +1,9 @@
-//#include <string.h>
+#include <string.h>
 
-//#include "c_cmdargs.h"
-//#include "oocdll.h"
+#include "c_cmdargs.h"
+#include "oocdll.h"
 
-/*
+
 Cmdargs_t cmdargs_get(int argc, char *argv[]) {
     Cmdargs_t cargs;
     memset(&cargs, 0, sizeof(Cmdargs_t));
@@ -29,4 +29,7 @@ Cmdargs_t cmdargs_get(int argc, char *argv[]) {
 
     return cargs;
 }
-*/
+
+void cmdargs_free(Cmdargs_t cargs) {
+    str_free(cargs.dirpath);
+}

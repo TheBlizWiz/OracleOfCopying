@@ -44,4 +44,8 @@ U_LIST_API ListNode_t *list_mergebydata(ListNode_t *headA, ListNode_t *headB);
 
 U_LIST_API Error_t *list_split(ListNode_t *currhead, ListNode_t **newhead, ListNode_t **newtail);
 
+U_LIST_API void list_renumber(ListNode_t *head);
+
+void _list_renumber(ListNode_t *head, u32 newkey);
+
 #endif

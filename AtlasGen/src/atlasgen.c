@@ -2,70 +2,97 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "atlas/a_atlas.h"
+#include "atlas/a_node.h"
+#include "atlas/a_json.h"
+
+#include "cargs/c_cmdargs.h"
+
+#include "img/i_surface.h"
+
 #include "oocdll.h"
 
-void printnode(ListNode_t *node) {
-    if (node) {
-        printf("\nNode at %p:\n", node);
-        printf("\tkey: %d\n", node->key);
-        printf("\tdata: %s\n", (String_t) node->data);
-
-        if (node->next) {
-            printf("\tnext: %p\n", node->next);
-        }
-        else {
-            printf("\tnext: NULLADDR\n");
-        }
-    }
-    else {
-        printf("Node is null.\n");
-    }
-}
-
-void printlist(ListNode_t *head) {
-    if (head) {
-        printnode(head);
-        printlist(head->next);
-    }
-    else {
-        printf("Node is null.\n");
-    }
-}
-
 int main(int argc, char *argv[]) {
+    SDL_Init(SDL_INIT_VIDEO);
 
-    String_t str0 = str_new("Once upon a midnight dreary, while I pondered, weak and weary,");
-    String_t str1 = str_new("Over many a quaint and curious volume of forgotten lore");
-    String_t str2 = str_new("While I nodded, nearly napping, suddenly there came a tapping,");
-    String_t str3 = str_new("As of some one gently rapping, rapping at my chamber door.");
-    String_t str4 = str_new("\"'Tis some visitor,\" I muttered, \"tapping at my chamber door");
-    String_t str5 = str_new("Only this and nothing more.\"");
+    Cmdargs_t cargs;
+    cargs = cmdargs_get(argc, argv);
 
-    ListNode_t *list = NULLADDR;
+    // STEP 1: get how many images we need to load from disk
 
-    list = list_addtotail(list, 4, str4, str_free_fnptr, str_cmp_fnptr);
-    list = list_addtohead(list, 1, str1, str_free_fnptr, str_cmp_fnptr);
-    list = list_addtohead(list, 5, str5, str_free_fnptr, str_cmp_fnptr);
-    list = list_addtotail(list, 3, str3, str_free_fnptr, str_cmp_fnptr);
-    list = list_addtohead(list, 2, str2, str_free_fnptr, str_cmp_fnptr);
-    list = list_addtotail(list, 0, str0, str_free_fnptr, str_cmp_fnptr);
+    i32 numimgs = 0;
+    numimgs = simg_countimgs((const char *) cargs.dirpath);
 
-    printf("\n\n\n-------------LIST--------------\n\n\n");
+    // STEP 2: load all the images from the disk and put them into a list
 
-    printlist(list);
+    ListNode_t *simglist = NULLADDR;
 
-    printf("\n\n\n---------SORTED LIST-----------\n\n\n");
+    for (i32 i = 0; i < numimgs; i++) {
+        //simg_loadimgs(i, cargs.dirpath, simglist);
 
-    list_mergesortbykey(&list);
-
-    printlist(list);
-
-    if (!(list = list_freelist(list))) {
-        printf("\nfreed list\n");
+        simglist = list_addtotail(simglist, i, (void *) simg_loadimgs(i, cargs.dirpath), simg_free_fnptr, simg_cmp_fnptr);
     }
-    else {
-        printf("\noh fuck a memory leak\n");
+
+    // STEP 3: sort the images by largest first, then renumber images
+
+    list_mergesortbydata(&simglist);
+    list_renumber(simglist);
+
+    // STEP 4: Make a new SDL surface for the output atlas image
+
+    SDL_Surface *atlasimg = SDL_CreateRGBSurface(0, cargs.aimgsize, cargs.aimgsize, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+
+    // STEP 5: Make a new atlas tree
+
+    AtlasNode_t *atlastree = atlasnode_new(0, 0, cargs.aimgsize, cargs.aimgsize);
+
+    // STEP 6: Make a new JSON file for the output atlas metadata
+
+    cJSON *rootjson;
+    rootjson = cJSON_CreateArray();
+
+    // STEP 7: Loop through each img in list, then add to tree and add a json entry
+
+    SDL_Rect rect;
+    memset(&rect, 0, sizeof(SDL_Rect));
+
+    AtlasNode_t *anodetmp = NULLADDR;
+    ListNode_t *lnodetmp = NULLADDR;
+
+    for (i32 i = 0; i < numimgs; i++) {
+
+        lnodetmp = list_searchbykey(simglist, i);
+        Error_t e = atlas_fitsurfimg(lnodetmp, atlastree, numimgs, i, cargs.padding, atlasimg, rect);
+        if (e == ERROR_NOERROR) {
+            atlas_addjsonentry(rootjson, lnodetmp, rect);
+        }
     }
+
+    // STEP 8: make a json file and dump everything we wrote into it
+
+    char *out = cJSON_Print(rootjson);
+    FILE *fptr;
+    fopen_s(&fptr, "atlasdata.json", "wb");
+    if (fptr) {
+        fprintf(fptr, "%s", out);
+        fclose(fptr);
+    }
+
+    // STEP 9: save the atlasimg sdl surface as a qoi file
+
+    IMG_SaveQOI(atlasimg, "atlasimg.qoi");
+
+    // STEP 10: clean up all our mess
+
+    list_freelist(simglist);
+    SDL_FreeSurface(atlasimg);
+    atlasnode_freedeep(atlastree);
+    cJSON_Delete(rootjson);
+    free(out);
+    cmdargs_free(cargs);
+
+    SDL_QuitSubSystem(SDL_INIT_VIDEO);
+    SDL_Quit();
 
     return 0;
 }

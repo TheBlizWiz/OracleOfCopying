@@ -27,11 +27,8 @@ int main(int argc, char *argv[]) {
 
     ListNode_t *simglist = NULLADDR;
 
-    for (i32 i = 0; i < numimgs; i++) {
-        //simg_loadimgs(i, cargs.dirpath, simglist);
-
-        simglist = list_addtotail(simglist, i, (void *) simg_loadimgs(i, cargs.dirpath), simg_free_fnptr, simg_cmp_fnptr);
-    }
+    i32 k = 0;
+    simg_loadimgs(&k, cargs.dirpath, &simglist);
 
     // STEP 3: sort the images by largest first, then renumber images
 
@@ -40,7 +37,7 @@ int main(int argc, char *argv[]) {
 
     // STEP 4: Make a new SDL surface for the output atlas image
 
-    SDL_Surface *atlasimg = SDL_CreateRGBSurface(0, cargs.aimgsize, cargs.aimgsize, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+    SDL_Surface *atlasimg = SDL_CreateRGBSurface(0, cargs.aimgsize, cargs.aimgsize, 32, 0, 0, 0, 0);
 
     // STEP 5: Make a new atlas tree
 
@@ -56,13 +53,13 @@ int main(int argc, char *argv[]) {
     SDL_Rect rect;
     memset(&rect, 0, sizeof(SDL_Rect));
 
-    AtlasNode_t *anodetmp = NULLADDR;
+    //AtlasNode_t *anodetmp = NULLADDR;
     ListNode_t *lnodetmp = NULLADDR;
 
     for (i32 i = 0; i < numimgs; i++) {
 
         lnodetmp = list_searchbykey(simglist, i);
-        Error_t e = atlas_fitsurfimg(lnodetmp, atlastree, numimgs, i, cargs.padding, atlasimg, rect);
+        Error_t e = atlas_fitsurfimg(lnodetmp, &atlastree, numimgs, i, cargs.padding, atlasimg, rect);
         if (e == ERROR_NOERROR) {
             atlas_addjsonentry(rootjson, lnodetmp, rect);
         }
@@ -80,13 +77,13 @@ int main(int argc, char *argv[]) {
 
     // STEP 9: save the atlasimg sdl surface as a qoi file
 
-    IMG_SaveQOI(atlasimg, "atlasimg.qoi");
+    IMG_SavePNG(atlasimg, "atlasimg.png");
 
     // STEP 10: clean up all our mess
 
     list_freelist(simglist);
     SDL_FreeSurface(atlasimg);
-    atlasnode_freedeep(atlastree);
+    atlasnode_freedeep(&atlastree);
     cJSON_Delete(rootjson);
     free(out);
     cmdargs_free(cargs);

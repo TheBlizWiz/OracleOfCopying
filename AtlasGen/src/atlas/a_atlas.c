@@ -6,6 +6,7 @@
 #include "a_node.h"
 #include "a_atlas.h"
 
+/*
 Atlas_t *atlas_new(u32 w, u32 h, String_t dirpath, const char *fname) {
  
     Atlas_t *atlas = (Atlas_t *) malloc(sizeof(Atlas_t));
@@ -20,7 +21,7 @@ Atlas_t *atlas_new(u32 w, u32 h, String_t dirpath, const char *fname) {
             str_replace(&atlas->fpath, 0, str_getlen(dirpath), dirpath);
             str_replace(&atlas->fpath, str_getlen(dirpath), strlen(fname), fname);
 
-            atlas->surf = SDL_CreateRGBSurface(0, w, h, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+            atlas->surf = SDL_CreateRGBSurface(0, w, h, 32, 0, 0, 0, 0);
             if (atlas->surf) {
                 return atlas;
             }
@@ -81,8 +82,9 @@ void atlas_free(Atlas_t *atlas) {
     SDL_FreeSurface(atlas->surf);
     free(atlas);
 }
+*/
 
-Error_t atlas_fitsurfimg(ListNode_t *simgnode, AtlasNode_t *atlasroot, u32 numimgs, u32 currimg, u32 pad, SDL_Surface *atlasimg, SDL_Rect rect) {
+Error_t atlas_fitsurfimg(ListNode_t *simgnode, AtlasNode_t **atlasroot, u32 numimgs, u32 currimg, u32 pad, SDL_Surface *atlasimg, SDL_Rect rect) {
     if (simgnode && simgnode->data) {
         SurfaceImage_t *simg = (SurfaceImage_t *) simgnode->data;
         if (simg) {
@@ -102,11 +104,13 @@ Error_t atlas_fitsurfimg(ListNode_t *simgnode, AtlasNode_t *atlasroot, u32 numim
 
                 rect.x = anodetmp->x; // set the output rect dimensions for the json file
                 rect.y = anodetmp->y;
-                rect.w = anodetmp->w;
-                rect.h = anodetmp->h;
+                rect.w = simg->w;
+                rect.h = simg->h;
+
+                SDL_Rect srcrect = { .x = 0, .y = 0, .w = simg->w, .h = simg->h };
 
                 if (!simg->isrotated) { // add the image to the output atlas image
-                    SDL_BlitSurface(simg->surf, NULL, atlasimg, &rect);
+                    SDL_UpperBlit(simg->surf, &srcrect, atlasimg, &rect);
                 }
                 else {
                     SDL_BlitRotated(simg->surf, atlasimg, rect.x, rect.y);

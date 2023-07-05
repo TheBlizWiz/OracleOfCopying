@@ -86,7 +86,7 @@ i32 simg_countimgs(const char *dpath) {
     return numimgs;
 }
 
-SurfaceImage_t *simg_loadimgs(i32 curimg, const char *dir) {
+void simg_loadimgs(i32 *curimg, const char *dir, ListNode_t **head) { 
     DIR *d;
     struct dirent *dent;
     char *path;
@@ -99,7 +99,7 @@ SurfaceImage_t *simg_loadimgs(i32 curimg, const char *dir) {
                 if (dent->d_type == DT_DIR) {
                     if (dent->d_name[0] != '.') {
                         sprintf_s(path, tmpsize, "%s/%s", dir, dent->d_name);
-                        simg_loadimgs(curimg, path);
+                        simg_loadimgs(curimg, path, head);
                     }
                 }
                 else {
@@ -113,10 +113,8 @@ SurfaceImage_t *simg_loadimgs(i32 curimg, const char *dir) {
                         if (surf && fp) {
                             SDL_SetSurfaceBlendMode(surf, SDL_BLENDMODE_NONE);
                             SurfaceImage_t *simg = simg_new(surf, surf->w, surf->h, 0, fp);
-                            if (simg) 
-                                return simg;
-                            else 
-                                return NULLADDR;
+                            *head = list_addtohead(*head, *curimg, (void *) simg, simg_free_fnptr, simg_cmp_fnptr);
+                            (*curimg)++;
                         }
                     }
                 }
@@ -125,10 +123,8 @@ SurfaceImage_t *simg_loadimgs(i32 curimg, const char *dir) {
             else {
                 errprintf("ERROR: no malloc space for simg_loadimg\n");
                 closedir(d);
-                return NULLADDR;
             }
         }
         closedir(d);
     }
 }
-

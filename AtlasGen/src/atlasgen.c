@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 
     // STEP 4: Make a new SDL surface for the output atlas image
 
-    SDL_Surface *atlasimg = SDL_CreateRGBSurface(0, cargs.aimgsize, cargs.aimgsize, 32, 0, 0, 0, 0);
+    SDL_Surface *atlasimg = SDL_CreateRGBSurface(0, cargs.aimgsize, cargs.aimgsize, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
 
     // STEP 5: Make a new atlas tree
 
@@ -59,9 +59,9 @@ int main(int argc, char *argv[]) {
     for (i32 i = 0; i < numimgs; i++) {
 
         lnodetmp = list_searchbykey(simglist, i);
-        Error_t e = atlas_fitsurfimg(lnodetmp, &atlastree, numimgs, i, cargs.padding, atlasimg, rect);
+        Error_t e = atlas_fitsurfimg(lnodetmp, &atlastree, numimgs, i, cargs.padding, atlasimg);
         if (e == ERROR_NOERROR) {
-            atlas_addjsonentry(rootjson, lnodetmp, rect);
+            atlas_addjsonentry(rootjson, lnodetmp);
         }
     }
 
@@ -69,17 +69,29 @@ int main(int argc, char *argv[]) {
 
     char *out = cJSON_Print(rootjson);
     FILE *fptr;
-    fopen_s(&fptr, "atlasdata.json", "wb");
+    fopen_s(&fptr, "E:\\MSVC\\source\\repos\\OracleOfCopying\\AtlasGen\\output\\atlasdata.json", "wb");
     if (fptr) {
         fprintf(fptr, "%s", out);
         fclose(fptr);
     }
 
-    // STEP 9: save the atlasimg sdl surface as a qoi file
+    // STEP 9: save the atlasimg sdl surface as a png file
 
-    IMG_SavePNG(atlasimg, "atlasimg.png");
+    IMG_SavePNG(atlasimg, "E:\\MSVC\\source\\repos\\OracleOfCopying\\AtlasGen\\output\\atlasimg.png");
 
-    // STEP 10: clean up all our mess
+    // STEP 10: open the output png file and convert to a .qoi file
+ 
+    // TODO: the linker doesnt like that theres no stb image or qoi
+    // and you can't add it to the SDL_image dll since its qoi.h w/out stdio --> no qoi_write
+    // and IMG_SaveQOI just doesn't work. I copied it from the guy on GH but it just doesn't work
+
+    // so for now I convert it manually with another program i guess
+
+    // another question: why do qoi images on my laptop and my desktop seem to work differently?
+
+    //SDL_qoiconv();
+
+    // STEP 11: clean up all our mess
 
     list_freelist(simglist);
     SDL_FreeSurface(atlasimg);

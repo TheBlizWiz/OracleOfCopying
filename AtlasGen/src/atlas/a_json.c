@@ -1,6 +1,6 @@
 #include "a_json.h"
 
-Error_t atlas_addjsonentry(cJSON *jsonfile, ListNode_t *simgnode, SDL_Rect rect) {
+Error_t atlas_addjsonentry(cJSON *jsonfile, ListNode_t *simgnode) {
     if (simgnode && simgnode->data) {
         SurfaceImage_t *simg = (SurfaceImage_t *) simgnode->data;
         if (simg && simg->fpath) {
@@ -8,10 +8,10 @@ Error_t atlas_addjsonentry(cJSON *jsonfile, ListNode_t *simgnode, SDL_Rect rect)
                 cJSON *entry = cJSON_CreateObject();
                 if (entry) {
                     cJSON_AddStringToObject(jsonfile, "fpath", simg->fpath);
-                    cJSON_AddNumberToObject(jsonfile, "x", rect.x);
-                    cJSON_AddNumberToObject(jsonfile, "y", rect.y);
-                    cJSON_AddNumberToObject(jsonfile, "w", rect.w);
-                    cJSON_AddNumberToObject(jsonfile, "h", rect.h);
+                    cJSON_AddNumberToObject(jsonfile, "x", simg->rect.x);
+                    cJSON_AddNumberToObject(jsonfile, "y", simg->rect.y);
+                    cJSON_AddNumberToObject(jsonfile, "w", simg->rect.w);
+                    cJSON_AddNumberToObject(jsonfile, "h", simg->rect.h);
                     cJSON_AddNumberToObject(jsonfile, "isrotated", simg->isrotated);
 
                     cJSON_AddItemToArray(jsonfile, entry);

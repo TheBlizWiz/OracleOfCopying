@@ -8,7 +8,7 @@
 
 /*
 Atlas_t *atlas_new(u32 w, u32 h, String_t dirpath, const char *fname) {
- 
+
     Atlas_t *atlas = (Atlas_t *) malloc(sizeof(Atlas_t));
     if (atlas) {
         atlas->w = w;
@@ -84,30 +84,38 @@ void atlas_free(Atlas_t *atlas) {
 }
 */
 
-Error_t atlas_fitsurfimg(ListNode_t *simgnode, AtlasNode_t **atlasroot, u32 numimgs, u32 currimg, u32 pad, SDL_Surface *atlasimg, SDL_Rect rect) {
+Error_t atlas_fitsurfimg(ListNode_t *simgnode, AtlasNode_t **atlasroot, u32 numimgs, u32 currimg, u32 pad, SDL_Surface *atlasimg) {
     if (simgnode && simgnode->data) {
         SurfaceImage_t *simg = (SurfaceImage_t *) simgnode->data;
         if (simg) {
 
             AtlasNode_t *anodetmp = atlasnode_find(atlasroot, simg->w, simg->h, pad); // find a spot for surfimg
-            
+
             if (!anodetmp) {
                 simg->isrotated = 1;
                 anodetmp = atlasnode_find(atlasroot, simg->h, simg->w, pad); // if it doesnt fit, rotate the img to the right and try again
             }
 
             if (anodetmp) { // found a spot for the img
+
                 if (simg->isrotated) { // update node dims if surfimg had to be rotated to fit
                     anodetmp->h = simg->w;
                     anodetmp->w = simg->h;
                 }
 
-                rect.x = anodetmp->x; // set the output rect dimensions for the json file
-                rect.y = anodetmp->y;
-                rect.w = simg->w;
-                rect.h = simg->h;
+                SDL_Rect rect = {
+                     .x = anodetmp->x,
+                     .y = anodetmp->y,
+                     .w = simg->w,
+                     .h = simg->h
+                };
 
-                SDL_Rect srcrect = { .x = 0, .y = 0, .w = simg->w, .h = simg->h };
+                SDL_Rect srcrect = {
+                    .x = 0,
+                    .y = 0,
+                    .w = simg->w,
+                    .h = simg->h
+                };
 
                 if (!simg->isrotated) { // add the image to the output atlas image
                     SDL_UpperBlit(simg->surf, &srcrect, atlasimg, &rect);
@@ -115,6 +123,8 @@ Error_t atlas_fitsurfimg(ListNode_t *simgnode, AtlasNode_t **atlasroot, u32 numi
                 else {
                     SDL_BlitRotated(simg->surf, atlasimg, rect.x, rect.y);
                 }
+
+                simg->rect = rect; // update rect for json
 
                 printf("[%04d / %04d] %s\n", currimg + 1, numimgs, simg->fpath);
 

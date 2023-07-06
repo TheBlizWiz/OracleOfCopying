@@ -6,6 +6,6 @@
 
 #include "oocdll.h"
 
-Error_t atlas_addjsonentry(cJSON *jsonfile, ListNode_t *simgnode, SDL_Rect rect);
+Error_t atlas_addjsonentry(cJSON *jsonfile, ListNode_t *simgnode);
 
 #endif

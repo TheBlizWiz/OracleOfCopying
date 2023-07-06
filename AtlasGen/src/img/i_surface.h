@@ -17,6 +17,7 @@ typedef struct {
     u32 w;
     u32 h;
     u8 isrotated;
+    SDL_Rect rect; // for the json file only, TODO: we dont need w and h since its in SDL_Rect so go back and redo it all
     String_t fpath;
 } SurfaceImage_t;
 

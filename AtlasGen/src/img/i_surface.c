@@ -1,14 +1,18 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "SDL.h"
 #include "SDL_image.h"
 #include "oocdll.h"
+
+#include "stb_image.h"
 
 #include "i_surface.h"
 
 // thank you to github user tronkko for making dirent.h for windows
 // windows's file directory functions suck
 // and literally every tutorial uses linux/posix/boost's DIR functions
+
 
 SurfaceImage_t *simg_new(SDL_Surface *surf, u32 w, u32 h, u8 isrotated, String_t fpath) {
     SurfaceImage_t *simg = (SurfaceImage_t *) malloc(sizeof(SurfaceImage_t));
@@ -17,6 +21,7 @@ SurfaceImage_t *simg_new(SDL_Surface *surf, u32 w, u32 h, u8 isrotated, String_t
         simg->w = w;
         simg->h = h;
         simg->isrotated = isrotated;
+        simg->rect = (SDL_Rect){ .x = 0, .y = 0, .w = 0, .h = 0 };
         simg->fpath = fpath;
         return simg;
     }
@@ -86,6 +91,8 @@ i32 simg_countimgs(const char *dpath) {
     return numimgs;
 }
 
+
+
 void simg_loadimgs(i32 *curimg, const char *dir, ListNode_t **head) { 
     DIR *d;
     struct dirent *dent;
@@ -128,3 +135,35 @@ void simg_loadimgs(i32 *curimg, const char *dir, ListNode_t **head) {
         closedir(d);
     }
 }
+
+/*
+void qoiconv(const char *pngfname, char *qoifname) {
+    void *px = NULLADDR;
+    int w, h, channels;
+    
+    if (stbi_info(pngfname, &w, &h, &channels)) {
+        if (channels != 3) {
+            channels = 4;
+        }
+
+        px = (void *) stbi_load(pngfname, &w, &h, NULLADDR, channels);
+
+        if (px) {
+            int encoded = 0;
+            encoded = qoi_write(qoifname, px, &(qoi_desc){.width = w, .height = h, .channels = channels, .colorspace = QOI_SRGB});
+            if (encoded) {
+                free(px);
+            }
+            else {
+                errprintf("ERROR: couldn't encode qoi image\n");
+            }
+        }
+        else {
+            errprintf("ERROR: couldnt malloc and load pixels from png image\n");
+        }
+    }
+    else {
+        errprintf("ERROR: couldn't read from png file\n");
+    }
+}
+*/

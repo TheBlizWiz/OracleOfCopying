@@ -26,8 +26,5 @@ Error_t simg_free_fnptr(const void *SurfaceImage_t_simg);
 i32 simg_cmp_fnptr(const void *SurfaceImage_t_A, const void *SurfaceImage_t_B);
 i32 simg_countimgs(const char *dpath);
 void simg_loadimgs(i32 *curimg, const char *dir, ListNode_t **head);
-//void dir_getfiles(const char *dirpath, String_t *fparr[], Size_t fparrlen, i32 *currfile);
-
-
 
 #endif

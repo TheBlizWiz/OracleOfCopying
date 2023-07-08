@@ -18,9 +18,6 @@
     <ClCompile Include="src\atlasgen.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\atlas\a_atlas.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\atlas\a_node.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -36,9 +33,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\atlasgen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\atlas\a_atlas.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\atlas\a_node.h">

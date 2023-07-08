@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "atlas/a_atlas.h"
 #include "atlas/a_node.h"
 #include "atlas/a_json.h"
 

@@ -1,5 +1,6 @@
 .vs/
 x64/
+oracle_of_seasons_texture_rips/
 OracleOfCopying.sln
 OoCDLL/OoCDLL.vcxproj
 OoCDLL/OoCDLL.vcxproj.filters
@@ -17,7 +18,6 @@ OracleOfCopying/OracleOfCopying.vcxproj.user
 /OracleOfCopying/OracleOfCopying.vcxproj
 /OracleOfCopying/OracleOfCopying.vcxproj.filters
 x64/Debug/
-atlas_texture_test/
 /x64/Debug/SDL2_image.dll
 /x64/Release/SDL2_image.dll
 /AtlasGen/AtlasGen.vcxproj

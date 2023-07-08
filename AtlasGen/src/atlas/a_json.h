@@ -1,7 +1,6 @@
 #ifndef A_JSON_H
 #define A_JSON_H
 
-#include "a_atlas.h"
 #include "img/i_surface.h"
 
 #include "oocdll.h"

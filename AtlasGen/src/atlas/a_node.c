@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "a_node.h"
+#include "img/i_surface.h"
 #include "oocdll.h"
 
 #include "SDL.h"
@@ -91,5 +92,67 @@ void atlasnode_freedeep(AtlasNode_t **head) {
         atlasnode_freedeep(&(*head)->left);
         atlasnode_freedeep(&(*head)->right);
         free(*head);
+    }
+}
+
+Error_t atlas_fitsurfimg(ListNode_t *simgnode, AtlasNode_t **atlasroot, u32 numimgs, u32 currimg, u32 pad, SDL_Surface *atlasimg) {
+    if (simgnode && simgnode->data) {
+        SurfaceImage_t *simg = (SurfaceImage_t *) simgnode->data;
+        if (simg) {
+
+            AtlasNode_t *anodetmp = atlasnode_find(atlasroot, simg->w, simg->h, pad); // find a spot for surfimg
+
+            if (!anodetmp) {
+                simg->isrotated = 1;
+                anodetmp = atlasnode_find(atlasroot, simg->h, simg->w, pad); // if it doesnt fit, rotate the img to the right and try again
+            }
+
+            if (anodetmp) { // found a spot for the img
+
+                if (simg->isrotated) { // update node dims if surfimg had to be rotated to fit
+                    anodetmp->h = simg->w;
+                    anodetmp->w = simg->h;
+                }
+
+                SDL_Rect rect = {
+                     .x = anodetmp->x,
+                     .y = anodetmp->y,
+                     .w = simg->w,
+                     .h = simg->h
+                };
+
+                SDL_Rect srcrect = {
+                    .x = 0,
+                    .y = 0,
+                    .w = simg->w,
+                    .h = simg->h
+                };
+
+                if (!simg->isrotated) { // add the image to the output atlas image
+                    SDL_UpperBlit(simg->surf, &srcrect, atlasimg, &rect);
+                }
+                else {
+                    SDL_BlitRotated(simg->surf, atlasimg, rect.x, rect.y);
+                }
+
+                simg->rect = rect; // update rect for json
+
+                printf("[%04d / %04d] %s\n", currimg + 1, numimgs, simg->fpath);
+
+                return ERROR_NOERROR;
+            }
+            else { // img doesnt fit
+                errprintf("ERROR: No space for surface img %s in node tree. Make the image bigger...\n", simg->fpath);
+                return ERROR_GENERIC;
+            }
+        }
+        else {
+            errprintf("ERROR: couldn't cast to SurfaceImage_t *\n");
+            return ERROR_GENERIC;
+        }
+    }
+    else {
+        errprintf("ERROR: simgnode or simgnode->data is null\n");
+        return ERROR_ISNULLADDR;
     }
 }

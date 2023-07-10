@@ -121,9 +121,15 @@
 // ****************************
 #define GAME_WINDOW_NAME "Oracle of Copying"
 
-#define ATLASGEN_DEFAULT_DIR_PATH "E:/MSVC/source/repos/OracleOfCopying/OracleOfCopying/textures"
+#define ATLASGEN_DEFAULT_DIR_PATH "E:\\MSVC\\source\\repos\\OracleOfCopying\\OracleOfCopying\\textures"
+#define ATLASGEN_DEFAULT_JSON_PATH "E:\\MSVC\\source\\repos\\OracleOfCopying\\AtlasGen\\output\\atlasdata.json"
+#define ATLASGEN_DEFAULT_ATLAS_PATH "E:\\MSVC\\source\\repos\\OracleOfCopying\\AtlasGen\\output\\atlasimg.png"
+
+
 #define ATLASGEN_SIZE_ARGV "-size"
 #define ATLASGEN_PAD_ARGV "-padding"
 #define ATLASGEN_DIR_ARGV "-directory"
+#define ATLASGEN_ATLAS_ARGV "-atlas"
+#define ATLASGEN_JSON_ARGV "-json"
 
 #endif

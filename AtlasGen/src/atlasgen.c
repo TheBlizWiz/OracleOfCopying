@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
 
     char *out = cJSON_Print(rootjson);
     FILE *fptr;
-    fopen_s(&fptr, "E:\\MSVC\\source\\repos\\OracleOfCopying\\AtlasGen\\output\\atlasdata.json", "wb");
+    fopen_s(&fptr, cargs.jsonpath, "wb");
     if (fptr) {
         fprintf(fptr, "%s", out);
         fclose(fptr);
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
 
     // STEP 9: save the atlasimg sdl surface as a png file
 
-    IMG_SavePNG(atlasimg, "E:\\MSVC\\source\\repos\\OracleOfCopying\\AtlasGen\\output\\atlasimg.png");
+    IMG_SavePNG(atlasimg, cargs.atlaspath);
 
     // STEP 10: open the output png file and convert to a .qoi file
  

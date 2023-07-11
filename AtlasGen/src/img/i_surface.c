@@ -54,7 +54,7 @@ i32 simg_cmp_fnptr(const void *SurfaceImage_t_A, const void *SurfaceImage_t_B) {
     SurfaceImage_t *simga = (SurfaceImage_t *) SurfaceImage_t_A;
     SurfaceImage_t *simgb = (SurfaceImage_t *) SurfaceImage_t_B;
 
-    return simgb->surf->h - simga->surf->h;
+    return simga->surf->h - simgb->surf->h;
 }
 
 i32 simg_countimgs(const char *dpath) {
@@ -65,24 +65,28 @@ i32 simg_countimgs(const char *dpath) {
 
     if ((d = opendir(dpath)) != NULL) {
         while ((dent = readdir(d)) != NULL) {
-            if (dent->d_type == DT_DIR) {
-                if (dent->d_name[0] != '.') {
-                    Size_t tmpsize = strlen(dpath) + strlen(dent->d_name) + 2;
-                    path = (char *) malloc(tmpsize);
-                    if (path) {
-                        sprintf_s(path, tmpsize, "%s/%s", dpath, dent->d_name);
-                        numimgs += simg_countimgs(path);
-                        free(path);
+            Size_t tmpsize = strlen(dpath) + strlen(dent->d_name) + 2;
+            path = (char *) malloc(tmpsize);
+            if (path) {
+                sprintf_s(path, tmpsize, "%s\\%s", dpath, dent->d_name);
+
+                if (dent->d_type == DT_DIR) {
+                    if (dent->d_name[0] != '.') {
+                            numimgs += simg_countimgs(path);
+                            free(path);
                     }
-                    else {
-                        errprintf("ERROR: no malloc space for simg_countimg\n");
-                        closedir(d);
-                        return -1;
+                }
+                else {
+                    const char *ext = file_getextension(path);
+                    if (strcmp(ext, "qoi") == 0) {
+                        numimgs++;
                     }
                 }
             }
             else {
-                numimgs++;
+                errprintf("ERROR: no malloc space for simg_countimg\n");
+                closedir(d);
+                return -1;
             }
         }
         closedir(d);
@@ -105,12 +109,12 @@ void simg_loadimgs(i32 *curimg, const char *dir, ListNode_t **head) {
             if (path) {
                 if (dent->d_type == DT_DIR) {
                     if (dent->d_name[0] != '.') {
-                        sprintf_s(path, tmpsize, "%s/%s", dir, dent->d_name);
+                        sprintf_s(path, tmpsize, "%s\\%s", dir, dent->d_name);
                         simg_loadimgs(curimg, path, head);
                     }
                 }
                 else {
-                    sprintf_s(path, tmpsize, "%s/%s", dir, dent->d_name);
+                    sprintf_s(path, tmpsize, "%s\\%s", dir, dent->d_name);
 
                     const char *ext = file_getextension(path);
                     if (strcmp(ext, "qoi") == 0) {

@@ -17,6 +17,9 @@ int main(int argc, char *argv[]) {
     Cmdargs_t cargs;
     cargs = cmdargs_get(argc, argv);
 
+    str_append(&cargs.jsonpath, "\\atlasdata.json");
+    str_append(&cargs.atlaspath, "\\atlasimg.png");
+
     // STEP 1: get how many images we need to load from disk
 
     i32 numimgs = 0;
@@ -77,6 +80,9 @@ int main(int argc, char *argv[]) {
     // STEP 9: save the atlasimg sdl surface as a png file
 
     IMG_SavePNG(atlasimg, cargs.atlaspath);
+
+    printf("\n\n\nSaved png to %s\n", cargs.atlaspath);
+    printf("Saved json to %s\n", cargs.jsonpath);
 
     // STEP 10: open the output png file and convert to a .qoi file
  

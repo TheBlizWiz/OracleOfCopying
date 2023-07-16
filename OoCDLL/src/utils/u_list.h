@@ -9,6 +9,23 @@
 
 #include "defs/d_common.h"
 
+U_LIST_API typedef struct ListNode ListNode_t;
+U_LIST_API typedef struct List List_t;
+
+struct ListNode {
+    u32 key;
+    void *data;
+    DataFree_fnptr datafree;
+    DataCmp_fnptr datacmp;
+
+    struct ListNode *next;
+};
+
+struct List {
+    struct ListNode **headptr;
+    Size_t size;
+};
+
 // NOTE: u_list.h and u_list.c are adapted from GH user Leyxargon
 // from repo https://github.com/Leyxargon/c-linked-list/blob/master/
 // thank you for the help

@@ -1,27 +1,33 @@
-/*
 #include <stdlib.h>
+
+#include "defs/d_constants.h"
 
 #include "game/g_tile.h"
 
-Tile_t *tile_new(TileClass_e tclass, i8 roomid, i16 gposx, i16 gposy, i16 elev, i16 flags, Hitbox_t hbox, Image_t **flrtex, Image_t **tiletex) {
-    Tile_t *tile;
-    tile = (Tile_t *) malloc(sizeof(Tile_t));
-
-    tile->tclass = tclass;
-    tile->roomid = roomid;
-    tile->gposx = gposx;
-    tile->gposy = gposy;
-    tile->elev = elev;
-    tile->flags = flags;
-    tile->hbox = hbox;
-    tile->ftex = flrtex;
-    tile->ttex = tiletex;
-
-    return tile;
+Tile_t *tile_new(TileClass_e tc, u8 coll, i16 e, i16 f, SDL_Texture *ft, SDL_Texture *tt) {
+    Tile_t *tile = malloc(sizeof(Tile_t));
+    if (tile) {
+        tile->tclass = tc;
+        tile->collision = coll;
+        tile->elev = e;
+        tile->flags = f;
+        tile->ftex = ft;
+        tile->ttex = tt;
+        return tile;
+    }
+    else {
+        errprintf("ERROR: no malloc space for new Tile_t\n");
+        return NULLADDR;
+    }
 }
 
-// warning: this will not free fltex or tiletex
-void tile_free(Tile_t *tile) {
-    free(tile);
+Error_t tile_free(Tile_t *tile) {
+    if (tile) {
+        free(tile);
+        return ERROR_NOERROR;
+    }
+    else {
+        errprintf("ERROR: tile is null, can't free\n");
+        return ERROR_ISNULLADDR;
+    }
 }
-*/

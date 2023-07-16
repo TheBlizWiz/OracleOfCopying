@@ -17,6 +17,8 @@
 #define errprintf //
 #endif
 
+#define IF_PTR_RETURN_PTR(x) do { if(x) { return x; } } while(0)
+
 D_COMMON_API typedef uint8_t  u8;
 D_COMMON_API typedef uint16_t u16;
 D_COMMON_API typedef uint32_t u32;
@@ -35,8 +37,6 @@ D_COMMON_API typedef int64_t  Error_t;
 
 D_COMMON_API typedef struct TreeNode TreeNode_t;
 D_COMMON_API typedef struct Tree Tree_t;
-D_COMMON_API typedef struct ListNode ListNode_t;
-D_COMMON_API typedef struct List List_t;
 
 D_COMMON_API typedef Error_t(*DataFree_fnptr)(void *data);
 D_COMMON_API typedef i32(*DataCmp_fnptr)(const void *nodedata, const void *tgtdata);
@@ -53,20 +53,6 @@ struct TreeNode {
 
 struct Tree {
     struct TreeNode_t **root;
-    Size_t size;
-};
-
-struct ListNode {
-    u32 key;
-    void *data;
-    DataFree_fnptr datafree;
-    DataCmp_fnptr datacmp;
-
-    struct ListNode *next;
-};
-
-struct List {
-    struct ListNode **headptr;
     Size_t size;
 };
 

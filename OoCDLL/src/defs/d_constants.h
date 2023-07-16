@@ -53,6 +53,17 @@
 // 0.25 degrees
 #define IMG_ROT_EPSILON 0.004363323
 
+// used in g_roomh / g_room.c
+// taken from oracle of seasons
+
+#define ROOM_SIZE_X 16
+#define ROOM_SIZE_Y 11
+
+
+
+
+
+
 
 // -------------
 // | ATLASGEN  |
@@ -121,10 +132,18 @@
 // ****************************
 #define GAME_WINDOW_NAME "Oracle of Copying"
 
+
+
+
+
+
+// -------------
+// | ATLASGEN  |
+// -------------
+
 #define ATLASGEN_DEFAULT_DIR_PATH "E:\\MSVC\\source\\repos\\OracleOfCopying\\OracleOfCopying\\textures"
 #define ATLASGEN_DEFAULT_JSON_PATH "E:\\MSVC\\source\\repos\\OracleOfCopying\\AtlasGen\\output\\atlasdata.json"
 #define ATLASGEN_DEFAULT_ATLAS_PATH "E:\\MSVC\\source\\repos\\OracleOfCopying\\AtlasGen\\output\\atlasimg.png"
-
 
 #define ATLASGEN_SIZE_ARGV "-size"
 #define ATLASGEN_PAD_ARGV "-padding"

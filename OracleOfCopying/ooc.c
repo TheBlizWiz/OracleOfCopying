@@ -44,12 +44,11 @@ int main(int argc, char *argv[]) {
     }
 
     SDL_Surface *tmp = IMG_Load("E:\\MSVC\\source\\repos\\OracleOfCopying\\OracleOfCopying\\textures\\atlases\\dancingdragondungeon\\atlasimg.png");
-    
+
     SDL_Texture *atlas = SDL_CreateTextureFromSurface(ooc.rdr, tmp);
     if (!atlas) {
         printf("%s\n", SDL_GetError());
     }
-    
 
     SDL_Event evt;
     int run = 1;
@@ -63,26 +62,14 @@ int main(int argc, char *argv[]) {
             break;
         }
 
-        if (SDL_RenderClear(ooc.rdr)) {
-            printf("ERROR A: %s\n", SDL_GetError());
-        }
+        SDL_RenderClear(ooc.rdr);
 
         col = randcolor(0);
-        
-        if(SDL_SetRenderDrawColor(ooc.rdr, col.r, col.g, col.b, col.a)) { 
-            printf("ERROR B: %s\n", SDL_GetError());
-        }
-        
-        if (SDL_RenderDrawRect(ooc.rdr, NULL)) {
-            printf("ERROR C: %s\n", SDL_GetError());
-        }
-
-        if (SDL_RenderCopy(ooc.rdr, atlas, NULL, &(SDL_Rect){.w = 256, .h = 256, .x = 0, .y = 0})) {
-            printf("ERROR D: %s\n", SDL_GetError());
-        }
+        SDL_SetRenderDrawColor(ooc.rdr, col.r, col.g, col.b, col.a);
+        SDL_RenderDrawRect(ooc.rdr, NULL);
+        SDL_RenderCopy(ooc.rdr, atlas, NULL, &(SDL_Rect){.w = 256, .h = 256, .x = 0, .y = 0});
 
         SDL_RenderPresent(ooc.rdr);
-
         SDL_Delay(15);
     }
 

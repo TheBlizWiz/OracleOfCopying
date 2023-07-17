@@ -1,11 +1,6 @@
 #ifndef D_STRING_H
 #define D_STRING_H
 
-#ifdef OOCDLL_EXPORTS
-#define D_STRING_API __declspec(dllexport)
-#else
-#define D_STRING_API __declspec(dllimport)
-#endif
 
 #include <stdlib.h>
 #include <stdbool.h>
@@ -41,7 +36,7 @@ typedef struct {
  * \param  - Size_t len - num of bytes to allocate
  * \return - Strdata_t *sdat - pointer to Strdata_t, or NULLADDR if malloc fails
  */
-D_STRING_API Strdata_t *str_alloc(Size_t len);
+DLLINCLUDE Strdata_t *str_alloc(Size_t len);
 
 /**
  * Private method; do not use outside of d_string.c.
@@ -50,7 +45,7 @@ D_STRING_API Strdata_t *str_alloc(Size_t len);
  * \param  - String_t s - the string to get the Strdata_t from
  * \return - Strdata_t *sdat - pointer to Strdata_t, or NULLADDR if s is null
  */
-D_STRING_API Strdata_t *str_getdata(String_t s);
+DLLINCLUDE Strdata_t *str_getdata(String_t s);
 
 /**
  * Create a new String_t on the heap from inputted const char *
@@ -59,9 +54,9 @@ D_STRING_API Strdata_t *str_getdata(String_t s);
  * \return - String_t         - new String_t, or NULLADDR if any errors
  *
  */
-D_STRING_API String_t str_new(const char *carr);
+DLLINCLUDE String_t str_new(const char *carr);
 
-D_STRING_API String_t str_newfromlen(Size_t len);
+DLLINCLUDE String_t str_newfromlen(Size_t len);
 
 /**
  * Add const char *carr to the end of String_t *s.
@@ -72,7 +67,7 @@ D_STRING_API String_t str_newfromlen(Size_t len);
  * \return - Error_t          - ERROR_NOERROR if no errors, ERROR_ISNULLADDR if *s or *carr is null,
                                 ERROR_REALLOC_NOSPACE if no memory space to realloc
  */
-D_STRING_API Error_t str_append(String_t *s, const char *carr);
+DLLINCLUDE Error_t str_append(String_t *s, const char *carr);
 
 /**
  * Inserts the entirety of *carr into String_t *s at index position pos
@@ -86,7 +81,7 @@ D_STRING_API Error_t str_append(String_t *s, const char *carr);
                                 ERROR_REALLOC_NOSPACE if no memory space to realloc
  *
  */
-D_STRING_API Error_t str_insert(String_t *s, Size_t pos, const char *carr);
+DLLINCLUDE Error_t str_insert(String_t *s, Size_t pos, const char *carr);
 
 /**
  * Replaces len number of chars from String_t *s starting at index pos with *carr
@@ -101,7 +96,7 @@ D_STRING_API Error_t str_insert(String_t *s, Size_t pos, const char *carr);
                                 ERROR_REALLOC_NOSPACE if no memory space to realloc
  *
  */
-D_STRING_API Error_t str_replace(String_t *s, Size_t pos, Size_t len, const char *carr);
+DLLINCLUDE Error_t str_replace(String_t *s, Size_t pos, Size_t len, const char *carr);
 
 /**
  * Removes len number of characters from String_t *s starting at index pos
@@ -114,23 +109,23 @@ D_STRING_API Error_t str_replace(String_t *s, Size_t pos, Size_t len, const char
                                 ERROR_LENGTH_INVALIDVALUE if len is too big or small,
  *
  */
-D_STRING_API Error_t str_remove(String_t s, Size_t pos, Size_t len);
+DLLINCLUDE Error_t str_remove(String_t s, Size_t pos, Size_t len);
 
 /**
  * Removes all characters from String_t *s except for the null char at the end
  * \param  - String_t s  - String_t that gets edited
  * \return - Error_t      - see str_remove()    
  */
-D_STRING_API Error_t str_clear(String_t s);
+DLLINCLUDE Error_t str_clear(String_t s);
 
 /**
  * Frees a String_t
  * \param  - String_t s - string to free
  * \return - None
  */
-D_STRING_API Error_t str_free(String_t s);
+DLLINCLUDE Error_t str_free(String_t s);
 
-D_STRING_API Error_t str_free_fnptr(void *string_t_s);
+DLLINCLUDE Error_t str_free_fnptr(void *string_t_s);
 
 /**
  * Returns the first index of src that has the entirety of *tgt in order starting at index position pos
@@ -143,7 +138,7 @@ D_STRING_API Error_t str_free_fnptr(void *string_t_s);
  *                    
  *
  */
-D_STRING_API Size_t str_indexof(String_t src, Size_t pos, const char *tgt);
+DLLINCLUDE Size_t str_indexof(String_t src, Size_t pos, const char *tgt);
 
 /**
  * Checks if the entirety of *carr is within String_t *s
@@ -151,11 +146,11 @@ D_STRING_API Size_t str_indexof(String_t src, Size_t pos, const char *tgt);
  * \param  - const char *tgt - char arr that is whats looked for in src
  * \return - 0 if s or tgt is null, 1 if src contains tgt, 0 if it does not
  */
-D_STRING_API u8 str_contains(String_t src, const char *tgt);
+DLLINCLUDE u8 str_contains(String_t src, const char *tgt);
 
-D_STRING_API i32 str_contains_fnptr(const void *string_t_src, const void *const_char_tgt);
+DLLINCLUDE i32 str_contains_fnptr(const void *string_t_src, const void *const_char_tgt);
 
-D_STRING_API i32 str_cmp_fnptr(const void *string_t_src, const void *string_t_tgt);
+DLLINCLUDE i32 str_cmp_fnptr(const void *string_t_src, const void *string_t_tgt);
 
 /**
  * Gets the length in chars. Does not include null char at end.
@@ -163,7 +158,7 @@ D_STRING_API i32 str_cmp_fnptr(const void *string_t_src, const void *string_t_tg
  * \return ERROR_ISNULL_STRPTR if s is null, length of s otherwise
  *
  */
-D_STRING_API Size_t str_getlen(String_t s);
+DLLINCLUDE Size_t str_getlen(String_t s);
 
 /**
  * Gets the allocated length in bytes. (i.e. length + 1)
@@ -171,7 +166,7 @@ D_STRING_API Size_t str_getlen(String_t s);
  * \return ERROR_ISNULL_STRPTR if s is null, allocated bytes of s otherwise
  *
  */
-D_STRING_API Size_t str_getalloc(String_t s);
+DLLINCLUDE Size_t str_getalloc(String_t s);
 
 /**
  * Removes all control characters except null from a String_t s
@@ -179,7 +174,7 @@ D_STRING_API Size_t str_getalloc(String_t s);
  * \param  - String_t s - String to clean
  * \return - ERROR_ISNULLADDR if s is null, ERROR_NOERROR otherwise
  */
-D_STRING_API Error_t str_sanitize(String_t s);
+DLLINCLUDE Error_t str_sanitize(String_t s);
 
 /**
  * Changes a String_t s to make all letters lowercase
@@ -187,7 +182,7 @@ D_STRING_API Error_t str_sanitize(String_t s);
  * \param  - String_t s - String_t to edit
  * \return - ERROR_ISNULLADDR if s is null, ERROR_NOERROR otherwise 
  */
-D_STRING_API Error_t str_tolower(String_t s);
+DLLINCLUDE Error_t str_tolower(String_t s);
 
 /**
  * Changes a String_t s to make all letters uppercase
@@ -195,7 +190,7 @@ D_STRING_API Error_t str_tolower(String_t s);
  * \param  - String_t s - String_t to edit
  * \return - ERROR_ISNULLADDR if s is null, ERROR_NOERROR otherwise
  */
-D_STRING_API Error_t str_toupper(String_t s);
+DLLINCLUDE Error_t str_toupper(String_t s);
 
 /**
  * Checks if String_t s is the same as const char *carr
@@ -204,6 +199,6 @@ D_STRING_API Error_t str_toupper(String_t s);
  * \param  - const char *carr - char arr that s needs to be equal to
  * \return - 0 if s or *carr is null, 1 if s equals *carr, 0 if it does not
  */
-D_STRING_API u8 str_equals(String_t s, const char *carr);
+DLLINCLUDE u8 str_equals(String_t s, const char *carr);
 
 #endif

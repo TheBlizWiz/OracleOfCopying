@@ -1,12 +1,6 @@
 #ifndef D_CONSTANTS_H
 #define D_CONSTANTS_H
 
-#ifdef OOCDLL_EXPORTS
-#define D_CONSTANTS_API __declspec(dllexport)
-#else
-#define D_CONSTANTS_API __declspec(dllimport)
-#endif
-
 // ****************************
 // |      CONSTANT VALUES     |
 // ****************************
@@ -59,6 +53,8 @@
 #define ROOM_SIZE_X 16
 #define ROOM_SIZE_Y 11
 
+#define MAP_SIZE_X 16
+#define MAP_SIZE_Y 16
 
 
 

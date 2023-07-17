@@ -2,9 +2,9 @@
 #define D_COMMON_H
 
 #ifdef OOCDLL_EXPORTS
-#define D_COMMON_API __declspec(dllexport)
+#define DLLINCLUDE __declspec(dllexport)
 #else
-#define D_COMMON_API __declspec(dllimport)
+#define DLLADD __declspec(dllimport)
 #endif
 
 #include <stdint.h>
@@ -19,27 +19,29 @@
 
 #define IF_PTR_RETURN_PTR(x) do { if(x) { return x; } } while(0)
 
-D_COMMON_API typedef uint8_t  u8;
-D_COMMON_API typedef uint16_t u16;
-D_COMMON_API typedef uint32_t u32;
-D_COMMON_API typedef uint64_t u64;
-D_COMMON_API typedef int8_t   i8;
-D_COMMON_API typedef int16_t  i16;
-D_COMMON_API typedef int32_t  i32;
-D_COMMON_API typedef int64_t  i64;
+DLLINCLUDE typedef uint8_t  u8;
+DLLINCLUDE typedef uint16_t u16;
+DLLINCLUDE typedef uint32_t u32;
+DLLINCLUDE typedef uint64_t u64;
+DLLINCLUDE typedef int8_t   i8;
+DLLINCLUDE typedef int16_t  i16;
+DLLINCLUDE typedef int32_t  i32;
+DLLINCLUDE typedef int64_t  i64;
 
 // _t is for structs only but these are an exception since
 // they already have a _t in them
 
-D_COMMON_API typedef uint64_t Size_t;
-D_COMMON_API typedef int64_t  Ssize_t;
-D_COMMON_API typedef int64_t  Error_t;
+DLLINCLUDE typedef uint64_t Size_t;
+DLLINCLUDE typedef int64_t  Ssize_t;
+DLLINCLUDE typedef int64_t  Error_t;
 
-D_COMMON_API typedef struct TreeNode TreeNode_t;
-D_COMMON_API typedef struct Tree Tree_t;
+DLLINCLUDE typedef struct TreeNode TreeNode_t;
+DLLINCLUDE typedef struct Tree Tree_t;
 
-D_COMMON_API typedef Error_t(*DataFree_fnptr)(void *data);
-D_COMMON_API typedef i32(*DataCmp_fnptr)(const void *nodedata, const void *tgtdata);
+DLLINCLUDE typedef void *(*DataMalloc_fnptr)(void *dataptr, Size_t datasize);
+DLLINCLUDE typedef void *(*DataXalloc_fnptr)(void *dataptr, Size_t datasize, Size_t numelements);
+DLLINCLUDE typedef Error_t(*DataFree_fnptr)(void *data);
+DLLINCLUDE typedef i32(*DataCmp_fnptr)(const void *data, const void *tgtdata);
 
 struct TreeNode {
     u32 key;

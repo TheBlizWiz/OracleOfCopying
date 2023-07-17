@@ -1,12 +1,6 @@
 #ifndef D_UTILS_H
 #define D_UTILS_H
 
-#ifdef OOCDLL_EXPORTS
-#define D_UTILS_API __declspec(dllexport)
-#else
-#define D_UTILS_API __declspec(dllimport)
-#endif
-
 #include <stdio.h>
 #include <stdarg.h>
 
@@ -29,9 +23,9 @@
  *                    4. ERROR_ISVALUE_EOF if *f is empty
  *                    5. ERROR_MEMORY_NOSPACE if strptr can't resize to fit new string read from f
  */
-D_UTILS_API Size_t file_readline(String_t *, FILE *);
+DLLINCLUDE Size_t file_readline(String_t *, FILE *);
 
-D_UTILS_API const char *file_getextension(const char *fname);
+DLLINCLUDE const char *file_getextension(const char *fname);
 
 /**
  * Returns true if double d is equal to exptval + or - epsilon. Used to give a bit of tolerance for double values.
@@ -41,7 +35,7 @@ D_UTILS_API const char *file_getextension(const char *fname);
  * \return bool - true if d falls within exptval + or - epsilon
  * 
  */
-D_UTILS_API u8 dbl_epsilon(double, double, double);
+DLLINCLUDE u8 dbl_epsilon(double, double, double);
 
 /**
  * Randomly generate an integer between lo and hi inclusive.
@@ -51,6 +45,6 @@ D_UTILS_API u8 dbl_epsilon(double, double, double);
  * \param int hi - maximum value that can be randomly generated
  * \return int - random int value
  */
-D_UTILS_API int rng(int, int);
+DLLINCLUDE int rng(int, int);
 
 #endif

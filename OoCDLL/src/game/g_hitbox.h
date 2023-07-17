@@ -1,12 +1,6 @@
 #ifndef G_HITBOX_H
 #define G_HITBOX_H
 
-#ifdef OOCDLL_EXPORTS
-#define G_HITBOX_API __declspec(dllexport)
-#else
-#define G_HITBOX_API __declspec(dllimport)
-#endif
-
 #include "defs/d_common.h"
 
 /**
@@ -36,14 +30,16 @@
     |        |
     A--------B
   */
-G_HITBOX_API typedef struct {
+DLLINCLUDE typedef struct Hitbox Hitbox_t;
+
+struct Hitbox{
     u8 Ax, Ay, Bx, By, Cx, Cy, Dx, Dy;
     i16 ztop;
     i16 zbottom;
-} Hitbox_t;
+};
 
-G_HITBOX_API Hitbox_t hbox_new(u8, u8, u8, u8, u8, u8, u8, u8, i16, i16);
-G_HITBOX_API Hitbox_t hbox_newdefault();
-G_HITBOX_API Hitbox_t hbox_newsquished(u16, u16, u16, u16, i16, i16);
+DLLINCLUDE Hitbox_t hbox_new(u8, u8, u8, u8, u8, u8, u8, u8, i16, i16);
+DLLINCLUDE Hitbox_t hbox_newdefault();
+DLLINCLUDE Hitbox_t hbox_newsquished(u16, u16, u16, u16, i16, i16);
 
 #endif

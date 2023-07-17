@@ -1,12 +1,6 @@
 #ifndef M_RNG_H
 #define M_RNG_H
 
-#ifdef OOCDLL_EXPORTS
-#define M_RNG_API __declspec(dllexport)
-#else
-#define M_RNG_API __declspec(dllimport)
-#endif
-
 #include "defs/d_common.h"
 
 /** Get next random int from table.
@@ -17,7 +11,7 @@
  * \param  void - None
  * \return u16  - Random u16 value from RNG_TABLE
  */
-M_RNG_API u16 rng_gnext(void);
+DLLINCLUDE u16 rng_gnext(void);
 
 /**
  * Get next random int from table.
@@ -28,7 +22,7 @@ M_RNG_API u16 rng_gnext(void);
  * \param  void - None
  * \return u16  - random u16 value from RNG_TABLE
  */
-M_RNG_API u16 rng_lnext(void);
+DLLINCLUDE u16 rng_lnext(void);
 
 /**
  * Resets rng table.
@@ -38,6 +32,6 @@ M_RNG_API u16 rng_lnext(void);
  * \param  void - None
  * \return void - None
  */
-M_RNG_API void rng_reset(void);
+DLLINCLUDE void rng_reset(void);
 
 #endif

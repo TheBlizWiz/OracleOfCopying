@@ -1,61 +1,52 @@
-#include <stdio.h>
+#include "ooc.h"
+
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
 
-#include "SDL.h"
-#include "SDL_image.h"
-
-#include "oocdll.h"
-
-struct rgba {
-    u8 r, g, b, a;
-};
-
-struct rgba randcolor(u8 usealp) {
-    u8 r, g, b, a;
-    if (usealp) {
-        r = rand() % 255;
-        g = rand() % 255;
-        b = rand() % 255;
-        a = rand() % 255;
-    }
-    else {
-        r = rand() % 255;
-        g = rand() % 255;
-        b = rand() % 255;
-        a = 255;
-    }
-    struct rgba col = { .r = r, .g = g, .b = b, .a = a };
-    return col;
-}
-
 int main(int argc, char *argv[]) {
+
+    App_t ooc;
+    SDL_Event evt;
+
+    Hashmap_t *atlasmap;
+    SDL_Texture *atlas;
+
+    Error_t e = ERROR_NOERROR;
+    u8 run = 1;
+
+    // PRE-LOAD
 
     srand(time(NULL));
 
-    App_t ooc;
-    memset(&ooc, 0, sizeof(App_t));
+    zeroset(&ooc, sizeof(App_t));
+    zeroset(&evt, sizeof(SDL_Event));
+    zeroset(&atlas, sizeof(Image_t));
 
-    Error_t e1 = app_start(&ooc, SDL_INIT_EVERYTHING, SDL_WINDOW_ALLOW_HIGHDPI, SDL_RENDERER_ACCELERATED);
-    if (e1 != ERROR_NOERROR) {
-        printf("ERROR: something wrong with app_start\n");
+    e = app_start(&ooc, SDL_INIT_EVERYTHING, SDL_WINDOW_ALLOW_HIGHDPI, SDL_RENDERER_ACCELERATED);
+    if (e != ERROR_NOERROR) {
+        errprintf("ERROR: something wrong with app_start\n");
         return 1;
     }
 
-    SDL_Surface *tmp = IMG_Load("E:\\MSVC\\source\\repos\\OracleOfCopying\\OracleOfCopying\\textures\\atlases\\dancingdragondungeon\\atlasimg.png");
+    // LOAD
 
-    SDL_Texture *atlas = SDL_CreateTextureFromSurface(ooc.rdr, tmp);
-    if (!atlas) {
-        printf("%s\n", SDL_GetError());
-    }
+    atlas = IMG_LoadTexture(ooc.rdr, "E:\\MSVC\\source\\repos\\OracleOfCopying\\OracleOfCopying\\textures\\atlases\dancingdragondungeon\\atlasimg.qoi");
 
-    SDL_Event evt;
-    int run = 1;
-    struct rgba col;
+    // TODO: DO I need hash_imgfree?
+
+   // atlas = hashmap_new(sizeof(Image_t), 0, 0, 0, hash_imghash, hash_imgcmp, hash_imgfree, NULL); 
+    atlasmap = hashmap_new(sizeof(Image_t), 0, 0, 0, hash_imghash, hash_imgcmp, NULL, NULL);
+
+
+
+
+
+
+
 
     while (run) {
-        Error_t e = app_doevents(&evt);
+        e = app_doevents(&evt);
 
         if (e == ERROR_DOEVENTS_TIMETOQUIT) {
             run = 0;
@@ -64,17 +55,14 @@ int main(int argc, char *argv[]) {
 
         SDL_RenderClear(ooc.rdr);
 
-        col = randcolor(0);
-        SDL_SetRenderDrawColor(ooc.rdr, col.r, col.g, col.b, col.a);
-        SDL_RenderDrawRect(ooc.rdr, NULL);
-        SDL_RenderCopy(ooc.rdr, atlas, NULL, &(SDL_Rect){.w = 256, .h = 256, .x = 0, .y = 0});
-
         SDL_RenderPresent(ooc.rdr);
         SDL_Delay(15);
     }
 
+
+    hashmap_free(atlasmap);
     SDL_DestroyTexture(atlas);
-    SDL_FreeSurface(tmp);
+
     app_stop(&ooc, SDL_INIT_EVERYTHING);
 
     return 0;

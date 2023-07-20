@@ -56,10 +56,11 @@
 #define MAP_SIZE_X 16
 #define MAP_SIZE_Y 16
 
+// sets the maximum bucket size for the hashmap
+// more buckets --> better performance, more memory
+#define MAX_ATLAS_BUCKETS 64
 
-
-
-
+#define MAX_FNAME_LENGTH 256
 
 // -------------
 // | ATLASGEN  |
@@ -86,6 +87,7 @@
 #define ERROR_INVALID_PARAMS 8
 #define ERROR_SEARCH_NORESULTS 9
 #define ERROR_LOGIC_CONTRADICTION 10
+#define ERROR_FILE_NOTFOUND 11
 
 
 #define ERROR_SDL_GENERIC 100
@@ -120,6 +122,7 @@
 #define ERROR_ISNULL_STRPTR -2
 #define ERROR_ISVALUE_EOF -3
 #define ERROR_MALLOC_NOSPACE_READLINE -4
+#define ERROR_ISNOTNULL_STRPTR -5
 
 
 

@@ -25,6 +25,8 @@
  */
 DLLINCLUDE Size_t file_readline(String_t *, FILE *);
 
+DLLINCLUDE Error_t file_read(FILE *f, String_t outstr);
+
 DLLINCLUDE const char *file_getextension(const char *fname);
 
 /**

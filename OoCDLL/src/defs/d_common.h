@@ -4,7 +4,7 @@
 #ifdef OOCDLL_EXPORTS
 #define DLLINCLUDE __declspec(dllexport)
 #else
-#define DLLADD __declspec(dllimport)
+#define DLLINCLUDE __declspec(dllimport)
 #endif
 
 #include <stdint.h>
@@ -17,7 +17,7 @@
 #define errprintf //
 #endif
 
-#define IF_PTR_RETURN_PTR(x) do { if(x) { return x; } } while(0)
+#define zeroset(ptr, sz) memset(ptr, 0, sz)
 
 DLLINCLUDE typedef uint8_t  u8;
 DLLINCLUDE typedef uint16_t u16;
@@ -38,8 +38,6 @@ DLLINCLUDE typedef int64_t  Error_t;
 DLLINCLUDE typedef struct TreeNode TreeNode_t;
 DLLINCLUDE typedef struct Tree Tree_t;
 
-DLLINCLUDE typedef void *(*DataMalloc_fnptr)(void *dataptr, Size_t datasize);
-DLLINCLUDE typedef void *(*DataXalloc_fnptr)(void *dataptr, Size_t datasize, Size_t numelements);
 DLLINCLUDE typedef Error_t(*DataFree_fnptr)(void *data);
 DLLINCLUDE typedef i32(*DataCmp_fnptr)(const void *data, const void *tgtdata);
 

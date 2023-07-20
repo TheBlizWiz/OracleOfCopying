@@ -50,13 +50,10 @@ String_t str_new(const char *carr) {
 }
 
 String_t str_newfromlen(Size_t len) {
-    Strdata_t *sdat = str_alloc(len + NULL_CHAR_SIZE);
+    Strdata_t *sdat = str_alloc(len);
 
     if (sdat) {
-        for (Size_t i = 0; i <= len; i++) {
-            sdat->buf[i] = 'A';
-        }
-        sdat->buf[len] = '\0';
+        zeroset(sdat->buf, len);
         return sdat->buf;
     }
     else {

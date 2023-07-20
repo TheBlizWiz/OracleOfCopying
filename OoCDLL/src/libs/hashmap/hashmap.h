@@ -5,39 +5,37 @@
 #ifndef HASHMAP_H
 #define HASHMAP_H
 
-#ifdef OOCDLL_EXPORTS
-#define HASHMAP_H_API __declspec(dllexport)
-#else
-#define HASHMAP_H_API __declspec(dllimport)
-#endif
-
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 
-#include "defs/d_common.h"
+#ifdef OOCDLL_EXPORTS
+#define HASHMAP_DLLINCLUDE __declspec(dllexport)
+#else
+#define HASHMAP_DLLINCLUDE __declspec(dllimport)
+#endif
 
-HASHMAP_H_API typedef struct hashmap Hashmap_t;
+HASHMAP_DLLINCLUDE typedef struct hashmap Hashmap_t;
 
 // hashmap is an open addressed hash map using robinhood hashing.
 struct hashmap {
-    void *(*malloc) (Size_t);
-    void *(*realloc) (void *, Size_t);
-    void (*free) (void *);
-    Size_t elsize;
-    Size_t cap;
-    u64 seed0;
-    u64 seed1;
-    u64 (*hash) (const void *item, u64 seed0, u64 seed1);
-    int (*compare) (const void *a, const void *b, void *udata);
-    void (*elfree) (void *item);
+    void *(*malloc)(size_t);
+    void *(*realloc)(void *, size_t);
+    void (*free)(void *);
+    size_t elsize;
+    size_t cap;
+    uint64_t seed0;
+    uint64_t seed1;
+    uint64_t(*hash)(const void *item, uint64_t seed0, uint64_t seed1);
+    int (*compare)(const void *a, const void *b, void *udata);
+    void (*elfree)(void *item);
     void *udata;
-    Size_t bucketsz;
-    Size_t nbuckets;
-    Size_t count;
-    Size_t mask;
-    Size_t growat;
-    Size_t shrinkat;
+    size_t bucketsz;
+    size_t nbuckets;
+    size_t count;
+    size_t mask;
+    size_t growat;
+    size_t shrinkat;
     uint8_t growpower;
     bool oom;
     void *buckets;
@@ -45,52 +43,48 @@ struct hashmap {
     void *edata;
 };
 
-HASHMAP_H_API Hashmap_t *hashmap_new(
-    Size_t elsize,
-    Size_t cap,
-    u64 seed0,
-    u64 seed1,
-    u64 (*hash) (const void *item, u64 seed0, u64 seed1),
-    int (*compare) (const void *a, const void *b, void *udata),
-    void (*elfree) (void *item),
-    void *udata
-);
+struct bucket {
+    uint64_t hash : 48;
+    uint64_t dib : 16;
+};
 
-HASHMAP_H_API Hashmap_t *hashmap_new_with_allocator(
-    void *(*malloc) (Size_t),
-    void *(*realloc) (void *, Size_t),
-    void (*free) (void *),
-    Size_t elsize,
-    Size_t cap,
-    u64 seed0,
-    u64 seed1,
-    u64 (*hash) (const void *item, u64 seed0, u64 seed1),
-    int (*compare) (const void *a, const void *b, void *udata),
-    void (*elfree) (void *item),
+HASHMAP_DLLINCLUDE struct hashmap *hashmap_new(size_t elsize, size_t cap, uint64_t seed0,
+    uint64_t seed1,
+    uint64_t(*hash)(const void *item, uint64_t seed0, uint64_t seed1),
+    int (*compare)(const void *a, const void *b, void *udata),
+    void (*elfree)(void *item),
     void *udata);
 
-HASHMAP_H_API void hashmap_free(Hashmap_t *map);
-HASHMAP_H_API void hashmap_clear(Hashmap_t *map, bool update_cap);
-HASHMAP_H_API Size_t hashmap_count(Hashmap_t *map);
-HASHMAP_H_API bool hashmap_oom(Hashmap_t *map);
-HASHMAP_H_API const void *hashmap_get(Hashmap_t *map, const void *item);
-HASHMAP_H_API const void *hashmap_set(Hashmap_t *map, const void *item);
-HASHMAP_H_API const void *hashmap_delete(Hashmap_t *map, const void *item);
-HASHMAP_H_API const void *hashmap_probe(Hashmap_t *map, u64 position);
-HASHMAP_H_API bool hashmap_scan(Hashmap_t *map, bool (*iter)(const void *item, void *udata), void *udata);
-HASHMAP_H_API bool hashmap_iter(Hashmap_t *map, Size_t *i, void **item);
+HASHMAP_DLLINCLUDE struct hashmap *hashmap_new_with_allocator(void *(*malloc)(size_t),
+    void *(*realloc)(void *, size_t), void (*free)(void *), size_t elsize,
+    size_t cap, uint64_t seed0, uint64_t seed1,
+    uint64_t(*hash)(const void *item, uint64_t seed0, uint64_t seed1),
+    int (*compare)(const void *a, const void *b, void *udata),
+    void (*elfree)(void *item),
+    void *udata);
 
-HASHMAP_H_API u64 hashmap_sip(const void *data, Size_t len, u64 seed0, u64 seed1);
-HASHMAP_H_API u64 hashmap_murmur(const void *data, Size_t len, u64 seed0, u64 seed1);
-HASHMAP_H_API u64 hashmap_xxhash3(const void *data, Size_t len, u64 seed0, u64 seed1);
+HASHMAP_DLLINCLUDE void hashmap_free(struct hashmap *map);
+HASHMAP_DLLINCLUDE void hashmap_clear(struct hashmap *map, bool update_cap);
+HASHMAP_DLLINCLUDE size_t hashmap_count(struct hashmap *map);
+HASHMAP_DLLINCLUDE bool hashmap_oom(struct hashmap *map);
+HASHMAP_DLLINCLUDE  void *hashmap_get(struct hashmap *map, const void *item);
+HASHMAP_DLLINCLUDE const void *hashmap_set(struct hashmap *map, const void *item);
+HASHMAP_DLLINCLUDE const void *hashmap_delete(struct hashmap *map, const void *item);
+HASHMAP_DLLINCLUDE const void *hashmap_probe(struct hashmap *map, uint64_t position);
+HASHMAP_DLLINCLUDE bool hashmap_scan(struct hashmap *map, bool (*iter)(const void *item, void *udata), void *udata);
+HASHMAP_DLLINCLUDE bool hashmap_iter(struct hashmap *map, size_t *i, void **item);
 
-HASHMAP_H_API const void *hashmap_get_with_hash(Hashmap_t *map, const void *key, u64 hash);
-HASHMAP_H_API const void *hashmap_delete_with_hash(Hashmap_t *map, const void *key, u64 hash);
-HASHMAP_H_API const void *hashmap_set_with_hash(Hashmap_t *map, const void *item, u64 hash);
-HASHMAP_H_API void hashmap_set_grow_by_power(Hashmap_t *map, Size_t power);
+HASHMAP_DLLINCLUDE uint64_t hashmap_sip(const void *data, size_t len, uint64_t seed0, uint64_t seed1);
+HASHMAP_DLLINCLUDE uint64_t hashmap_murmur(const void *data, size_t len, uint64_t seed0, uint64_t seed1);
+HASHMAP_DLLINCLUDE uint64_t hashmap_xxhash3(const void *data, size_t len, uint64_t seed0, uint64_t seed1);
+
+HASHMAP_DLLINCLUDE const void *hashmap_get_with_hash(struct hashmap *map, const void *key, uint64_t hash);
+HASHMAP_DLLINCLUDE const void *hashmap_delete_with_hash(struct hashmap *map, const void *key, uint64_t hash);
+HASHMAP_DLLINCLUDE const void *hashmap_set_with_hash(struct hashmap *map, const void *item, uint64_t hash);
+HASHMAP_DLLINCLUDE void hashmap_set_grow_by_power(struct hashmap *map, size_t power);
 
 
 // DEPRECATED: use `hashmap_new_with_allocator`
-HASHMAP_H_API void hashmap_set_allocator(void *(*malloc)(Size_t), void (*free)(void *));
+void hashmap_set_allocator(void *(*malloc)(size_t), void (*free)(void *));
 
 #endif

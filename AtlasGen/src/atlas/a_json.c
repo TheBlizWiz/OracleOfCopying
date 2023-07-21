@@ -7,12 +7,12 @@ Error_t atlas_addjsonentry(cJSON *jsonfile, ListNode_t *simgnode) {
             if (jsonfile) {
                 cJSON *entry = cJSON_CreateObject();
                 if (entry) {
-                    cJSON_AddStringToObject(jsonfile, "fpath", simg->fpath);
-                    cJSON_AddNumberToObject(jsonfile, "x", simg->rect.x);
-                    cJSON_AddNumberToObject(jsonfile, "y", simg->rect.y);
-                    cJSON_AddNumberToObject(jsonfile, "w", simg->rect.w);
-                    cJSON_AddNumberToObject(jsonfile, "h", simg->rect.h);
-                    cJSON_AddNumberToObject(jsonfile, "isrotated", simg->isrotated);
+                    cJSON_AddStringToObject(entry, "fpath", simg->fpath);
+                    cJSON_AddNumberToObject(entry, "x", simg->rect.x);
+                    cJSON_AddNumberToObject(entry, "y", simg->rect.y);
+                    cJSON_AddNumberToObject(entry, "w", simg->rect.w);
+                    cJSON_AddNumberToObject(entry, "h", simg->rect.h);
+                    cJSON_AddNumberToObject(entry, "isrotated", simg->isrotated);
 
                     cJSON_AddItemToArray(jsonfile, entry);
 

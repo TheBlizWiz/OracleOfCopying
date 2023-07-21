@@ -20,6 +20,11 @@
 #define INDEX_STR_LEN -1
 #define INDEX_STR_ALLOC -2
 
+// used in d_utils.c
+
+// 2 MiB
+#define FILE_BUFFER_SIZE 2097152
+
 // Used in g_hitbox.h
 #define A_POS_DEFAULT 0
 #define B_POS_DEFAULT 32
@@ -28,24 +33,16 @@
 #define ZT_POS_DEFAULT 255
 #define ZB_POS_DEFAULT 0
 
-// used in r_image.c
+// used in r_sdl.c
 
-#define IMG_POS_X 0
-#define IMG_POS_Y 0
-#define IMG_SIZE_X 32
-#define IMG_SIZE_Y 32
+#define ANGLE_NEG_90 (double) -90.00
 
-#define AGL_PI_HALVES 1.57079632679
-#define AGL_PI 3.14159265359
-#define AGL_3PI_HALVES 4.71238898038
-#define AGL_2PI 6.28318530718
-#define AGL_NEG_PI_HALVES -1.57079632679
-#define AGL_NEG_PI -3.14159265359
-#define AGL_NEG_3PI_HALVES -4.71238898038
-#define AGL_NEG_2PI -6.28318530718
+#define MISSING_TEX_COLOR_MAGENTA 0xFFFF00FF
+#define MISSING_TEX_COLOR_BLACK 0x000000FF
+#define MISSING_TEX_W 32
+#define MISSING_TEX_H 32
+#define MISSING_TEX_WXH 1024
 
-// 0.25 degrees
-#define IMG_ROT_EPSILON 0.004363323
 
 // used in g_roomh / g_room.c
 // taken from oracle of seasons
@@ -88,7 +85,11 @@
 #define ERROR_SEARCH_NORESULTS 9
 #define ERROR_LOGIC_CONTRADICTION 10
 #define ERROR_FILE_NOTFOUND 11
+#define ERROR_BUFFEROVERFLOW 12
 
+
+//this one is also special, return 69420 if something catastrophically bad happens...
+#define ERROR_OHSHIT 69420 
 
 #define ERROR_SDL_GENERIC 100
 

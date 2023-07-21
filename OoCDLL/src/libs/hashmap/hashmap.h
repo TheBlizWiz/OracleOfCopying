@@ -67,7 +67,7 @@ HASHMAP_DLLINCLUDE void hashmap_free(struct hashmap *map);
 HASHMAP_DLLINCLUDE void hashmap_clear(struct hashmap *map, bool update_cap);
 HASHMAP_DLLINCLUDE size_t hashmap_count(struct hashmap *map);
 HASHMAP_DLLINCLUDE bool hashmap_oom(struct hashmap *map);
-HASHMAP_DLLINCLUDE  void *hashmap_get(struct hashmap *map, const void *item);
+HASHMAP_DLLINCLUDE const void *hashmap_get(struct hashmap *map, const void *item);
 HASHMAP_DLLINCLUDE const void *hashmap_set(struct hashmap *map, const void *item);
 HASHMAP_DLLINCLUDE const void *hashmap_delete(struct hashmap *map, const void *item);
 HASHMAP_DLLINCLUDE const void *hashmap_probe(struct hashmap *map, uint64_t position);

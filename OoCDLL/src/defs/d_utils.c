@@ -21,7 +21,7 @@ Error_t file_readline(String_t *strptr, FILE *f) {
         return (Error_t) ERROR_ISVALUE_EOF;
     }
 
-    if (*strptr == NULL) {
+    if (*strptr == NULLADDR) {
         String_t str = str_new(NULL);
         strptr = &str;
         if (strptr == NULLADDR) {
@@ -44,41 +44,76 @@ Error_t file_readline(String_t *strptr, FILE *f) {
     return ERROR_NOERROR;
 }
 
-Error_t file_read(FILE *f, String_t outstr) {
-    if (f == NULLADDR) {
-        errprintf("ERROR: file is null\n");
-        return (Error_t) ERROR_ISNULL_FILE;
+Error_t file_read(FILE *f, char **strptr, Size_t *szptr) {
+    if (!f) {
+        errprintf("ERROR: FILE *f is null\n");
+        return ERROR_ISNULLADDR;
+    }
+    if (!strptr) {
+        errprintf("ERROR: String_t *strptr is null\n");
+        return ERROR_ISNULLADDR;
+    }
+    if (!szptr) {
+        errprintf("ERROR: Size_t *szptr is null\n");
+        return ERROR_ISNULLADDR;
     }
 
-    if (outstr != NULLADDR) {
-        errprintf("ERROR: output String_t is not null\n");
-        return (Error_t) ERROR_ISNOTNULL_STRPTR;
+    Size_t sz = 0;
+    Size_t used = 0;
+    Size_t n;
+
+    char *data = NULLADDR;
+    char *tmp;
+
+    if (ferror(f)) {
+        errprintf("ERROR: file steam error... \nyeah idk i stole this off stackoverflow when my original code didnt work\n");
+        return ERROR_GENERIC;
     }
 
-    fseek(f, 0, SEEK_END);
-    Size_t len = ftell(f);
-    fseek(f, 0, SEEK_SET);
+    while (1) {
+        if (used + FILE_BUFFER_SIZE + 1 > sz) {
+            sz = used + FILE_BUFFER_SIZE + 1;
 
-    // i hate mallocing twice for the same data but i cant do anything about it
-    char *tmp = (char *) malloc(len);
-    if (tmp) {
-        fread_s(tmp, len, sizeof(char), len, f);
+            if (sz <= used) {
+                free(data);
+                return ERROR_BUFFEROVERFLOW;
+            }
 
-        outstr = str_new(tmp);
-        if (outstr) {
-            free(tmp);
-            return (Error_t) ERROR_NOERROR;
+            tmp = realloc(data, sz);
+            if (!tmp) {
+                errprintf("ERROR: no malloc space for realloc");
+                free(data);
+                return ERROR_REALLOC_NOSPACE;
+            }
+            data = tmp;
         }
-        else {
-            errprintf("ERROR: no malloc space for new String_t\n");
-            free(tmp);
-            return (Error_t) ERROR_MALLOC_NOSPACE;
-        }
+
+        n = fread(data + used, sizeof(char), FILE_BUFFER_SIZE, f);
+        if (n == 0)
+            break;
+
+        used += n;
     }
-    else {
-        errprintf("ERROR: no malloc space for temporary char *\n");
-        return (Error_t) ERROR_MALLOC_NOSPACE_READLINE;
+
+    if (ferror(f)) {
+        errprintf("ERROR: file steam error\n");
+        free(data);
+        return ERROR_GENERIC;
     }
+
+    tmp = realloc(data, used + 1);
+    if (!tmp) {
+        errprintf("ERROR: no malloc space for realloc");
+        free(data);
+        return ERROR_REALLOC_NOSPACE;
+    }
+    data = tmp;
+    data[used] = '\0';
+
+    *strptr = data;
+    *szptr = used;
+
+    return ERROR_NOERROR;
 }
 
 const char *file_getextension(const char *fname) {

@@ -9,6 +9,10 @@
 #include "engine/e_app.h"
 
 #include "game/g_hitbox.h"
+#include "game/g_enums.h"
+#include "game/g_map.h"
+#include "game/g_room.h"
+#include "game/g_tile.h"
 
 #include "libs/hashmap/hashmap.h"
 #include "libs/dirent/dirent.h"
@@ -22,4 +26,5 @@
 #include "utils/u_hash.h"
 //#include "utils/u_tree.h"
 #include "utils/u_list.h"
+
 #endif

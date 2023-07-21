@@ -20,6 +20,7 @@ struct Image {
     SDL_Rect rect;
 };
 
-DLLINCLUDE Error_t atlas_load(Hashmap_t *atlasmap, char *jsonfpath);
+DLLINCLUDE Error_t atlas_load(Hashmap_t *atlasmap, char *jsonfpath, SDL_Texture *atlasimg);
+DLLINCLUDE Image_t *atlas_getimage(Hashmap_t *atlasmap, const char *filename);
 
 #endif

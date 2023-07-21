@@ -23,9 +23,9 @@
  *                    4. ERROR_ISVALUE_EOF if *f is empty
  *                    5. ERROR_MEMORY_NOSPACE if strptr can't resize to fit new string read from f
  */
-DLLINCLUDE Size_t file_readline(String_t *, FILE *);
+DLLINCLUDE Error_t file_readline(String_t *, FILE *);
 
-DLLINCLUDE Error_t file_read(FILE *f, String_t outstr);
+DLLINCLUDE Error_t file_read(FILE *f, char **strptr, Size_t *szptr);
 
 DLLINCLUDE const char *file_getextension(const char *fname);
 
@@ -50,3 +50,4 @@ DLLINCLUDE u8 dbl_epsilon(double, double, double);
 DLLINCLUDE int rng(int, int);
 
 #endif
+

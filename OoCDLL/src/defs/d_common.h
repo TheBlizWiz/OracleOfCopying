@@ -8,6 +8,8 @@
 #endif
 
 #include <stdint.h>
+#include <stdio.h>
+#include <string.h>
 
 #ifdef _DEBUG
 #define errprintf printf
@@ -18,6 +20,7 @@
 #endif
 
 #define zeroset(ptr, sz) memset(ptr, 0, sz)
+#define strncopy(dst, src, szdst) do { strncpy_s(dst, sizeof(dst[0]) * szdst, src, sizeof(dst[0]) * (szdst - 1)); dst[szdst - 1] = '\0'; } while(0)
 
 DLLINCLUDE typedef uint8_t  u8;
 DLLINCLUDE typedef uint16_t u16;
@@ -27,6 +30,8 @@ DLLINCLUDE typedef int8_t   i8;
 DLLINCLUDE typedef int16_t  i16;
 DLLINCLUDE typedef int32_t  i32;
 DLLINCLUDE typedef int64_t  i64;
+
+DLLINCLUDE typedef union color Color_u;
 
 // _t is for structs only but these are an exception since
 // they already have a _t in them
@@ -54,6 +59,11 @@ struct TreeNode {
 struct Tree {
     struct TreeNode_t **root;
     Size_t size;
+};
+
+union color {
+    u32 r : 8, b : 8, g : 8, a : 8;
+    u32 rgba;
 };
 
 #endif

@@ -38,7 +38,7 @@ DLLINCLUDE Error_t app_start(App_t *, int, int, int);
  * \param  int   initflags - Flags for SDL_Init(), use the same ones as in app_start()
  * \return Error_t         - Error code, currently broken, only returns ERROR_NOERROR
  */
-DLLINCLUDE Error_t app_stop(App_t *, int);
+DLLINCLUDE Error_t app_stop(App_t *ooc, int initflags);
 
 /**
   * Handle events for OoC

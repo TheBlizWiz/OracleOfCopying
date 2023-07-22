@@ -7,6 +7,9 @@ Error_t atlas_addjsonentry(cJSON *jsonfile, ListNode_t *simgnode) {
             if (jsonfile) {
                 cJSON *entry = cJSON_CreateObject();
                 if (entry) {
+
+                    str_removebylastindexof(simg->fpath, "\\");
+
                     cJSON_AddStringToObject(entry, "fpath", simg->fpath);
                     cJSON_AddNumberToObject(entry, "x", simg->rect.x);
                     cJSON_AddNumberToObject(entry, "y", simg->rect.y);

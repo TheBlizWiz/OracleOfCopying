@@ -1,3 +1,5 @@
+#pragma warning(disable : 26451)
+
 #include "r_sdl.h"
 #include "defs/d_constants.h"
 
@@ -90,6 +92,8 @@ int SDL_BlitImage(App_t ooc, Image_t *img, u32 x, u32 y, u8 center) {
         // lets instead just make a missing texture Image_t on the spot
         // and render that instead
 
+        /*
+
         if (nulltex) {
             dest.x = x;
             dest.y = y;
@@ -102,6 +106,10 @@ int SDL_BlitImage(App_t ooc, Image_t *img, u32 x, u32 y, u8 center) {
             errprintf("ERROR: extern nulltex from ooc.c is null! This is a big problem!\n");
             return ERROR_OHSHIT;
         }
+
+        */
+
+        return ERROR_GENERIC;
     }
 }
 

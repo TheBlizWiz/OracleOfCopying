@@ -7,8 +7,7 @@ typedef struct {
     u32 aimgsize;
     u32 padding;
     String_t dirpath;
-    String_t atlaspath;
-    String_t jsonpath;
+    String_t outputpath;
 } Cmdargs_t;
 
 Cmdargs_t cmdargs_get(int argc, char *argv[]);

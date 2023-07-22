@@ -62,6 +62,10 @@ String_t str_newfromlen(Size_t len) {
 
 }
 
+String_t str_duplicate(String_t s) {
+    return str_new(s);
+}
+
 Error_t str_append(String_t *s, const char *carr) {
     if (!s || !carr)
         return ERROR_ISNULLADDR;

@@ -8,7 +8,7 @@
 #include "engine/e_app.h"
 #include "defs/d_common.h"
 
-DLLINCLUDE extern Image_t *nulltex;
+// DLLINCLUDE extern Image_t *nulltex;
 
 DLLINCLUDE u32 SDL_GetPixel(SDL_Surface *src, u32 x, u32 y);
 DLLINCLUDE void SDL_SetPixel(SDL_Surface *src, u32 x, u32 y, u32 rgba);

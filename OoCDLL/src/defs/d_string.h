@@ -58,6 +58,8 @@ DLLINCLUDE String_t str_new(const char *carr);
 
 DLLINCLUDE String_t str_newfromlen(Size_t len);
 
+DLLINCLUDE String_t str_duplicate(String_t s);
+
 /**
  * Add const char *carr to the end of String_t *s.
  * If *s isn't long enough, realloc *s and then append *carr.

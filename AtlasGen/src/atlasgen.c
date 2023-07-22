@@ -14,46 +14,89 @@
 int main(int argc, char *argv[]) {
     SDL_Init(SDL_INIT_VIDEO);
 
+    // STEP 0: Get and Set command line arguments
+
     Cmdargs_t cargs;
     cargs = cmdargs_get(argc, argv);
 
-    str_append(&cargs.jsonpath, "\\atlasdata.json");
-    str_append(&cargs.atlaspath, "\\atlasimg.png");
+    String_t atlasgenexepath = str_new(argv[0]);
+    if (!atlasgenexepath) {
+        printf("uhhhh\n");
+        return 1;
+    }
 
-    // STEP 1: get how many images we need to load from disk
+    Size_t pos = str_indexof(atlasgenexepath, 0, "AtlasGen.exe");
+    str_remove(atlasgenexepath, pos, strlen("atlasgen.exe"));
+
+    if (!cargs.outputpath || !cargs.dirpath) {
+        printf("ERROR: failed to get directory and/or output paths\n");
+        return 1;
+    }
+
+    String_t jsonpath = str_duplicate(cargs.outputpath);
+    String_t atlaspath = str_duplicate(cargs.outputpath);
+
+    str_append(&jsonpath, "\\atlasdata.json");
+    str_append(&atlaspath, "\\atlasimg.png");
+
+    if (!jsonpath || !atlaspath) {
+        cmdargs_free(cargs);
+        printf("ERROR: failed to set atlas and/or json output paths\n");
+        return 2;
+    }
+
+    // STEP 1: run qoiconv to turn all the png files from the inputs into qoi files
+
+    String_t qoiconvcmd1 = str_new("C:\\Windows\\System32\\cmd.exe /c \"");
+    str_append(&qoiconvcmd1, atlasgenexepath);
+    str_append(&qoiconvcmd1, "qoiconv.exe -dir \"");
+    str_append(&qoiconvcmd1, cargs.dirpath);
+    str_append(&qoiconvcmd1, "\"\"");
+    system(qoiconvcmd1);
+
+
+    // STEP 2: get how many images we need to load from disk
 
     i32 numimgs = 0;
     numimgs = simg_countimgs((const char *) cargs.dirpath);
 
-    // STEP 2: load all the images from the disk and put them into a list
+    if (numimgs <= 0) {
+        printf("ERROR: no images detected! What do you think you're doing?\n");
+        cmdargs_free(cargs);
+        str_free(jsonpath);
+        str_free(atlaspath);
+        return 3;
+    }
+
+    // STEP 3: load all the images from the disk and put them into a list
 
     ListNode_t *simglist = NULLADDR;
 
     i32 k = 0;
     simg_loadimgs(&k, cargs.dirpath, &simglist);
 
-    // STEP 3: sort the images by largest first, then renumber images
+    // STEP 4: sort the images by largest first, then renumber images
 
     list_mergesortbydata(&simglist);
     list_renumber(simglist);
 
-    // STEP 4: Make a new SDL surface for the output atlas image
+    // STEP 5: Make a new SDL surface for the output atlas image
 
     SDL_Surface *atlasimg = SDL_CreateRGBSurface(0, cargs.aimgsize, cargs.aimgsize, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
 
-    // STEP 5: Make a new atlas tree
+    // STEP 6: Make a new atlas tree
 
     AtlasNode_t *atlastree = atlasnode_new(0, 0, cargs.aimgsize, cargs.aimgsize);
 
-    // STEP 6: Make a new JSON file for the output atlas metadata
+    // STEP 7: Make a new JSON file for the output atlas metadata
 
     cJSON *rootjson;
     rootjson = cJSON_CreateArray();
 
-    // STEP 7: Loop through each img in list, then add to tree and add a json entry
+    // STEP 8: Loop through each img in list, then add to tree and add a json entry
 
     SDL_Rect rect;
-    memset(&rect, 0, sizeof(SDL_Rect));
+    zeroset(&rect, sizeof(SDL_Rect));
 
     //AtlasNode_t *anodetmp = NULLADDR;
     ListNode_t *lnodetmp = NULLADDR;
@@ -67,42 +110,57 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // STEP 8: make a json file and dump everything we wrote into it
+    // STEP 9: make a json file and dump everything we wrote into it
 
     char *out = cJSON_Print(rootjson);
     FILE *fptr;
-    fopen_s(&fptr, cargs.jsonpath, "wb");
+    fopen_s(&fptr, jsonpath, "wb");
     if (fptr) {
         fprintf(fptr, "%s", out);
         fclose(fptr);
     }
 
-    // STEP 9: save the atlasimg sdl surface as a png file
+    // STEP 10: save the atlasimg sdl surface as a png file
 
-    IMG_SavePNG(atlasimg, cargs.atlaspath);
+    IMG_SavePNG(atlasimg, atlaspath);
 
-    printf("\n\n\nSaved png to %s\n", cargs.atlaspath);
-    printf("Saved json to %s\n", cargs.jsonpath);
+    printf("\n\n\nSaved png to %s\n", atlaspath);
+    printf("Saved json to %s\n", jsonpath);
 
-    // STEP 10: open the output png file and convert to a .qoi file
- 
-    // TODO: the linker doesnt like that theres no stb image or qoi
-    // and you can't add it to the SDL_image dll since its qoi.h w/out stdio --> no qoi_write
-    // and IMG_SaveQOI just doesn't work. I copied it from the guy on GH but it just doesn't work
+    // STEP 11: run qoiconv.exe using cmd on the newly outputted .png file
 
-    // so for now I convert it manually with another program i guess
+    String_t qoiconvcmd2 = str_new("C:\\Windows\\System32\\cmd.exe /c \"");
+    str_append(&qoiconvcmd2, atlasgenexepath);
+    str_append(&qoiconvcmd2, "qoiconv.exe -dir \"");
+    str_append(&qoiconvcmd2, cargs.outputpath);
+    str_append(&qoiconvcmd2, "\"\"");
 
-    // another question: why do qoi images on my laptop and my desktop seem to work differently?
+    system(qoiconvcmd2);
 
-    //SDL_qoiconv();
+    // STEP 12: delete the .png file
 
-    // STEP 11: clean up all our mess
+    String_t delpngcmd = str_new("C:\\Windows\\System32\\cmd.exe /c \"");
+    str_append(&delpngcmd, "if exist ");
+    str_append(&delpngcmd, atlaspath);
+    str_append(&delpngcmd, " del ");
+    str_append(&delpngcmd, atlaspath);
+    str_append(&delpngcmd, "\"");
+
+    system(delpngcmd);
+
+    // STEP 13: clean up all our mess
 
     list_freelist(simglist);
     SDL_FreeSurface(atlasimg);
     atlasnode_freedeep(&atlastree);
     cJSON_Delete(rootjson);
     free(out);
+    str_free(jsonpath);
+    str_free(atlaspath);
+    str_free(atlasgenexepath);
+    str_free(qoiconvcmd1);
+    str_free(qoiconvcmd2);
+    str_free(delpngcmd);
     cmdargs_free(cargs);
 
     SDL_QuitSubSystem(SDL_INIT_VIDEO);

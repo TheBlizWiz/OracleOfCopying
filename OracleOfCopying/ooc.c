@@ -78,6 +78,8 @@ int main(int argc, char *argv[]) {
 
     // LOAD
 
+    /*
+
     // backup missing texture, if we look up an image on the atlas and it isnt there, render this instead
     u8 *px = CreateMissingTextureArray(32, 32);
 
@@ -86,6 +88,8 @@ int main(int argc, char *argv[]) {
         errprintf("ERROR: no malloc space for backup missing texture... what is this, a potato?\n");
         return 2;
     }
+
+    */
 
     atlas = IMG_LoadTexture(ooc.rdr, "E:\\MSVC\\source\\repos\\OracleOfCopying\\OracleOfCopying\\textures\\atlases\\dancingdragondungeon\\atlasimg.qoi");
     if (!atlas) {
@@ -102,8 +106,6 @@ int main(int argc, char *argv[]) {
     if (e != ERROR_NOERROR) {
         errprintf("ERROR: something wrong with atlas_load\n");
     }
-
-
 
     Image_t *floor = atlas_getimage(atlasmap, "E:\\MSVC\\source\\repos\\OracleOfCopying\\oracle_of_seasons_texture_rips\\floors\\oos_ddd_floor_patterned_purple.qoi");
     

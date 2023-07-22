@@ -6,7 +6,27 @@
 
 #include "libs/cjson/cjson.h"
 
+#include "engine/e_app.h"
 #include "r_image.h"
+
+Image_t *img_newfromsurface(App_t ooc, char *imgname, SDL_Surface *surf, u8 isrot) {
+    Image_t *img;
+    img = (Image_t *) malloc(sizeof(Image_t));
+    if (img) {
+        strncopy(img->fname, imgname, MAX_FNAME_LENGTH);
+        img->isrotated = isrot;
+        img->tex = SDL_CreateTextureFromSurface(ooc.rdr, surf);
+        img->rect = (SDL_Rect){ .x = 0, .y = 0, .w = surf->w, .h = surf->h };
+        return img;
+    }
+    else {
+        errprintf("ERROR: no malloc space for new Image_t\n");
+        return NULLADDR;
+    }
+
+
+}
+
 
 Error_t atlas_load(Hashmap_t *atlasmap, char *jsonfpath, SDL_Texture *atlasimg) {
 
@@ -80,7 +100,7 @@ Image_t *atlas_getimage(Hashmap_t *atlasmap, const char *filename) {
         Image_t tmp;
         zeroset(&tmp, sizeof(Image_t));
         strncopy(tmp.fname, filename, MAX_FNAME_LENGTH);
-        img = (Image_t *) hashmap_delete(atlasmap, &tmp);
+        img = (Image_t *) hashmap_get(atlasmap, &tmp);
 
 
         if (img) {

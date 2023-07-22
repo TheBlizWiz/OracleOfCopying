@@ -55,23 +55,20 @@ Error_t _app_doevents(SDL_Event *evt) {
 
 
 int main(int argc, char *argv[]) {
-
     App_t ooc;
     SDL_Event evt;
 
     Hashmap_t *atlasmap;
     SDL_Texture *atlas;
 
+
     Error_t e = ERROR_NOERROR;
     u8 run = 1;
 
     // PRE-LOAD
 
-    srand(time(NULL));
-
     zeroset(&ooc, sizeof(App_t));
     zeroset(&evt, sizeof(SDL_Event));
-    zeroset(&atlas, sizeof(Image_t));
 
     e = _app_start(&ooc, SDL_INIT_EVERYTHING, SDL_WINDOW_ALLOW_HIGHDPI, SDL_RENDERER_ACCELERATED);
     if (e != ERROR_NOERROR) {
@@ -81,15 +78,26 @@ int main(int argc, char *argv[]) {
 
     // LOAD
 
+    // backup missing texture, if we look up an image on the atlas and it isnt there, render this instead
+    u8 *px = CreateMissingTextureArray(32, 32);
+
+    nulltex = img_newfromsurface(ooc, "nulltex", SDL_CreateMissingTexture(ooc, 32, 32, px), 0);
+    if (!nulltex) {
+        errprintf("ERROR: no malloc space for backup missing texture... what is this, a potato?\n");
+        return 2;
+    }
+
     atlas = IMG_LoadTexture(ooc.rdr, "E:\\MSVC\\source\\repos\\OracleOfCopying\\OracleOfCopying\\textures\\atlases\\dancingdragondungeon\\atlasimg.qoi");
     if (!atlas) {
         errprintf("ERROR: atlas is null... uhhh\n");
     }
 
-    // TODO: DO I need hash_imgfree?
-
     atlasmap = hashmap_new(sizeof(Image_t), 0, 0, 0, hash_imghash, hash_imgcmp, hash_imgfree, NULL); 
-//    atlasmap = hashmap_new(sizeof(Image_t), 0, 0, 0, hash_imghash, hash_imgcmp, NULL, NULL);
+    if (!atlasmap) {
+        errprintf("ERROR: something went wrong with hashmap_new\n");
+        return 3;
+    }
+
     e = atlas_load(atlasmap, "E:\\MSVC\\source\\repos\\OracleOfCopying\\OracleOfCopying\\textures\\atlases\\dancingdragondungeon\\atlasdata.json", atlas);
     if (e != ERROR_NOERROR) {
         errprintf("ERROR: something wrong with atlas_load\n");
@@ -105,7 +113,7 @@ int main(int argc, char *argv[]) {
 
     Image_t *water_f2 = atlas_getimage(atlasmap, "E:\\MSVC\\source\\repos\\OracleOfCopying\\oracle_of_seasons_texture_rips\\animated\\floors\\floors_water_f2.qoi");
 
-    Image_t *not_a_texture = atlas_getimage(atlasmap, "asdf");
+    //Image_t *not_a_texture = atlas_getimage(atlasmap, "asdf");
 
     run = 1;
     while (run) {
@@ -118,11 +126,11 @@ int main(int argc, char *argv[]) {
 
         SDL_RenderClear(ooc.rdr);
 
-        SDL_BlitImage(ooc, floor, rand() % SCREEN_SIZE_X, rand() % SCREEN_SIZE_Y, 1);
-        SDL_BlitImage(ooc, wall_corner_se, rand() % SCREEN_SIZE_X, rand() % SCREEN_SIZE_Y, 1);
-        SDL_BlitImage(ooc, eyestatue, rand() % SCREEN_SIZE_X, rand() % SCREEN_SIZE_Y, 1);
-        SDL_BlitImage(ooc, water_f2, rand() % SCREEN_SIZE_X, rand() % SCREEN_SIZE_Y, 1);
-        SDL_BlitImage(ooc, not_a_texture, rand() % SCREEN_SIZE_X, rand() % SCREEN_SIZE_Y, 1);
+        SDL_BlitImage(ooc, floor, rng_gnext(), rng_gnext(), 1);
+        SDL_BlitImage(ooc, wall_corner_se, rng_gnext(), rng_gnext(), 1);
+        SDL_BlitImage(ooc, eyestatue, rng_gnext(), rng_gnext(), 1);
+        SDL_BlitImage(ooc, water_f2, rng_gnext(), rng_gnext(), 1);
+        //SDL_BlitImage(ooc, not_a_texture, rand() % SCREEN_SIZE_X, rand() % SCREEN_SIZE_Y, 1);
 
         SDL_RenderPresent(ooc.rdr);
         SDL_Delay(300);

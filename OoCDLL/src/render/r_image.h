@@ -8,6 +8,7 @@
 
 #include "SDL.h"
 #include "SDL_image.h"
+#include "engine/e_app.h"
 
 // r_image.h needs to be redone, but since that would be like the 3rd redo, ill do it later
 
@@ -19,6 +20,8 @@ struct Image {
     SDL_Texture *tex;
     SDL_Rect rect;
 };
+
+DLLINCLUDE Image_t *img_newfromsurface(App_t ooc, char *imgname, SDL_Surface *surf, u8 isrot);
 
 DLLINCLUDE Error_t atlas_load(Hashmap_t *atlasmap, char *jsonfpath, SDL_Texture *atlasimg);
 DLLINCLUDE Image_t *atlas_getimage(Hashmap_t *atlasmap, const char *filename);

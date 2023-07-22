@@ -90,12 +90,18 @@ int SDL_BlitImage(App_t ooc, Image_t *img, u32 x, u32 y, u8 center) {
         // lets instead just make a missing texture Image_t on the spot
         // and render that instead
 
-        // edit: so after looking into why i was getting memory leaks it
-        // turns out that i cant just make a new missing texture on the spot
-        // whenever i need it because i dont ever free that missing texture...
+        if (nulltex) {
+            dest.x = x;
+            dest.y = y;
+            dest.w = img->rect.w;
+            dest.h = img->rect.h;
 
-        // ill think about it
-        return ERROR_OHSHIT;
+            return SDL_RenderCopy(ooc.rdr, nulltex->tex, &nulltex->rect, &dest);
+        }
+        else {
+            errprintf("ERROR: extern nulltex from ooc.c is null! This is a big problem!\n");
+            return ERROR_OHSHIT;
+        }
     }
 }
 
@@ -162,10 +168,11 @@ SDL_Surface *SDL_CreateMissingTexture(App_t ooc, u32 w, u32 h, u8 *px) {
 
 }
 
-Error_t SDL_DestroyMissingTexture(SDL_Surface *surf, u8 *px) {
-    if (surf && px) {
-        SDL_FreeSurface(surf);
+Error_t SDL_DestroyMissingTexture(Image_t *mtex, u8 *px) {
+    if (mtex && px) {
+        SDL_DestroyTexture(mtex->tex);
         free(px);
+        free(mtex);
         return ERROR_NOERROR;
     }
     else {

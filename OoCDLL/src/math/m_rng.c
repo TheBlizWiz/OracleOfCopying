@@ -140,11 +140,11 @@ u16 grindx = 0;
 u16 lrindx = 0;
 
 u16 rng_gnext(void) {
-    return RNG_TABLE[grindx & BITMASK_12];
+    return RNG_TABLE[grindx++ & BITMASK_12];
 }
 
 u16 rng_lnext(void) {
-    return RNG_TABLE[lrindx & BITMASK_12];
+    return RNG_TABLE[lrindx++ & BITMASK_12];
 }
 
 void rng_reset(void) {

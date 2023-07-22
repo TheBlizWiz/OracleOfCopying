@@ -181,7 +181,7 @@ Error_t str_remove(String_t s, Size_t pos, Size_t len) {
 
     Strdata_t *sdat = str_getdata(s);
 
-    if (pos <= 0 || pos > sdat->length)
+    if (pos < 0 || pos > sdat->length)
         return ERROR_INDEX_OOB;
     if (len <= 0 || len > sdat->length)
         return ERROR_LENGTH_INVALIDVALUE;
@@ -191,6 +191,55 @@ Error_t str_remove(String_t s, Size_t pos, Size_t len) {
     sdat->buf[sdat->length] = '\0';
 
     return ERROR_NOERROR;
+}
+
+Error_t str_removebyindexof(String_t s, const char *tgt) {
+    if (strlen(tgt) == 0)
+        return ERROR_NOERROR;
+
+    Size_t pos = str_indexof(s, 0, tgt);
+    if (pos != (Size_t) -1) {
+        return str_remove(s, 0, pos + strlen(tgt));
+    }
+    else {
+        return ERROR_TGT_NOTFOUND;
+    }
+}
+
+Error_t str_removebylastindexof(String_t s, const char *tgt) {
+    // i dont know why, probably something to do with how escape
+    // characters are programmed but if you make tgt "\\"
+    // to say, remove the file path from the file name...
+    // you dont actually remove the \
+    //
+    // so we have to intentionally tell str_remove that "\\"
+    // is one character longer than it really is
+    //
+    // TODO: what other cases causes this to break?
+    //
+    // FIXME: this is dumb
+
+    if (strlen(tgt) == 0)
+        return ERROR_NOERROR;
+
+    if (strcmp(tgt, "\\") == 0) {
+        Size_t pos = str_lastindexof(s, str_getlen(s), tgt);
+        if (pos != (Size_t) -1) {
+            return str_remove(s, 0, pos + strlen(tgt));
+        }
+        else {
+            return ERROR_TGT_NOTFOUND;
+        }
+    }
+    else {
+        Size_t pos = str_lastindexof(s, str_getlen(s), tgt);
+        if (pos != (Size_t) -1) {
+            return str_remove(s, 0, pos + strlen(tgt) - 1);
+        }
+        else {
+            return ERROR_TGT_NOTFOUND;
+        }
+    }
 }
 
 Error_t str_clear(String_t s) {
@@ -260,6 +309,49 @@ Size_t str_indexof(String_t src, Size_t pos, const char *tgt) {
         }
     }
     return (Size_t) -1; // tgt doesn't exist in src
+}
+
+Size_t str_lastindexof(String_t src, Size_t pos, const char *tgt) {
+    Size_t tgtlen = strlen(tgt);
+    Size_t srclen = str_getlen(src);
+
+    if (srclen <= 0 || tgtlen < 0 || tgtlen > srclen || pos > srclen || pos < 0)
+        return (Size_t) -1;
+
+    if (tgtlen == 0)
+        return srclen;
+
+
+    Size_t srcidx = pos;
+    Size_t tgtidx = tgtlen - 1;
+
+    // search for last instance of tgt[tgtlen - 1] in src starting at pos
+    for (srcidx = pos; srcidx > 0; srcidx--) {
+
+        if (src[srcidx] == tgt[tgtidx]) {
+            // continue to see if src[srcidx - 1] == tgt[tgtlen - 2] and so on until tgt[0]
+            if (tgtlen == 1) {
+                return srcidx;
+            }
+            else {
+                tgtidx--;
+            }
+
+            for (Size_t srcidx2 = srcidx - 1; srcidx2 > 0 && tgtidx > 0; srcidx2--) {
+                if ((src[srcidx2] == tgt[tgtidx]) && (tgtidx - 1 == 0)) {
+                    return srcidx2;
+                }
+                else if ((src[srcidx2] == tgt[tgtidx]) && (tgtidx - 1 != 0)) {
+                    tgtidx--;
+                }
+                else {
+                    tgtidx = tgtlen - 1;
+                    break;
+                }
+            }
+        }
+    }
+    return (Size_t) -1; // tgt doesn't exist in 
 }
 
 u8 str_contains(String_t src, const char *tgt) {
@@ -345,6 +437,6 @@ Error_t str_toupper(String_t s) {
 u8 str_equals(String_t s, const char *carr) {
     if (!s || !carr)
         return 0;
-    else 
+    else
         return (strcmp(s, carr) == 0) ? 1 : 0;
 }

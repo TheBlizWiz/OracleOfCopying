@@ -102,6 +102,7 @@
 // used in d_string.c and u_linklist.c
 
 #define ERROR_LENGTH_INVALIDVALUE 201
+#define ERROR_TGT_NOTFOUND 202
 
 // used in e_app.c
 
@@ -124,6 +125,7 @@
 #define ERROR_ISVALUE_EOF -3
 #define ERROR_MALLOC_NOSPACE_READLINE -4
 #define ERROR_ISNOTNULL_STRPTR -5
+
 
 
 

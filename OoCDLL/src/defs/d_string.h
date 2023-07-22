@@ -111,6 +111,19 @@ DLLINCLUDE Error_t str_replace(String_t *s, Size_t pos, Size_t len, const char *
  */
 DLLINCLUDE Error_t str_remove(String_t s, Size_t pos, Size_t len);
 
+
+/*
+* searches for the first index of tgt in s. if it finds it, it removes every char from s before the last char of tgt in s
+* ex: "apple banana grape banana orange" --> str_removebylastindexof(s, "banana") --> " grape banana orange"
+*/
+DLLINCLUDE Error_t str_removebyindexof(String_t s, const char *tgt);
+
+/*
+* searches for the last index of tgt in s. if it finds it, it removes every char from s before the last char of tgt in s
+* ex: "apple banana grape banana orange" --> str_removebylastindexof(s, "banana") --> " orange"
+*/
+DLLINCLUDE Error_t str_removebylastindexof(String_t s, const char *tgt);
+
 /**
  * Removes all characters from String_t *s except for the null char at the end
  * \param  - String_t s  - String_t that gets edited
@@ -139,6 +152,8 @@ DLLINCLUDE Error_t str_free_fnptr(void *string_t_s);
  *
  */
 DLLINCLUDE Size_t str_indexof(String_t src, Size_t pos, const char *tgt);
+
+DLLINCLUDE Size_t str_lastindexof(String_t src, Size_t pos, const char *tgt);
 
 /**
  * Checks if the entirety of *carr is within String_t *s

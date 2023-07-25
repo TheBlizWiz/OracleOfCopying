@@ -175,6 +175,7 @@
     <ClInclude Include="src\defs\d_string.h" />
     <ClInclude Include="src\defs\d_utils.h" />
     <ClInclude Include="src\engine\e_app.h" />
+    <ClInclude Include="src\render\r_animation.h" />
     <ClInclude Include="src\render\r_image.h" />
     <ClInclude Include="src\render\r_sdl.h" />
     <ClInclude Include="src\utils\u_hash.h" />
@@ -192,6 +193,7 @@
     <ClCompile Include="src\defs\d_string.c" />
     <ClCompile Include="src\defs\d_utils.c" />
     <ClCompile Include="src\engine\e_app.c" />
+    <ClCompile Include="src\render\r_animation.c" />
     <ClCompile Include="src\render\r_image.c" />
     <ClCompile Include="src\render\r_sdl.c" />
     <ClCompile Include="src\utils\u_hash.c" />

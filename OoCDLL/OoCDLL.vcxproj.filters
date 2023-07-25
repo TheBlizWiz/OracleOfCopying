@@ -75,6 +75,9 @@
     <ClInclude Include="src\game\g_enums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\render\r_animation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\engine\e_app.c">
@@ -120,6 +123,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\g_map.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\render\r_animation.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

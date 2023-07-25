@@ -3,4 +3,6 @@
 
 #include "oocdll.h"
 
+int main(int argc, char *argv[]);
+
 #endif

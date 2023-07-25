@@ -1,5 +1,7 @@
 #pragma warning(disable : 26451)
 
+#include <stdarg.h>
+
 #include "r_sdl.h"
 #include "defs/d_constants.h"
 
@@ -49,67 +51,132 @@ void SDL_BlitRotated(SDL_Surface *src, SDL_Surface *dst, u32 dstX, u32 dstY) {
     }
 }
 
-int SDL_BlitImage(App_t ooc, Image_t *img, u32 x, u32 y, u8 center) {
+int SDL_BlitImage(App_t ooc, Image_t *img, u32 x, u32 y, u8 center, u8 rotflipscl, ...) {
+    if (img) {
+        double ang;
+        double scl;
+        SDL_RendererFlip flip;
 
-    SDL_Rect dest;
-    SDL_Point p;
-    zeroset(&dest, sizeof(SDL_Rect));
-    zeroset(&p, sizeof(SDL_Point));
+        switch (rotflipscl) {
+            case TF_ROT:
+            case TF_FLIP:
+            case TF_SCL:
+            case TF_ROTFLIP:
+            case TF_ROTSCL:
+            case TF_FLIPSCL:
+            case TF_ROTFLIPSCL:
+                va_list tforms;
+                va_start(tforms, rotflipscl);
+
+                switch (rotflipscl) {
+                    case TF_ROT:
+                        ang = va_arg(tforms, double);
+                        flip = SDL_FLIP_NONE;
+                        scl = 1.0;
+                        break;
+                    case TF_FLIP:
+                        ang = 0.0;
+                        flip = va_arg(tforms, SDL_RendererFlip);
+                        scl = 1.0;
+                        break;
+                    case TF_SCL:
+                        ang = 0.0;
+                        flip = SDL_FLIP_NONE;
+                        scl = va_arg(tforms, double);
+                        break;
+                    case TF_ROTFLIP:
+                        ang = va_arg(tforms, double);
+                        flip = va_arg(tforms, SDL_RendererFlip);
+                        scl = 1.0;
+                        break;
+                    case TF_ROTSCL:
+                        ang = va_arg(tforms, double);
+                        flip = SDL_FLIP_NONE;
+                        scl = va_arg(tforms, double);
+                        break;
+                    case TF_FLIPSCL:
+                        ang = 0.0;
+                        flip = va_arg(tforms, SDL_RendererFlip);
+                        scl = va_arg(tforms, double);
+                        break;
+                    case TF_ROTFLIPSCL:
+                        ang = va_arg(tforms, double);
+                        flip = va_arg(tforms, SDL_RendererFlip);
+                        scl = va_arg(tforms, double);
+                        break;
+                    case TF_NONE:
+                    default:
+                        ang = 0.0;
+                        flip = SDL_FLIP_NONE;
+                        scl = 1.0;
+                }
+
+                va_end(tforms);
+
+                return _SDL_blitImageEx(ooc, img, center, x, y, ang, flip, scl);
+                break;
+            case TF_NONE:
+            default:
+                return _SDL_blitImage(ooc, img, center, x, y);
+        }
+    }
+    else {
+        return ERROR_ISNULLADDR;
+    }
+}
+
+int _SDL_blitImageEx(App_t ooc, Image_t *img, u8 center, u32 x, u32 y, double ang, SDL_RendererFlip flip, double scl) {
+    SDL_FPoint p = { .x = 0.0f, .y = 0.0f };
+    SDL_FRect dest = { .x = (float) x, .y = (float) y, .w = 0.0f, .h = 0.0f };
 
     if (img) {
+        if (!img->isrotated) {
+            dest.x -= (((float) (img->rect.h)) / 2);
+            dest.y -= (((float) (img->rect.w)) / 2);
+            dest.w = ((float) img->rect.w) * (float) scl;
+            dest.h = ((float) img->rect.h) * (float) scl;
 
-        dest.x = x;
-        dest.y = y;
-        dest.w = img->rect.w;
-        dest.h = img->rect.h;
+            return SDL_RenderCopyExF(ooc.rdr, img->tex, &img->rect, &dest, ang, &p, flip);
+        }
+        else {
+            dest.x -= (((float) (img->rect.w)) / 2);
+            dest.y -= (((float) (img->rect.h)) / 2);
+            dest.w = ((float) img->rect.w) * (float) scl;
+            dest.h = ((float) img->rect.h) * (float) scl;
+            ang -= 90.00;
 
-        p.x = 0;
-        p.y = 0;
+            return SDL_RenderCopyExF(ooc.rdr, img->tex, &img->rect, &dest, ang, &p, flip);
+        }
+    }
+    else {
+        return ERROR_ISNULLADDR;
+    }
+}
 
-        if (img->isrotated) {
+int _SDL_blitImage(App_t ooc, Image_t *img, u8 center, u32 x, u32 y) {
+    SDL_Point p = { .x = 0, .y = 0 };
+    SDL_Rect dest = { .x = x, .y = y, .w = img->rect.w, .h = img->rect.h };
+    if (img) {
+        if (!img->isrotated) {
             if (center) {
-                dest.x -= (dest.w >> 1);
-                dest.y -= (dest.h >> 1);
+                dest.x -= (dest.w / 2);
+                dest.y -= (dest.h / 2);
             }
 
             return SDL_RenderCopy(ooc.rdr, img->tex, &img->rect, &dest);
         }
         else {
             if (center) {
-                dest.x -= (dest.h >> 1);
-                dest.y -= (dest.w >> 1);
+                dest.x -= (dest.h / 2);
+                dest.y -= (dest.w / 2);
             }
-
             dest.y += img->rect.w;
 
-            return SDL_RenderCopyEx(ooc.rdr, img->tex, &img->rect, &dest, ANGLE_NEG_90, &p, SDL_FLIP_NONE);
+            return SDL_RenderCopyEx(ooc.rdr, img->tex, &img->rect, &dest, -90.00, &p, SDL_FLIP_NONE);
         }
     }
     else {
-        // for one reason or another, img is null
-        // rather than do some test like "is this texture really needed"
-        // or do some error handling multiple levels down
-        // lets instead just make a missing texture Image_t on the spot
-        // and render that instead
-
-        /*
-
-        if (nulltex) {
-            dest.x = x;
-            dest.y = y;
-            dest.w = img->rect.w;
-            dest.h = img->rect.h;
-
-            return SDL_RenderCopy(ooc.rdr, nulltex->tex, &nulltex->rect, &dest);
-        }
-        else {
-            errprintf("ERROR: extern nulltex from ooc.c is null! This is a big problem!\n");
-            return ERROR_OHSHIT;
-        }
-
-        */
-
-        return ERROR_GENERIC;
+        return ERROR_ISNULLADDR;
     }
 }
 
@@ -164,14 +231,14 @@ u8 *CreateMissingTextureArray(u32 w, u32 h) {
 SDL_Surface *SDL_CreateMissingTexture(App_t ooc, u32 w, u32 h, u8 *px) {
 
 
-        SDL_Surface *surf = SDL_CreateRGBSurfaceWithFormatFrom((void *) *px, w, h, 8, sizeof(u8) * w * 4, SDL_PIXELFORMAT_RGBA8888);
-        if(surf) {
-            return surf;
-        }
-        else {
-            errprintf("SDL ERROR: %s\n", SDL_GetError());
-            return NULLADDR;
-        }
+    SDL_Surface *surf = SDL_CreateRGBSurfaceWithFormatFrom((void *) *px, w, h, 8, sizeof(u8) * w * 4, SDL_PIXELFORMAT_RGBA8888);
+    if (surf) {
+        return surf;
+    }
+    else {
+        errprintf("SDL ERROR: %s\n", SDL_GetError());
+        return NULLADDR;
+    }
 
 
 }

@@ -60,7 +60,8 @@ int main(int argc, char *argv[]) {
 
     Hashmap_t *atlasmap;
     SDL_Texture *atlas;
-
+    double rot = 0.0, scl = 1.0;
+    SDL_RendererFlip flip = SDL_FLIP_NONE;
 
     Error_t e = ERROR_NOERROR;
     u8 run = 1;
@@ -96,7 +97,7 @@ int main(int argc, char *argv[]) {
         errprintf("ERROR: atlas is null... uhhh\n");
     }
 
-    atlasmap = hashmap_new(sizeof(Image_t), 0, 0, 0, hash_imghash, hash_imgcmp, hash_imgfree, NULL); 
+    atlasmap = hashmap_new(sizeof(Image_t), 0, 0, 0, hash_imghash, hash_imgcmp, hash_imgfree, NULL);
     if (!atlasmap) {
         errprintf("ERROR: something went wrong with hashmap_new\n");
         return 3;
@@ -107,13 +108,7 @@ int main(int argc, char *argv[]) {
         errprintf("ERROR: something wrong with atlas_load\n");
     }
 
-    Image_t *floor = atlas_getimage(atlasmap, "E:\\MSVC\\source\\repos\\OracleOfCopying\\oracle_of_seasons_texture_rips\\floors\\oos_ddd_floor_patterned_purple.qoi");
-    
-    Image_t *wall_corner_se = atlas_getimage(atlasmap, "E:\\MSVC\\source\\repos\\OracleOfCopying\\oracle_of_seasons_texture_rips\\walls\\oos_ddd_walls_innercorner_sw.qoi");
-
-    Image_t *eyestatue = atlas_getimage(atlasmap, "E:\\MSVC\\source\\repos\\OracleOfCopying\\oracle_of_seasons_texture_rips\\animated\\objects\\oos_ddd_objects_eyestatue_center.qoi");
-
-    Image_t *water_f2 = atlas_getimage(atlasmap, "E:\\MSVC\\source\\repos\\OracleOfCopying\\oracle_of_seasons_texture_rips\\animated\\floors\\floors_water_f2.qoi");
+    Image_t *redball = atlas_getimage(atlasmap, "redball.qoi");
 
     //Image_t *not_a_texture = atlas_getimage(atlasmap, "asdf");
 
@@ -128,11 +123,23 @@ int main(int argc, char *argv[]) {
 
         SDL_RenderClear(ooc.rdr);
 
-        SDL_BlitImage(ooc, floor, rng_gnext(), rng_gnext(), 1);
-        SDL_BlitImage(ooc, wall_corner_se, rng_gnext(), rng_gnext(), 1);
-        SDL_BlitImage(ooc, eyestatue, rng_gnext(), rng_gnext(), 1);
-        SDL_BlitImage(ooc, water_f2, rng_gnext(), rng_gnext(), 1);
-        //SDL_BlitImage(ooc, not_a_texture, rand() % SCREEN_SIZE_X, rand() % SCREEN_SIZE_Y, 1);
+        SDL_BlitImage(ooc, redball, rng_gnext(), rng_gnext(), 1, TF_NONE);
+        
+        rot = rng_gnext() % 360;
+        SDL_BlitImage(ooc, redball, rng_gnext(), rng_gnext(), 1, TF_ROT, rot);
+
+        scl = rng_gnext() % 4;
+        SDL_BlitImage(ooc, redball, rng_gnext(), rng_gnext(), 1, TF_SCL, scl);
+
+        SDL_BlitImage(ooc, redball, rng_gnext(), rng_gnext(), 1, TF_FLIP, SDL_FLIP_VERTICAL);
+
+        rot = rng_gnext() % 360;
+        scl = rng_gnext() % 4;
+        SDL_BlitImage(ooc, redball, rng_gnext(), rng_gnext(), 1, TF_ROTSCL, rot, scl);
+
+        rot = rng_gnext() % 360;
+        scl = rng_gnext() % 4;
+        SDL_BlitImage(ooc, redball, rng_gnext(), rng_gnext(), 1, TF_ROTFLIPSCL, rot, SDL_FLIP_HORIZONTAL, scl);
 
         SDL_RenderPresent(ooc.rdr);
         SDL_Delay(300);

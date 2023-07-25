@@ -8,13 +8,33 @@
 #include "engine/e_app.h"
 #include "defs/d_common.h"
 
-// DLLINCLUDE extern Image_t *nulltex;
+DLLINCLUDE typedef struct Transform Transform_t;
+
+struct Transform {
+    u32 x;
+    u32 y;
+    u8 center;
+    double ang;
+    SDL_RendererFlip flip;
+    double scl;
+};
+
+// these functions are solely used in AtlasGen, and shouldn't be used for DgM or OoC
 
 DLLINCLUDE u32 SDL_GetPixel(SDL_Surface *src, u32 x, u32 y);
 DLLINCLUDE void SDL_SetPixel(SDL_Surface *src, u32 x, u32 y, u32 rgba);
 DLLINCLUDE void SDL_BlitRotated(SDL_Surface *src, SDL_Surface *dst, u32 dstX, u32 dstY);
 
-DLLINCLUDE int SDL_BlitImage(App_t ooc, Image_t *atlasimg, u32 x, u32 y, u8 center);
+// this is the function you call normally. what i want is that you can add in parameters on the end and depending on what you add in it will add rotation, scaling, or flipping
+
+DLLINCLUDE int SDL_BlitImage(App_t ooc, Image_t *img, u32 x, u32 y, u8 center, u8 rotflipscl, ...);
+
+// these functions below are private helper functions for SDL_BlitAtlasImage
+
+int _SDL_blitImageEx(App_t ooc, Image_t *img, u8 center, u32 x, u32 y, double ang, SDL_RendererFlip flip, double scl);
+int _SDL_blitImage(App_t ooc, Image_t *img, u8 center, u32 x, u32 y);
+
+// these functions below are broken and dont work the way i need them to, dont use em
 
 DLLINCLUDE u8 *CreateMissingTextureArray(u32 w, u32 h);
 DLLINCLUDE SDL_Surface *SDL_CreateMissingTexture(App_t ooc, u32 w, u32 h, u8 *px);

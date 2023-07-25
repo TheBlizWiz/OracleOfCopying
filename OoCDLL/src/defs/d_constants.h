@@ -35,7 +35,16 @@
 
 // used in r_sdl.c
 
-#define ANGLE_NEG_90 (double) -90.00
+#define TF_NONE 0
+
+#define TF_ROT 1
+#define TF_FLIP 2
+#define TF_SCL 4
+
+#define TF_ROTFLIP 3
+#define TF_ROTSCL 5
+#define TF_FLIPSCL 6
+#define TF_ROTFLIPSCL 7
 
 #define MISSING_TEX_COLOR_MAGENTA 0xFFFF00FF
 #define MISSING_TEX_COLOR_BLACK 0x000000FF

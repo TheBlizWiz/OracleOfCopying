@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="src\engine\e_keyboard.h" />
     <ClInclude Include="src\game\g_enums.h" />
     <ClInclude Include="src\game\g_hitbox.h" />
     <ClInclude Include="src\game\g_map.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="src\utils\u_list.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\e_keyboard.c" />
     <ClCompile Include="src\game\g_hitbox.c" />
     <ClCompile Include="src\game\g_map.c" />
     <ClCompile Include="src\game\g_room.c" />

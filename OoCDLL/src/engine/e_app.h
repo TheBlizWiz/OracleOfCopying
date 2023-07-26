@@ -3,6 +3,7 @@
 
 #include "SDL.h"
 #include "defs/d_common.h"
+#include "defs/d_constants.h"
 
 /**
   * Struct that holds SDL_Window and SDL_Renderer.
@@ -13,41 +14,49 @@
   */
 DLLINCLUDE typedef struct App App_t;
 
+
 struct App {
     SDL_Window *wdw;
     SDL_Renderer *rdr;
+    boolean paused;
+
+    u8 keys[MAX_KEYS];
 };
 
-/** 
-  * Start Oracle of Copying.
+DLLINCLUDE App_t *app_new(void);
+
+/**
+  * Start Oracle of Copying / DungeonMaster.
   * Remember to memset(&ooc, 0, sizeof(App_t)) before passing.
-  * 
-  * \param  App_t   ooc       - App_t for OoC
-  * \param  int     initflags - Flags for SDL_Init(), usually SDL_INIT_EVERYTHING
-  * \param  int     wdwflags  - Flags for SDL_CreateWindow(), usually SDL_WINDOW_ALLOW_HIGHDPI
-  * \param  int     rdrflags  - Flags for SDL_CreateRenderer(), usually SDL_RENDERER_ACCELERATED
+  *
+  * \param  App_t   *app      - App_t for OoC/DgM
+  * \param  i32     initflags - Flags for SDL_Init(), usually SDL_INIT_EVERYTHING
+  * \param  i32     wdwflags  - Flags for SDL_CreateWindow(), usually SDL_WINDOW_ALLOW_HIGHDPI
+  * \param  i32     rdrflags  - Flags for SDL_CreateRenderer(), usually SDL_RENDERER_ACCELERATED
+  * \param  i32     sizex     - Horizontal screen size
+  * \param  i32     sizey     - Vertical screen size
   * \return Error_t           - Error code, check d_constants.h
   */
-DLLINCLUDE Error_t app_start(App_t *, int, int, int);
+DLLINCLUDE Error_t app_start(App_t *app, i32 initflags, i32 wdwflags, i32 rdrflags, i32 sizex, i32 sizey);
 
 /**
- * Stop Oracle of Copying.
- * This safely stops all processes running before closing app.
- * 
- * \param  App_t ooc       - App_t for OoC
- * \param  int   initflags - Flags for SDL_Init(), use the same ones as in app_start()
- * \return Error_t         - Error code, currently broken, only returns ERROR_NOERROR
- */
-DLLINCLUDE Error_t app_stop(App_t *ooc, int initflags);
-
-/**
-  * Handle events for OoC
+  * Handle events for OoC / DgM
   *
   * \param  SDL_Event *evt    - Event sent over from SDL
   * \return Error_t           - Error code, check d_constants.h
   */
 DLLINCLUDE Error_t app_doevents(SDL_Event *);
 
+/**
+ * Stop Oracle of Copying / DungeonMaster.
+ * This safely stops all processes running before closing app.
+ *
+ * \param  App_t *app      - App_t for OoC / DgM
+ * \param  i32   initflags - Flags for SDL_Init(), use the same ones as in app_start()
+ * \return Error_t         - Error code, currently broken, only returns ERROR_NOERROR
+ */
+DLLINCLUDE Error_t app_stop(App_t *app, i32 initflags);
 
+DLLINCLUDE Error_t app_free(App_t *app);
 
 #endif

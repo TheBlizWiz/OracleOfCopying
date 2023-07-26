@@ -31,6 +31,8 @@ DLLINCLUDE typedef int16_t  i16;
 DLLINCLUDE typedef int32_t  i32;
 DLLINCLUDE typedef int64_t  i64;
 
+DLLINCLUDE typedef uint8_t boolean;
+
 DLLINCLUDE typedef union color Color_u;
 
 // _t is for structs only but these are an exception since

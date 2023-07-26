@@ -8,7 +8,34 @@
 // used anywhere
 #define NULLADDR ((void *) 0x0)
 
-//used in r_app.c
+#ifdef FALSE
+#undef FALSE
+#define FALSE 0
+#else
+#define FALSE 0
+#endif
+
+#ifdef TRUE
+#undef TRUE
+#define TRUE 1
+#else
+#define TRUE 1
+#endif
+
+// used in e_app.h
+
+// from sdl's documentation - this is how many keys SDL recognizes
+// 
+// most of these nobody is going to use
+// like i dunno about you but i done use the scroll lock key for gaming
+// and i dont even know what a "Keypad XOR" does
+// but we do have to include them all so players can remap controls
+// 
+// the actual number of keys is 260, but 290 is the actual int value of the last key
+// round to 300 to be safe...
+#define MAX_KEYS 300
+
+// default screen size - subject to change
 #define SCREEN_SIZE_X 800
 #define SCREEN_SIZE_Y 600
 
@@ -79,7 +106,6 @@
 // |         ERROR CODES      |
 // ****************************
 
-
 // this one is special, return 0 if no errors happen
 #define ERROR_NOERROR 0
 
@@ -123,8 +149,8 @@
 // so one of the existing cases is missing a return statement
 #define ERROR_DOEVENTS_SWITCHCASEDIDNTRETURN 901
 
-// this error means the default case was called, so some event happened that isnt covered
-// by the listed cases
+// this isn't an error, this just means theres nothing to do since
+// no new events happened
 #define ERROR_DOEVENTS_DEFAULTCASE 900
 
 // used in d_utils.c
@@ -135,18 +161,10 @@
 #define ERROR_MALLOC_NOSPACE_READLINE -4
 #define ERROR_ISNOTNULL_STRPTR -5
 
-
-
-
 // ****************************
 // |         STRINGS          |
 // ****************************
 #define GAME_WINDOW_NAME "Oracle of Copying"
-
-
-
-
-
 
 // -------------
 // | ATLASGEN  |

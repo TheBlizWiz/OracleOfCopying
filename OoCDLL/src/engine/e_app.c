@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "SDL.h"
 
@@ -6,43 +7,57 @@
 #include "defs/d_common.h"
 #include "defs/d_constants.h"
 
-Error_t app_start(App_t *ooc, int initflags, int wdwflags, int rdrflags) {
+App_t *app_new(void) {
+    App_t *app = (App_t *) malloc(sizeof(App_t));
+
+    if (app) {
+        app->paused = FALSE;
+        app->rdr = NULLADDR;
+        app->wdw = NULLADDR;
+        zeroset(app->keys, (sizeof(u8) * MAX_KEYS));
+        return app;
+    }
+    else {
+        errprintf("ERROR: no malloc space for new App_t *app\n");
+        return NULLADDR;
+    }
+}
+
+
+Error_t app_start(App_t *app, i32 initflags, i32 wdwflags, i32 rdrflags, i32 sizex, i32 sizey) {
+
+    if (!app) {
+        errprintf("ERROR: App_t *app is null, can't start app\n");
+        return (Error_t) ERROR_ISNULLADDR;
+    }
 
     if (SDL_Init(initflags) < 0) {
-        printf("SDL failed to initialize: %s\n", SDL_GetError());
+        errprintf("SDL failed to initialize: %s\n", SDL_GetError());
         return (Error_t) ERROR_SDL_INIT_FAILURE;
     }
 
-    ooc->wdw = SDL_CreateWindow(GAME_WINDOW_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_SIZE_X, SCREEN_SIZE_Y, wdwflags);
+    app->wdw = SDL_CreateWindow(GAME_WINDOW_NAME, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, sizex, sizey, wdwflags);
 
-    if (ooc->wdw == NULLADDR) {
-        printf("Failed to init ooc.wdw: %s\n", SDL_GetError());
+    if (app->wdw == NULLADDR) {
+        errprintf("Failed to init app.wdw: %s\n", SDL_GetError());
         return (Error_t) ERROR_SDL_CREATEWINDOW_FAILURE;
     }
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 
-    ooc->rdr = SDL_CreateRenderer(ooc->wdw, -1, rdrflags);
+    app->rdr = SDL_CreateRenderer(app->wdw, -1, rdrflags);
 
-    if (ooc->rdr == NULLADDR) {
-        printf("Failed to init ooc.rdr: %s\n", SDL_GetError());
+    if (app->rdr == NULLADDR) {
+        errprintf("Failed to init app.rdr: %s\n", SDL_GetError());
         return (Error_t) ERROR_SDL_CREATERENDERER_FAILURE;
     }
 
     return (Error_t) ERROR_NOERROR;
 }
 
-Error_t app_stop(App_t *ooc, int initflags) {
-    SDL_DestroyRenderer(ooc->rdr);
-    SDL_DestroyWindow(ooc->wdw);
-    SDL_QuitSubSystem(initflags);
-    SDL_Quit();
-    return (Error_t) ERROR_NOERROR;
-}
-
 Error_t app_doevents(SDL_Event *evt) {
     SDL_PollEvent(evt);
-    
+
     switch (evt->type) {
         case SDL_QUIT:
             return ERROR_DOEVENTS_TIMETOQUIT;
@@ -51,4 +66,22 @@ Error_t app_doevents(SDL_Event *evt) {
     }
 
     return ERROR_DOEVENTS_SWITCHCASEDIDNTRETURN;
+}
+
+Error_t app_stop(App_t *app, i32 initflags) {
+    SDL_DestroyRenderer(app->rdr);
+    SDL_DestroyWindow(app->wdw);
+    SDL_QuitSubSystem(initflags);
+    SDL_Quit();
+    return (Error_t) ERROR_NOERROR;
+}
+
+Error_t app_free(App_t *app) {
+    if (app) {
+        free(app);
+    }
+    else {
+        errprintf("ERROR: App_t *app is null, can't free\n");
+        return ERROR_ISNULLADDR;
+    }
 }

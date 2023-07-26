@@ -113,11 +113,11 @@ int SDL_BlitImage(App_t ooc, Image_t *img, u32 x, u32 y, u8 center, u8 rotflipsc
 
                 va_end(tforms);
 
-                return _SDL_blitImageEx(ooc, img, center, x, y, ang, flip, scl);
+                return _SDL_blitImageEx(ooc, img, x, y, center, ang, flip, scl);
                 break;
             case TF_NONE:
             default:
-                return _SDL_blitImage(ooc, img, center, x, y);
+                return _SDL_blitImage(ooc, img, x, y, center);
         }
     }
     else {
@@ -125,27 +125,29 @@ int SDL_BlitImage(App_t ooc, Image_t *img, u32 x, u32 y, u8 center, u8 rotflipsc
     }
 }
 
-int _SDL_blitImageEx(App_t ooc, Image_t *img, u8 center, u32 x, u32 y, double ang, SDL_RendererFlip flip, double scl) {
-    SDL_FPoint p = { .x = 0.0f, .y = 0.0f };
-    SDL_FRect dest = { .x = (float) x, .y = (float) y, .w = 0.0f, .h = 0.0f };
+int _SDL_blitImageEx(App_t ooc, Image_t *img, u32 x, u32 y, u8 center, double ang, SDL_RendererFlip flip, double scl) {
+    SDL_FRect dest = { .x = (float) x, .y = (float) y, .w = (float) img->rect.w, .h = (float) img->rect.h };
 
     if (img) {
         if (!img->isrotated) {
-            dest.x -= (((float) (img->rect.h)) / 2);
-            dest.y -= (((float) (img->rect.w)) / 2);
-            dest.w = ((float) img->rect.w) * (float) scl;
-            dest.h = ((float) img->rect.h) * (float) scl;
+            dest.w *= (float) scl;
+            dest.h *= (float) scl;
 
-            return SDL_RenderCopyExF(ooc.rdr, img->tex, &img->rect, &dest, ang, &p, flip);
+            return SDL_RenderCopyExF(ooc.rdr, img->tex, &img->rect, &dest, ang, NULL, flip);
         }
         else {
-            dest.x -= (((float) (img->rect.w)) / 2);
-            dest.y -= (((float) (img->rect.h)) / 2);
-            dest.w = ((float) img->rect.w) * (float) scl;
-            dest.h = ((float) img->rect.h) * (float) scl;
+            if (flip == SDL_FLIP_HORIZONTAL) {
+                flip = SDL_FLIP_VERTICAL;
+            }
+            else if (flip == SDL_FLIP_VERTICAL) {
+                flip = SDL_FLIP_HORIZONTAL;
+            }
+
+            dest.w *= (float) scl;
+            dest.h *= (float) scl;
             ang -= 90.00;
 
-            return SDL_RenderCopyExF(ooc.rdr, img->tex, &img->rect, &dest, ang, &p, flip);
+            return SDL_RenderCopyExF(ooc.rdr, img->tex, &img->rect, &dest, ang, NULL, flip);
         }
     }
     else {
@@ -153,7 +155,7 @@ int _SDL_blitImageEx(App_t ooc, Image_t *img, u8 center, u32 x, u32 y, double an
     }
 }
 
-int _SDL_blitImage(App_t ooc, Image_t *img, u8 center, u32 x, u32 y) {
+int _SDL_blitImage(App_t ooc, Image_t *img, u32 x, u32 y, u8 center) {
     SDL_Point p = { .x = 0, .y = 0 };
     SDL_Rect dest = { .x = x, .y = y, .w = img->rect.w, .h = img->rect.h };
     if (img) {
@@ -178,6 +180,18 @@ int _SDL_blitImage(App_t ooc, Image_t *img, u8 center, u32 x, u32 y) {
     else {
         return ERROR_ISNULLADDR;
     }
+}
+
+int SDL_ColorMod(Image_t *img, Color_u col) {
+    int e1 = SDL_SetTextureColorMod(img->tex, col.r, col.g, col.b);
+    int e2 = SDL_SetTextureAlphaMod(img->tex, col.a);
+    return  e1 + e2;
+}
+
+int SDL_ColorReset(Image_t *img) {
+    int e1 = SDL_SetTextureColorMod(img->tex, 0xFF, 0xFF, 0xFF);
+    int e2 = SDL_SetTextureAlphaMod(img->tex, 0xFF);
+    return e1 + e2;
 }
 
 u8 *CreateMissingTextureArray(u32 w, u32 h) {

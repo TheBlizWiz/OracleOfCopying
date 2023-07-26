@@ -55,12 +55,14 @@ Error_t _app_doevents(SDL_Event *evt) {
 
 
 int main(int argc, char *argv[]) {
+    srand(time((time_t *) NULL));
+
     App_t ooc;
     SDL_Event evt;
 
     Hashmap_t *atlasmap;
     SDL_Texture *atlas;
-    double rot = 0.0, scl = 1.0;
+    double rot = 0.0, rot2 = 0.0, rot3 = 0.0, scl = 0.0, scl2 = 1.0, scl3 = 1.0;
     SDL_RendererFlip flip = SDL_FLIP_NONE;
 
     Error_t e = ERROR_NOERROR;
@@ -109,6 +111,7 @@ int main(int argc, char *argv[]) {
     }
 
     Image_t *redball = atlas_getimage(atlasmap, "redball.qoi");
+    Image_t *whiteball = atlas_getimage(atlasmap, "whiteball.qoi");
 
     //Image_t *not_a_texture = atlas_getimage(atlasmap, "asdf");
 
@@ -123,26 +126,52 @@ int main(int argc, char *argv[]) {
 
         SDL_RenderClear(ooc.rdr);
 
-        SDL_BlitImage(ooc, redball, rng_gnext(), rng_gnext(), 1, TF_NONE);
-        
-        rot = rng_gnext() % 360;
-        SDL_BlitImage(ooc, redball, rng_gnext(), rng_gnext(), 1, TF_ROT, rot);
+        SDL_BlitImage(ooc, redball, 256, 256, 0, TF_NONE);
 
-        scl = rng_gnext() % 4;
-        SDL_BlitImage(ooc, redball, rng_gnext(), rng_gnext(), 1, TF_SCL, scl);
+        rot += 2.0;
+        if (rot >= 360.0) {
+            rot -= 360.0;
+        }
 
-        SDL_BlitImage(ooc, redball, rng_gnext(), rng_gnext(), 1, TF_FLIP, SDL_FLIP_VERTICAL);
+        SDL_BlitImage(ooc, redball, 256 + 32, 256, 0, TF_ROT, rot);
 
-        rot = rng_gnext() % 360;
-        scl = rng_gnext() % 4;
-        SDL_BlitImage(ooc, redball, rng_gnext(), rng_gnext(), 1, TF_ROTSCL, rot, scl);
+        scl += 0.1;
+        if (scl >= 4.0) {
+            scl = 0.0;
+        }
 
-        rot = rng_gnext() % 360;
-        scl = rng_gnext() % 4;
-        SDL_BlitImage(ooc, redball, rng_gnext(), rng_gnext(), 1, TF_ROTFLIPSCL, rot, SDL_FLIP_HORIZONTAL, scl);
+        SDL_BlitImage(ooc, redball, 256 + 64, 256, 0, TF_SCL, scl);
+
+        SDL_BlitImage(ooc, redball, 256 - 32, 256, 0, TF_FLIP, SDL_FLIP_HORIZONTAL);
+
+        rot2 += 0.5;
+        if (rot2 >= 360.0) {
+            rot2 -= 360.0;
+        }
+
+        scl2 += 0.1;
+        if (scl2 >= 4.0) {
+            scl2 = 0.0;
+        }
+
+        SDL_ColorMod(whiteball, (Color_u) {
+            .r = rng_gnext() % 255,
+            .g = rng_gnext() % 255,
+            .b = rng_gnext() % 255,
+            .a = 255
+        });
+        SDL_BlitImage(ooc, whiteball, 256 - (32 * 4), 256 + 128, 0, TF_ROTSCL, rot2, scl2);
+        SDL_ColorReset(whiteball);
+
+        rot3 = rng_gnext() % 360;
+        scl3 = rng_gnext() % 4;
+        SDL_ColorMod(whiteball, (Color_u){.r = rng_gnext() % 255, .g = rng_gnext() % 255, .b = rng_gnext() % 255, .a = rng_gnext() % 255});
+        SDL_BlitImage(ooc, whiteball, 512, 256, 0, TF_ROTFLIPSCL, rot3, SDL_FLIP_HORIZONTAL, scl3);
+        SDL_ColorReset(whiteball);
+
 
         SDL_RenderPresent(ooc.rdr);
-        SDL_Delay(300);
+        SDL_Delay(15);
     }
 
 

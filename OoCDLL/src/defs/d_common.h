@@ -62,7 +62,12 @@ struct Tree {
 };
 
 union color {
-    u32 r : 8, b : 8, g : 8, a : 8;
+    struct {
+        u8 a;
+        u8 b;
+        u8 g;
+        u8 r;
+    };
     u32 rgba;
 };
 

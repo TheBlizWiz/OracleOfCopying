@@ -31,8 +31,11 @@ DLLINCLUDE int SDL_BlitImage(App_t ooc, Image_t *img, u32 x, u32 y, u8 center, u
 
 // these functions below are private helper functions for SDL_BlitAtlasImage
 
-int _SDL_blitImageEx(App_t ooc, Image_t *img, u8 center, u32 x, u32 y, double ang, SDL_RendererFlip flip, double scl);
-int _SDL_blitImage(App_t ooc, Image_t *img, u8 center, u32 x, u32 y);
+int _SDL_blitImageEx(App_t ooc, Image_t *img, u32 x, u32 y, u8 center, double ang, SDL_RendererFlip flip, double scl);
+int _SDL_blitImage(App_t ooc, Image_t *img, u32 x, u32 y, u8 center);
+
+DLLINCLUDE int SDL_ColorMod(Image_t *img, Color_u color);
+DLLINCLUDE int SDL_ColorReset(Image_t *img);
 
 // these functions below are broken and dont work the way i need them to, dont use em
 

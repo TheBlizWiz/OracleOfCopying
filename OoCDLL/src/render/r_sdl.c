@@ -51,7 +51,7 @@ void SDL_BlitRotated(SDL_Surface *src, SDL_Surface *dst, u32 dstX, u32 dstY) {
     }
 }
 
-int SDL_BlitImage(App_t ooc, Image_t *img, u32 x, u32 y, u8 center, u8 rotflipscl, ...) {
+int SDL_BlitImage(App_t ooc, Image_t *img, Coordinate c, u8 center, u8 rotflipscl, ...) {
     if (img) {
         double ang;
         double scl;
@@ -113,11 +113,11 @@ int SDL_BlitImage(App_t ooc, Image_t *img, u32 x, u32 y, u8 center, u8 rotflipsc
 
                 va_end(tforms);
 
-                return _SDL_blitImageEx(ooc, img, x, y, center, ang, flip, scl);
+                return _SDL_blitImageEx(ooc, img, c, center, ang, flip, scl);
                 break;
             case TF_NONE:
             default:
-                return _SDL_blitImage(ooc, img, x, y, center);
+                return _SDL_blitImage(ooc, img, c, center);
         }
     }
     else {
@@ -125,8 +125,8 @@ int SDL_BlitImage(App_t ooc, Image_t *img, u32 x, u32 y, u8 center, u8 rotflipsc
     }
 }
 
-int _SDL_blitImageEx(App_t ooc, Image_t *img, u32 x, u32 y, u8 center, double ang, SDL_RendererFlip flip, double scl) {
-    SDL_FRect dest = { .x = (float) x, .y = (float) y, .w = (float) img->rect.w, .h = (float) img->rect.h };
+int _SDL_blitImageEx(App_t ooc, Image_t *img, Coordinate c, u8 center, double ang, SDL_RendererFlip flip, double scl) {
+    SDL_FRect dest = { .x = (float) c.x, .y = (float) c.y, .w = (float) img->rect.w, .h = (float) img->rect.h };
 
     if (img) {
         if (!img->isrotated) {
@@ -155,9 +155,9 @@ int _SDL_blitImageEx(App_t ooc, Image_t *img, u32 x, u32 y, u8 center, double an
     }
 }
 
-int _SDL_blitImage(App_t ooc, Image_t *img, u32 x, u32 y, u8 center) {
+int _SDL_blitImage(App_t ooc, Image_t *img, Coordinate c, u8 center) {
     SDL_Point p = { .x = 0, .y = 0 };
-    SDL_Rect dest = { .x = x, .y = y, .w = img->rect.w, .h = img->rect.h };
+    SDL_Rect dest = { .x = c.x, .y = c.y, .w = img->rect.w, .h = img->rect.h };
     if (img) {
         if (!img->isrotated) {
             if (center) {
@@ -193,6 +193,12 @@ int SDL_ColorReset(Image_t *img) {
     int e2 = SDL_SetTextureAlphaMod(img->tex, 0xFF);
     return e1 + e2;
 }
+
+
+
+
+
+
 
 u8 *CreateMissingTextureArray(u32 w, u32 h) {
     u8 magenta[4] = { 0xFF, 0xFF, 0x00, 0xFF };

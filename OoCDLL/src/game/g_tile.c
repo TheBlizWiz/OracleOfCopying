@@ -10,7 +10,7 @@ TileArray_t *tilearr_new(Size_t len) {
     Size_t tmp1 = len * sizeof(Tile_t);
     Size_t tmp2 = sizeof(TileArray_t) + tmp1;
 
-    TileArray_t *tarr = (TileArray_t *) malloc(tmp1);
+    TileArray_t *tarr = (TileArray_t *) malloc(tmp2);
 
     if (tarr) {
         zeroset(tarr, tmp1);
@@ -35,9 +35,9 @@ Error_t tilearr_free(TileArray_t *tarr) {
     }
 }
 
-Error_t tile_set(Tile_t tile, u32 tid, TileClass_e tc, u8 col, i16 e, i16 f, SDL_Texture *ftex, SDL_Texture *ttex) {
+Error_t tile_set(Tile_t tile, u32 tid, TileType_e tty, u8 col, i16 e, i16 f, SDL_Texture *ftex, SDL_Texture *ttex) {
     tile.tileid = tid;
-    tile.tclass = tc;
+    tile.ttype = tty;
     tile.collision = col;
     tile.elev = e;
     tile.flags = f;

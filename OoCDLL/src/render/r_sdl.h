@@ -8,17 +8,6 @@
 #include "engine/e_app.h"
 #include "defs/d_common.h"
 
-DLLINCLUDE typedef struct Transform Transform_t;
-
-struct Transform {
-    u32 x;
-    u32 y;
-    u8 center;
-    double ang;
-    SDL_RendererFlip flip;
-    double scl;
-};
-
 // these functions are solely used in AtlasGen, and shouldn't be used for DgM or OoC
 
 DLLINCLUDE u32 SDL_GetPixel(SDL_Surface *src, u32 x, u32 y);
@@ -27,12 +16,12 @@ DLLINCLUDE void SDL_BlitRotated(SDL_Surface *src, SDL_Surface *dst, u32 dstX, u3
 
 // this is the function you call normally. what i want is that you can add in parameters on the end and depending on what you add in it will add rotation, scaling, or flipping
 
-DLLINCLUDE int SDL_BlitImage(App_t ooc, Image_t *img, u32 x, u32 y, u8 center, u8 rotflipscl, ...);
+DLLINCLUDE int SDL_BlitImage(App_t ooc, Image_t *img, Coordinate c, u8 center, u8 rotflipscl, ...);
 
 // these functions below are private helper functions for SDL_BlitAtlasImage
 
-int _SDL_blitImageEx(App_t ooc, Image_t *img, u32 x, u32 y, u8 center, double ang, SDL_RendererFlip flip, double scl);
-int _SDL_blitImage(App_t ooc, Image_t *img, u32 x, u32 y, u8 center);
+int _SDL_blitImageEx(App_t ooc, Image_t *img, Coordinate c, u8 center, double ang, SDL_RendererFlip flip, double scl);
+int _SDL_blitImage(App_t ooc, Image_t *img, Coordinate c, u8 center);
 
 DLLINCLUDE int SDL_ColorMod(Image_t *img, Color_u color);
 DLLINCLUDE int SDL_ColorReset(Image_t *img);

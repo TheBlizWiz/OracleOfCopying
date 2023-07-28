@@ -79,6 +79,7 @@ Error_t app_stop(App_t *app, i32 initflags) {
 Error_t app_free(App_t *app) {
     if (app) {
         free(app);
+        return ERROR_NOERROR;
     }
     else {
         errprintf("ERROR: App_t *app is null, can't free\n");

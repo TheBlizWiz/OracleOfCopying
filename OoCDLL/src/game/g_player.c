@@ -1,7 +1,7 @@
 #include "g_player.h"
 #include "defs/d_constants.h"
 
-Player_t *player_new(Point3 pos, Hitbox_t hbox, App_t **app, Image_t **tex) {
+Player_t *player_new(Point3 pos, Hitbox_t hbox, Image_t **tex) {
     Player_t *player = (Player_t *) malloc(sizeof(Player_t));
     if (player) {
 
@@ -10,8 +10,6 @@ Player_t *player_new(Point3 pos, Hitbox_t hbox, App_t **app, Image_t **tex) {
         player->ent.position = pos;
         player->ent.velocity = (Vector3){ 0.0 };
         player->ent.acceleration = (Vector3){ 0.0 };
-
-        player->app = app;
 
         player->direction = NORTH;
         player->rdrpt = (SDL_Point){ 0 };

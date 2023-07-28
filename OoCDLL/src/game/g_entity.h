@@ -13,11 +13,6 @@ struct Entity {
     Point3 position;
     Vector3 velocity;
     Vector3 acceleration;
-
-    // function pointer to this entity's physics handler
-    // this function pointer should accept a Vector3
-    // and return an Error_t error code
-    Error_t(*physicshandler)(Vector3 v);
 };
 
 #endif

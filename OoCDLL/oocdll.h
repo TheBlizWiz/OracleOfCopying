@@ -7,7 +7,9 @@
 #include "defs/d_utils.h"
 
 #include "engine/e_app.h"
+#include "engine/e_input.h"
 #include "engine/e_keyboard.h"
+#include "engine/e_time.h"
 
 #include "game/g_entity.h"
 #include "game/g_enums.h"
@@ -23,6 +25,7 @@
 #include "libs/hashmap/hashmap.h"
 
 #include "math/m_rng.h"
+#include "math/m_physics.h"
 
 #include "render/r_animation.h"
 #include "render/r_image.h"

@@ -94,30 +94,3 @@ Error_t phys_calcobjectforces(Entity_t *ent, Vector3 v) {
         return ERROR_ISNULLADDR;
     }
 }
-
-
-Error_t phys_calculate(Entity_t *ent, double dt, Error_t(*objforcehandler)(Entity_t *ent, ...)) {
-    if (ent) {
-        if (dt > 0.0) {
-            if (ent->mass > 0.0) {
-
-                Error_t e1 = phys_resetforces(ent);
-                //Error_t e2 = phys_
-                Error_t e3 = phys_calcenvironmentforces(ent);
-
-            }
-            else {
-                errprintf("ERROR: entity mass is <= 0.0 grams, can't do physics...\n");
-                return ERROR_MATH_INVALIDVALUE;
-            }
-        }
-        else {
-            errprintf("ERROR: delta time dt is <= 0, can't do physics...\n");
-            return ERROR_MATH_INVALIDVALUE;
-        }
-    }
-    else {
-        errprintf("ERROR: Entity_t *ent is null\n");
-        return ERROR_ISNULLADDR;
-    }
-}

@@ -12,8 +12,6 @@ DLLINCLUDE typedef struct Player Player_t;
 
 struct Player {
 
-
-
     // entity used for physics
     Entity_t ent;
 
@@ -22,7 +20,7 @@ struct Player {
     Hitbox_t hbox;
 
     // point on screen that corresponds with the top-left most pixel of the texture to draw
-    SDL_Point rdrpt;
+    Coordinate rdrpt;
 
     // what direction the player is facing
     // determines which sprite needs to draw
@@ -31,17 +29,11 @@ struct Player {
     // TODO: should this be set by player velocity or directly from the controls?
     u8 direction;
 
-    // needed to get keyboard inputs for physics
-    // maybe theres a better way to do this but after mulling it over
-    // for an hour this is the only way i can think to do it
-    App_t **app;
-
-    Vector3(*forcehandler)(App_t *app, Entity_t *ent);
-
     // pointer to Image_t * in hashmap that corresponds with the player on screen
     Image_t **tex;
 };
 
-DLLINCLUDE Player_t *player_new();
+DLLINCLUDE Player_t *player_new(Point3 pos, Hitbox_t hbox, Image_t **tex);
+DLLINCLUDE Error_t player_free(Player_t *player);
 
 #endif

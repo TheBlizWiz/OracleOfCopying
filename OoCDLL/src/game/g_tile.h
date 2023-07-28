@@ -12,7 +12,7 @@ DLLINCLUDE typedef struct TileArray TileArray_t;
 
 struct Tile {
     u32 tileid;
-    TileClass_e tclass;
+    TileType_e ttype;
     u8 collision;
     i16 elev;
     i16 flags;

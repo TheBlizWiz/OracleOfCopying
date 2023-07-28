@@ -47,6 +47,7 @@ DLLINCLUDE typedef struct Tree Tree_t;
 
 // yeah these break the rules but i also use them frequently and writing _t got annoying
 
+DLLINCLUDE typedef struct _TWO_U32S      Coordinate;
 DLLINCLUDE typedef struct _TWO_DOUBLES   Point2;
 DLLINCLUDE typedef struct _THREE_DOUBLES Point3;
 DLLINCLUDE typedef struct _TWO_DOUBLES   Vector2;
@@ -81,6 +82,12 @@ union color {
         u8 r;
     };
     u32 rgba;
+};
+
+// Coord
+struct _TWO_U32S {
+    u32 x;
+    u32 y;
 };
 
 // Point2, Vector2, Scalar2

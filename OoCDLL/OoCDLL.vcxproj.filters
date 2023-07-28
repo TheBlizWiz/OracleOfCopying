@@ -81,6 +81,21 @@
     <ClInclude Include="src\engine\e_keyboard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\game\g_entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\g_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\g_player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\m_physics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\e_time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\engine\e_app.c">
@@ -132,6 +147,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\e_keyboard.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\g_player.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math\m_physics.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\e_time.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

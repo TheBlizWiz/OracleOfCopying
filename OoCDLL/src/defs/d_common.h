@@ -45,6 +45,16 @@ DLLINCLUDE typedef int64_t  Error_t;
 DLLINCLUDE typedef struct TreeNode TreeNode_t;
 DLLINCLUDE typedef struct Tree Tree_t;
 
+// yeah these break the rules but i also use them frequently and writing _t got annoying
+
+DLLINCLUDE typedef struct _TWO_DOUBLES   Point2;
+DLLINCLUDE typedef struct _THREE_DOUBLES Point3;
+DLLINCLUDE typedef struct _TWO_DOUBLES   Vector2;
+DLLINCLUDE typedef struct _THREE_DOUBLES Vector3;
+DLLINCLUDE typedef struct _TWO_DOUBLES   Scalar2;
+DLLINCLUDE typedef struct _THREE_DOUBLES Scalar3;
+DLLINCLUDE typedef struct _FOUR_DOUBLES  Quaternion;
+
 DLLINCLUDE typedef Error_t(*DataFree_fnptr)(void *data);
 DLLINCLUDE typedef i32(*DataCmp_fnptr)(const void *data, const void *tgtdata);
 
@@ -71,6 +81,27 @@ union color {
         u8 r;
     };
     u32 rgba;
+};
+
+// Point2, Vector2, Scalar2
+struct _TWO_DOUBLES {
+    double x;
+    double y;
+};
+
+// Point3, Vector3, Scalar3
+struct _THREE_DOUBLES {
+    double x;
+    double y;
+    double z;
+};
+
+// Quaternion
+struct _FOUR_DOUBLES {
+    double w;
+    double x;
+    double y;
+    double z;
 };
 
 #endif

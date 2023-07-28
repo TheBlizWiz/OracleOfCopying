@@ -5,6 +5,8 @@
 #include "defs/d_constants.h"
 #include "game/g_hitbox.h"
 
+/*
+
 Hitbox_t hbox_new(u8 xa, u8 ya, u8 xb, u8 yb, u8 xc, u8 yc, u8 xd, u8 yd, i16 zb, i16 zt) {
     Hitbox_t hbx;
     memset(&hbx, 0, sizeof(Hitbox_t));
@@ -45,3 +47,5 @@ Hitbox_t hbox_newsquished(u16 yxa, u16 yxb, u16 yxc, u16 yxd, i16 zt, i16 zb) {
     hbx.zbottom = zb;
     return hbx;
 }
+
+*/

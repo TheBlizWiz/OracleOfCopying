@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -160,15 +160,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="src\engine\e_input.h" />
     <ClInclude Include="src\engine\e_keyboard.h" />
+    <ClInclude Include="src\engine\e_time.h" />
+    <ClInclude Include="src\game\g_entity.h" />
     <ClInclude Include="src\game\g_enums.h" />
     <ClInclude Include="src\game\g_hitbox.h" />
     <ClInclude Include="src\game\g_map.h" />
+    <ClInclude Include="src\game\g_object.h" />
+    <ClInclude Include="src\game\g_player.h" />
     <ClInclude Include="src\game\g_room.h" />
     <ClInclude Include="src\game\g_tile.h" />
     <ClInclude Include="src\libs\cjson\cjson.h" />
     <ClInclude Include="src\libs\dirent\dirent.h" />
     <ClInclude Include="src\libs\hashmap\hashmap.h" />
+    <ClInclude Include="src\math\m_physics.h" />
     <ClInclude Include="src\math\m_rng.h" />
     <ClInclude Include="oocdll.h" />
     <ClInclude Include="src\defs\d_common.h" />
@@ -183,13 +189,17 @@
     <ClInclude Include="src\utils\u_list.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\e_input.c" />
     <ClCompile Include="src\engine\e_keyboard.c" />
+    <ClCompile Include="src\engine\e_time.c" />
     <ClCompile Include="src\game\g_hitbox.c" />
     <ClCompile Include="src\game\g_map.c" />
+    <ClCompile Include="src\game\g_player.c" />
     <ClCompile Include="src\game\g_room.c" />
     <ClCompile Include="src\game\g_tile.c" />
     <ClCompile Include="src\libs\cjson\cjson.c" />
     <ClCompile Include="src\libs\hashmap\hashmap.c" />
+    <ClCompile Include="src\math\m_physics.c" />
     <ClCompile Include="src\math\m_rng.c" />
     <ClCompile Include="oocdll.c" />
     <ClCompile Include="src\defs\d_string.c" />

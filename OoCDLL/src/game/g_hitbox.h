@@ -6,40 +6,39 @@
 /**
     Hitbox looks like this:
 
-     C---------D
+     G---------H
     / |      / |
-   /  |     /  |   z = ztop
-  A--------B   |
+   /  |     /  |
+  E--------F   |
   |   |    |   |
   |   |    |   |
   |   |    |   |
   |   C----|---D
   |  /     |  /
-  | /      | /    z = zbottom
+  | /      | /
   |/       |/
   A--------B
 
-    The top and bottom is always flat, so we can reuse the same values
-    for A, B, C, D for both the top and bottom faces
-
-    Viewed from above it looks like this:
-
-    C--------D
-    |        |
-    |        |  z = ztop
-    |        |
-    A--------B
   */
 DLLINCLUDE typedef struct Hitbox Hitbox_t;
 
 struct Hitbox{
-    u8 Ax, Ay, Bx, By, Cx, Cy, Dx, Dy;
-    i16 ztop;
-    i16 zbottom;
+    Point3 A;
+    Point3 B;
+    Point3 C;
+    Point3 D;
+
+    Point3 E;
+    Point3 F;
+    Point3 G;
+    Point3 H;
 };
 
+
+/*
 DLLINCLUDE Hitbox_t hbox_new(u8, u8, u8, u8, u8, u8, u8, u8, i16, i16);
 DLLINCLUDE Hitbox_t hbox_newdefault();
 DLLINCLUDE Hitbox_t hbox_newsquished(u16, u16, u16, u16, i16, i16);
+*/
 
 #endif

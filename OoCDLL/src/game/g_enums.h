@@ -3,11 +3,12 @@
 
 #include "defs/d_common.h"
 
-DLLINCLUDE typedef enum TileClass TileClass_e;
-DLLINCLUDE typedef enum ObjectClass ObjectClass_e;
+DLLINCLUDE typedef enum TileType TileType_e;
+DLLINCLUDE typedef enum ObjectType ObjectType_e;
+DLLINCLUDE typedef enum ActorType ActorType_e;
 DLLINCLUDE typedef enum TriggerType TriggerType_e;
 
-enum TileClass {
+enum TileType {
     EMPTY,
     WALL,
     TORCH_WALL,
@@ -18,7 +19,7 @@ enum TileClass {
     TORCH_WALL_2D
 };
 
-enum ObjectClass {
+enum ObjectType {
     PLAYER_START,
     ENEMY_SPAWNER,
     WALL_BREAKABLE,
@@ -56,6 +57,15 @@ enum ObjectClass {
     LADDER_2D
 };
 
+enum ActorType {
+    PLAYER,
+    SLIME,
+    BAT,
+    SKELETON
+};
+
+
+// what were these even used for again?
 enum TriggerType {
     TRIGGER_NEVER,
     TRIGGER_ONCE,

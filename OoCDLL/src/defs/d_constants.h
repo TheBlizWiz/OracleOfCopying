@@ -79,6 +79,25 @@
 #define MISSING_TEX_H 32
 #define MISSING_TEX_WXH 1024
 
+// used in g_player.c
+
+// mass of player - 160 lb in kg
+#define PLAYER_MASS 72.57478
+#define PLAYER_MOVE_X_FORCE 50.0
+#define PLAYER_MOVE_Y_FORCE 50.0
+#define PLAYER_MOVE_Z_FORCE 50.0
+
+#define GRAVITY_Z_FORCE 100.0
+
+#define NORTH 0
+#define SOUTH 1
+#define EAST 2
+#define WEST 3
+#define NORTHEAST 4
+#define NORTHWEST 5
+#define SOUTHEAST 6
+#define SOUTHWEST 7
+
 
 // used in g_roomh / g_room.c
 // taken from oracle of seasons
@@ -121,6 +140,7 @@
 #define ERROR_LOGIC_CONTRADICTION 10
 #define ERROR_FILE_NOTFOUND 11
 #define ERROR_BUFFEROVERFLOW 12
+#define ERROR_MATH_INVALIDVALUE 13
 
 
 //this one is also special, return 69420 if something catastrophically bad happens...

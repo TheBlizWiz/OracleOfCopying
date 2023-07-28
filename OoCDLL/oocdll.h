@@ -7,19 +7,24 @@
 #include "defs/d_utils.h"
 
 #include "engine/e_app.h"
+#include "engine/e_keyboard.h"
 
-#include "game/g_hitbox.h"
+#include "game/g_entity.h"
 #include "game/g_enums.h"
+#include "game/g_hitbox.h"
 #include "game/g_map.h"
+#include "game/g_object.h"
+#include "game/g_player.h"
 #include "game/g_room.h"
 #include "game/g_tile.h"
 
-#include "libs/hashmap/hashmap.h"
-#include "libs/dirent/dirent.h"
 #include "libs/cjson/cjson.h"
+#include "libs/dirent/dirent.h"
+#include "libs/hashmap/hashmap.h"
 
 #include "math/m_rng.h"
 
+#include "render/r_animation.h"
 #include "render/r_image.h"
 #include "render/r_sdl.h"
 

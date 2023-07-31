@@ -7,7 +7,7 @@
 int main(int argc, char *argv[]) {
 
     App_t *ooc;
-    Time_t t;
+
     boolean run = 1;
     SDL_Event evt;
     SDL_Texture *atlas;
@@ -15,12 +15,22 @@ int main(int argc, char *argv[]) {
     Error_t e;
     Player_t *player;
 
+    State_t tmpstate;
+    Coordinate c;
+
+    double currenttime = 0.0;
+    double newtime = 0.0;
+    double t = 0.0;
+    double dt = 0.01;
     double accumulator = 0.0;
+    double frametime = 0.0;
+    double interp = 0.0;
 
     ooc = app_new();
     e = app_start(ooc, SDL_INIT_EVERYTHING, SDL_WINDOW_ALLOW_HIGHDPI, SDL_RENDERER_ACCELERATED, SCREEN_SIZE_X, SCREEN_SIZE_Y);
 
-    t = time_start();
+    currenttime = (double) SDL_GetTicks64() / 1000.0;
+
 
     if (e != ERROR_NOERROR) {
         errprintf("ERROR: something wrong with app_start\n");
@@ -46,13 +56,43 @@ int main(int argc, char *argv[]) {
 
     Image_t *whiteball = atlas_getimage(atlasmap, "whiteball.qoi");
 
-    player = player_new((Point3) {.x = 256.0, .y = 256.0, .z = 0.0}, hbox_new(PLAYER_HITBOX_DIMENSIONS), &whiteball);
+    player = player_new((Point3) {.x = 256.0, .y = 256.0, .z = 0.0}, player_newhbox(), &whiteball);
 
     while (run) {
-        app_doevents(ooc, &evt);
+        SDL_RenderClear(ooc->rdr);
+        e = app_doevents(ooc, &evt);
 
-        time_calc(t);
+        if (e == ERROR_DOEVENTS_TIMETOQUIT) {
+            run = 0;
+            break;
+        }
 
+        newtime = (double) SDL_GetTicks64() / 1000.0;
+        frametime = newtime - currenttime;
+
+        if (frametime > 0.25) {
+            frametime = 0.25;
+        }
+        
+        currenttime = newtime;
+
+        accumulator += frametime;
+
+        while (accumulator >= dt) {
+            state_update(&player->ent);
+            phys_resetforces(&player->ent);
+            phys_calcobjectforces(&player->ent, player_handleinput(ooc));
+            phys_calcenvironmentforces(&player->ent);
+            phys_integrate(&player->ent, dt);
+            accumulator -= dt;
+        }
+
+        interp = accumulator / dt;
+
+        tmpstate = phys_interpolate(&player->ent, interp);
+        c = SDL_WorldPosToScreenPos(tmpstate.position);
+
+        SDL_BlitImage(ooc, whiteball, c, 1, TF_NONE);
 
         SDL_RenderPresent(ooc->rdr);
         SDL_Delay(15);

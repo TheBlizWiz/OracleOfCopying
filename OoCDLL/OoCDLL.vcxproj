@@ -191,6 +191,7 @@
   <ItemGroup>
     <ClCompile Include="src\engine\e_keyboard.c" />
     <ClCompile Include="src\engine\e_time.c" />
+    <ClCompile Include="src\game\g_entity.c" />
     <ClCompile Include="src\game\g_hitbox.c" />
     <ClCompile Include="src\game\g_map.c" />
     <ClCompile Include="src\game\g_player.c" />

@@ -53,7 +53,7 @@ void SDL_BlitRotated(SDL_Surface *src, SDL_Surface *dst, u32 dstX, u32 dstY) {
     }
 }
 
-int SDL_BlitImage(App_t ooc, Image_t *img, Coordinate c, u8 center, u8 rotflipscl, ...) {
+int SDL_BlitImage(App_t *app, Image_t *img, Coordinate c, u8 center, u8 rotflipscl, ...) {
     if (img) {
         double ang;
         double scl;
@@ -115,11 +115,11 @@ int SDL_BlitImage(App_t ooc, Image_t *img, Coordinate c, u8 center, u8 rotflipsc
 
                 va_end(tforms);
 
-                return _SDL_blitImageEx(ooc, img, c, center, ang, flip, scl);
+                return _SDL_blitImageEx(app, img, c, center, ang, flip, scl);
                 break;
             case TF_NONE:
             default:
-                return _SDL_blitImage(ooc, img, c, center);
+                return _SDL_blitImage(app, img, c, center);
         }
     }
     else {
@@ -127,7 +127,7 @@ int SDL_BlitImage(App_t ooc, Image_t *img, Coordinate c, u8 center, u8 rotflipsc
     }
 }
 
-int _SDL_blitImageEx(App_t ooc, Image_t *img, Coordinate c, u8 center, double ang, SDL_RendererFlip flip, double scl) {
+int _SDL_blitImageEx(App_t *app, Image_t *img, Coordinate c, u8 center, double ang, SDL_RendererFlip flip, double scl) {
     SDL_FRect dest = { .x = (float) c.x, .y = (float) c.y, .w = (float) img->rect.w, .h = (float) img->rect.h };
 
     if (img) {
@@ -135,7 +135,7 @@ int _SDL_blitImageEx(App_t ooc, Image_t *img, Coordinate c, u8 center, double an
             dest.w *= (float) scl;
             dest.h *= (float) scl;
 
-            return SDL_RenderCopyExF(ooc.rdr, img->tex, &img->rect, &dest, ang, NULL, flip);
+            return SDL_RenderCopyExF(app->rdr, img->tex, &img->rect, &dest, ang, NULL, flip);
         }
         else {
             if (flip == SDL_FLIP_HORIZONTAL) {
@@ -149,7 +149,7 @@ int _SDL_blitImageEx(App_t ooc, Image_t *img, Coordinate c, u8 center, double an
             dest.h *= (float) scl;
             ang -= 90.00;
 
-            return SDL_RenderCopyExF(ooc.rdr, img->tex, &img->rect, &dest, ang, NULL, flip);
+            return SDL_RenderCopyExF(app->rdr, img->tex, &img->rect, &dest, ang, NULL, flip);
         }
     }
     else {
@@ -157,7 +157,7 @@ int _SDL_blitImageEx(App_t ooc, Image_t *img, Coordinate c, u8 center, double an
     }
 }
 
-int _SDL_blitImage(App_t ooc, Image_t *img, Coordinate c, u8 center) {
+int _SDL_blitImage(App_t *app, Image_t *img, Coordinate c, u8 center) {
     SDL_Point p = { .x = 0, .y = 0 };
     SDL_Rect dest = { .x = c.x, .y = c.y, .w = img->rect.w, .h = img->rect.h };
     if (img) {
@@ -167,7 +167,7 @@ int _SDL_blitImage(App_t ooc, Image_t *img, Coordinate c, u8 center) {
                 dest.y -= (dest.h / 2);
             }
 
-            return SDL_RenderCopy(ooc.rdr, img->tex, &img->rect, &dest);
+            return SDL_RenderCopy(app->rdr, img->tex, &img->rect, &dest);
         }
         else {
             if (center) {
@@ -176,7 +176,7 @@ int _SDL_blitImage(App_t ooc, Image_t *img, Coordinate c, u8 center) {
             }
             dest.y += img->rect.w;
 
-            return SDL_RenderCopyEx(ooc.rdr, img->tex, &img->rect, &dest, -90.00, &p, SDL_FLIP_NONE);
+            return SDL_RenderCopyEx(app->rdr, img->tex, &img->rect, &dest, -90.00, &p, SDL_FLIP_NONE);
         }
     }
     else {
@@ -200,8 +200,10 @@ Coordinate SDL_WorldPosToScreenPos(Point3 pt) {
     // TODO: we need to scale the texture as Z changes
     
     Coordinate c = { 0 };
-    c.x = abs((u32) fmod(pt.x, ROOM_PX_SIZE_X));
-    c.y = abs((u32) fmod(pt.y, ROOM_PX_SIZE_Y));
+   // c.x = abs((u32) fmod(pt.x, ROOM_PX_SIZE_X));
+   // c.y = abs((u32) fmod(pt.y, ROOM_PX_SIZE_Y));
+    c.x = (u32) pt.x;
+    c.y = (u32) pt.y;
     return c;
 }
 

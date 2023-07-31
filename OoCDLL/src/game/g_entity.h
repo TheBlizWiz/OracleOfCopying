@@ -20,4 +20,6 @@ struct Entity {
     struct State currstate;
 };
 
+DLLINCLUDE Error_t state_update(Entity_t *ent);
+
 #endif

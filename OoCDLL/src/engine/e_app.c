@@ -60,22 +60,25 @@ Error_t app_start(App_t *app, i32 initflags, i32 wdwflags, i32 rdrflags, i32 siz
 Error_t app_doevents(App_t *app, SDL_Event *evt) {
     if (app) {
         SDL_PollEvent(evt);
+        Error_t e = ERROR_NOERROR;
 
         switch (evt->type) {
             case SDL_QUIT:
-                return ERROR_DOEVENTS_TIMETOQUIT;
+                e = ERROR_DOEVENTS_TIMETOQUIT;
                 break;
+
             case SDL_KEYDOWN:
                 kboard_keydown(app, &evt->key);
+                e = ERROR_DOEVENTS_DEFAULTCASE;
                 break;
             case SDL_KEYUP:
                 kboard_keyup(app, &evt->key);
-                break;
+                e = ERROR_DOEVENTS_DEFAULTCASE;
             default:
-                break;
+                e = ERROR_DOEVENTS_DEFAULTCASE;
         }
 
-        return ERROR_NOERROR;
+        return e;
     }
     else {
         errprintf("ERROR: App_t *app is null\n");

@@ -19,6 +19,7 @@ Error_t phys_integrate(Entity_t *ent, double dt) {
     if (ent) {
         if (dt > 0.0) {
             if (ent->mass > 0.0) {
+
                 ent->currstate.acceleration.x = ent->force.x / ent->mass;
                 ent->currstate.acceleration.y = ent->force.y / ent->mass;
                 ent->currstate.acceleration.z = ent->force.z / ent->mass;
@@ -39,6 +40,7 @@ Error_t phys_integrate(Entity_t *ent, double dt) {
                 ent->force.x = 0.0;
                 ent->force.y = 0.0;
                 ent->force.z = 0.0;
+
 
                 return ERROR_NOERROR;
             }

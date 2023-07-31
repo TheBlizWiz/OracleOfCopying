@@ -161,6 +161,9 @@
     <ClCompile Include="src\engine\e_time.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\game\g_entity.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2main.lib" />

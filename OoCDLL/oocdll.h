@@ -3,11 +3,11 @@
 
 #include "defs/d_common.h"
 #include "defs/d_constants.h"
+#include "defs/d_macros.h"
 #include "defs/d_string.h"
 #include "defs/d_utils.h"
 
 #include "engine/e_app.h"
-#include "engine/e_input.h"
 #include "engine/e_keyboard.h"
 #include "engine/e_time.h"
 

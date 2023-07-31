@@ -1,5 +1,6 @@
 #include "m_physics.h"
 #include "defs/d_constants.h"
+#include "defs/d_macros.h"
 
 #include "game/g_player.h"
 
@@ -18,21 +19,21 @@ Error_t phys_integrate(Entity_t *ent, double dt) {
     if (ent) {
         if (dt > 0.0) {
             if (ent->mass > 0.0) {
-                ent->acceleration.x = ent->force.x / ent->mass;
-                ent->acceleration.y = ent->force.y / ent->mass;
-                ent->acceleration.z = ent->force.z / ent->mass;
+                ent->currstate.acceleration.x = ent->force.x / ent->mass;
+                ent->currstate.acceleration.y = ent->force.y / ent->mass;
+                ent->currstate.acceleration.z = ent->force.z / ent->mass;
 
-                ent->velocity.x += ent->acceleration.x * dt;
-                ent->velocity.y += ent->acceleration.y * dt;
-                ent->velocity.z += ent->acceleration.z * dt;
+                ent->currstate.velocity.x += ent->currstate.acceleration.x * dt;
+                ent->currstate.velocity.y += ent->currstate.acceleration.y * dt;
+                ent->currstate.velocity.z += ent->currstate.acceleration.z * dt;
 
-                ent->position.x += ent->velocity.x * dt;
-                ent->position.y += ent->velocity.y * dt;
-                ent->position.z += ent->velocity.z * dt;
+                ent->currstate.position.x += ent->currstate.velocity.x * dt;
+                ent->currstate.position.y += ent->currstate.velocity.y * dt;
+                ent->currstate.position.z += ent->currstate.velocity.z * dt;
 
                 // temporary, replace with actual ground collision later
-                if (ent->position.z < 0.0) {
-                    ent->position.z = 0.0;
+                if (ent->currstate.position.z < 0.0) {
+                    ent->currstate.position.z = 0.0;
                 }
 
                 ent->force.x = 0.0;
@@ -93,4 +94,14 @@ Error_t phys_calcobjectforces(Entity_t *ent, Vector3 v) {
         errprintf("ERROR: Entity_t *ent is null\n");
         return ERROR_ISNULLADDR;
     }
+}
+
+State_t phys_interpolate(Entity_t *ent, double alpha) {
+    State_t tmpstate = { 0.0 };
+
+    tmpstate.position.x = (ent->currstate.position.x * alpha) + (ent->prevstate.position.x * (1.0 - alpha));
+    tmpstate.position.y = (ent->currstate.position.y * alpha) + (ent->prevstate.position.y * (1.0 - alpha));
+    tmpstate.position.z = (ent->currstate.position.z * alpha) + (ent->prevstate.position.z * (1.0 - alpha));
+
+    return tmpstate;
 }

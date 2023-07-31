@@ -5,48 +5,32 @@
 #include <time.h>
 
 int main(int argc, char *argv[]) {
-    srand(time((time_t *) NULL));
 
-    App_t ooc;
+    App_t *ooc;
+    Time_t t;
+    boolean run = 1;
     SDL_Event evt;
-
-    Hashmap_t *atlasmap;
     SDL_Texture *atlas;
-    double rot = 0.0, rot2 = 0.0, rot3 = 0.0, scl = 0.0, scl2 = 1.0, scl3 = 1.0;
-    SDL_RendererFlip flip = SDL_FLIP_NONE;
+    Hashmap_t *atlasmap;
+    Error_t e;
+    Player_t *player;
 
-    Error_t e = ERROR_NOERROR;
-    u8 run = 1;
+    double accumulator = 0.0;
 
-    // PRE-LOAD
+    ooc = app_new();
+    e = app_start(ooc, SDL_INIT_EVERYTHING, SDL_WINDOW_ALLOW_HIGHDPI, SDL_RENDERER_ACCELERATED, SCREEN_SIZE_X, SCREEN_SIZE_Y);
 
-    zeroset(&ooc, sizeof(App_t));
-    zeroset(&evt, sizeof(SDL_Event));
+    t = time_start();
 
-    e = _app_start(&ooc, SDL_INIT_EVERYTHING, SDL_WINDOW_ALLOW_HIGHDPI, SDL_RENDERER_ACCELERATED);
     if (e != ERROR_NOERROR) {
         errprintf("ERROR: something wrong with app_start\n");
         return 1;
     }
 
-    // LOAD
-
-    /*
-
-    // backup missing texture, if we look up an image on the atlas and it isnt there, render this instead
-    u8 *px = CreateMissingTextureArray(32, 32);
-
-    nulltex = img_newfromsurface(ooc, "nulltex", SDL_CreateMissingTexture(ooc, 32, 32, px), 0);
-    if (!nulltex) {
-        errprintf("ERROR: no malloc space for backup missing texture... what is this, a potato?\n");
-        return 2;
-    }
-
-    */
-
-    atlas = IMG_LoadTexture(ooc.rdr, "E:\\MSVC\\source\\repos\\OracleOfCopying\\OracleOfCopying\\textures\\atlases\\dancingdragondungeon\\atlasimg.qoi");
+    atlas = IMG_LoadTexture(ooc->rdr, "E:\\MSVC\\source\\repos\\OracleOfCopying\\OracleOfCopying\\textures\\atlases\\dancingdragondungeon\\atlasimg.qoi");
     if (!atlas) {
         errprintf("ERROR: atlas is null... uhhh\n");
+        return 2;
     }
 
     atlasmap = hashmap_new(sizeof(Image_t), 0, 0, 0, hash_imghash, hash_imgcmp, hash_imgfree, NULL);
@@ -60,75 +44,27 @@ int main(int argc, char *argv[]) {
         errprintf("ERROR: something wrong with atlas_load\n");
     }
 
-    Image_t *redball = atlas_getimage(atlasmap, "redball.qoi");
     Image_t *whiteball = atlas_getimage(atlasmap, "whiteball.qoi");
 
-    //Image_t *not_a_texture = atlas_getimage(atlasmap, "asdf");
+    player = player_new((Point3) {.x = 256.0, .y = 256.0, .z = 0.0}, hbox_new(PLAYER_HITBOX_DIMENSIONS), &whiteball);
 
-    run = 1;
     while (run) {
-        e = _app_doevents(&evt);
+        app_doevents(ooc, &evt);
 
-        if (e == ERROR_DOEVENTS_TIMETOQUIT) {
-            run = 0;
-            break;
-        }
-
-        SDL_RenderClear(ooc.rdr);
-
-        SDL_BlitImage(ooc, redball, 256, 256, 0, TF_NONE);
-
-        rot += 2.0;
-        if (rot >= 360.0) {
-            rot -= 360.0;
-        }
-
-        SDL_BlitImage(ooc, redball, 256 + 32, 256, 0, TF_ROT, rot);
-
-        scl += 0.1;
-        if (scl >= 4.0) {
-            scl = 0.0;
-        }
-
-        SDL_BlitImage(ooc, redball, 256 + 64, 256, 0, TF_SCL, scl);
-
-        SDL_BlitImage(ooc, redball, 256 - 32, 256, 0, TF_FLIP, SDL_FLIP_HORIZONTAL);
-
-        rot2 += 0.5;
-        if (rot2 >= 360.0) {
-            rot2 -= 360.0;
-        }
-
-        scl2 += 0.1;
-        if (scl2 >= 4.0) {
-            scl2 = 0.0;
-        }
-
-        SDL_ColorMod(whiteball, (Color_u) {
-            .r = rng_gnext() % 255,
-            .g = rng_gnext() % 255,
-            .b = rng_gnext() % 255,
-            .a = 255
-        });
-        SDL_BlitImage(ooc, whiteball, 256 - (32 * 4), 256 + 128, 0, TF_ROTSCL, rot2, scl2);
-        SDL_ColorReset(whiteball);
-
-        rot3 = rng_gnext() % 360;
-        scl3 = rng_gnext() % 4;
-        SDL_ColorMod(whiteball, (Color_u){.r = rng_gnext() % 255, .g = rng_gnext() % 255, .b = rng_gnext() % 255, .a = rng_gnext() % 255});
-        SDL_BlitImage(ooc, whiteball, 512, 256, 0, TF_ROTFLIPSCL, rot3, SDL_FLIP_HORIZONTAL, scl3);
-        SDL_ColorReset(whiteball);
+        time_calc(t);
 
 
-        SDL_RenderPresent(ooc.rdr);
+        SDL_RenderPresent(ooc->rdr);
         SDL_Delay(15);
     }
 
+    player_free(player);
 
     hashmap_free(atlasmap);
     SDL_DestroyTexture(atlas);
 
-    _app_stop(&ooc, SDL_INIT_EVERYTHING);
+    app_stop(ooc, SDL_INIT_EVERYTHING);
+    app_free(ooc);
 
     return 0;
 }

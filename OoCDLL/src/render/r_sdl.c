@@ -1,9 +1,11 @@
 #pragma warning(disable : 26451)
 
 #include <stdarg.h>
+#include <math.h>
 
 #include "r_sdl.h"
 #include "defs/d_constants.h"
+#include "defs/d_macros.h"
 
 u32 SDL_GetPixel(SDL_Surface *src, u32 x, u32 y) {
     int bpp = src->format->BytesPerPixel;
@@ -194,11 +196,14 @@ int SDL_ColorReset(Image_t *img) {
     return e1 + e2;
 }
 
-
-
-
-
-
+Coordinate SDL_WorldPosToScreenPos(Point3 pt) {
+    // TODO: we need to scale the texture as Z changes
+    
+    Coordinate c = { 0 };
+    c.x = abs((u32) fmod(pt.x, ROOM_PX_SIZE_X));
+    c.y = abs((u32) fmod(pt.y, ROOM_PX_SIZE_Y));
+    return c;
+}
 
 u8 *CreateMissingTextureArray(u32 w, u32 h) {
     u8 magenta[4] = { 0xFF, 0xFF, 0x00, 0xFF };

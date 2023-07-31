@@ -8,10 +8,9 @@ DLLINCLUDE typedef struct Time Time_t;
 struct Time {
     u64 tick;
     double time;
-    double accumtime;
 };
 
-void time_start(Time_t t);
-void time_calc(Time_t t);
+DLLINCLUDE Time_t time_start();
+DLLINCLUDE void time_calc(Time_t t);
 
 #endif

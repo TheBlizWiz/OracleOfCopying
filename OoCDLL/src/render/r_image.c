@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "defs/d_string.h"
+#include "defs/d_macros.h"
 #include "defs/d_utils.h"
 
 #include "libs/cjson/cjson.h"

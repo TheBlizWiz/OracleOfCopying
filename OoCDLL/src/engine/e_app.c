@@ -4,7 +4,9 @@
 #include "SDL.h"
 
 #include "e_app.h"
+#include "e_keyboard.h"
 #include "defs/d_common.h"
+#include "defs/d_macros.h"
 #include "defs/d_constants.h"
 
 App_t *app_new(void) {
@@ -55,17 +57,31 @@ Error_t app_start(App_t *app, i32 initflags, i32 wdwflags, i32 rdrflags, i32 siz
     return (Error_t) ERROR_NOERROR;
 }
 
-Error_t app_doevents(SDL_Event *evt) {
-    SDL_PollEvent(evt);
+Error_t app_doevents(App_t *app, SDL_Event *evt) {
+    if (app) {
+        SDL_PollEvent(evt);
 
-    switch (evt->type) {
-        case SDL_QUIT:
-            return ERROR_DOEVENTS_TIMETOQUIT;
-        default:
-            return ERROR_DOEVENTS_DEFAULTCASE;
+        switch (evt->type) {
+            case SDL_QUIT:
+                return ERROR_DOEVENTS_TIMETOQUIT;
+                break;
+            case SDL_KEYDOWN:
+                kboard_keydown(app, &evt->key);
+                break;
+            case SDL_KEYUP:
+                kboard_keyup(app, &evt->key);
+                break;
+            default:
+                break;
+        }
+
+        return ERROR_NOERROR;
+    }
+    else {
+        errprintf("ERROR: App_t *app is null\n");
+        return ERROR_ISNULLADDR;
     }
 
-    return ERROR_DOEVENTS_SWITCHCASEDIDNTRETURN;
 }
 
 Error_t app_stop(App_t *app, i32 initflags) {

@@ -34,6 +34,7 @@ struct Player {
 };
 
 DLLINCLUDE Player_t *player_new(Point3 pos, Hitbox_t hbox, Image_t **tex);
+DLLINCLUDE Vector3 player_handleinput(App_t *app);
 DLLINCLUDE Error_t player_free(Player_t *player);
 
 #endif

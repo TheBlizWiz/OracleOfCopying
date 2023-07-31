@@ -42,10 +42,11 @@ DLLINCLUDE Error_t app_start(App_t *app, i32 initflags, i32 wdwflags, i32 rdrfla
 /**
   * Handle events for OoC / DgM
   *
+  * \param  App_t     *app    - The current App_t app running
   * \param  SDL_Event *evt    - Event sent over from SDL
   * \return Error_t           - Error code, check d_constants.h
   */
-DLLINCLUDE Error_t app_doevents(SDL_Event *);
+DLLINCLUDE Error_t app_doevents(App_t *app, SDL_Event *);
 
 /**
  * Stop Oracle of Copying / DungeonMaster.

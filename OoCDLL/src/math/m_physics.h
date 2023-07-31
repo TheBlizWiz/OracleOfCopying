@@ -14,6 +14,6 @@ Error_t phys_integrate(Entity_t *ent, double dt);
 
 // Error_t phys_docollisionorsomethingidk(Entity_t *ent, Hitbox_t hbox, ???);
 
-Error_t phys_calculate(Entity_t *ent, double dt);
+// Error_t phys_calculate(Entity_t *ent, double dt);
 
 #endif

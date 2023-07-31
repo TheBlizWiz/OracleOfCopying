@@ -102,11 +102,48 @@
 // used in g_roomh / g_room.c
 // taken from oracle of seasons
 
+#define TILE_PX_SIZE_X 32
+#define TILE_PX_SIZE_Y 32
+
 #define ROOM_SIZE_X 16
 #define ROOM_SIZE_Y 11
 
 #define MAP_SIZE_X 16
 #define MAP_SIZE_Y 16
+
+#define ROOM_PX_SIZE_X 512.0
+#define ROOM_PX_SIZE_Y 352.0
+
+
+// dimensions in pixels of entire dungeon
+// from ROOM_SIZE * TILE_SIZE * MAP_SIZE
+/*
+
+
+     G---------H
+    / |      / |
+   /  |     /  |
+  E--------F   |
+  |   |    |   |
+  |   |    |   |
+  |   |    |   |
+  |   C----|---D
+  |  /     |  /
+  | /      | /
+  |/       |/
+  A--------B
+
+  A = (-4096, -2816, -128)
+  B = ( 4096, -2816, -128)
+  C = (-4096,  2816, -128)
+  D = ( 4096,  2816, -128)
+  E = (-4096, -2816,  127)
+  F = ( 4096, -2816,  127)
+  G = (-4096,  2816,  127)
+  H = ( 4096,  2816,  127)
+
+
+*/
 
 // sets the maximum bucket size for the hashmap
 // more buckets --> better performance, more memory

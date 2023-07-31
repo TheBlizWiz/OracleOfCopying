@@ -1,4 +1,5 @@
 #include "r_animation.h"
+#include "defs/d_macros.h"
 
 Animation_t *anim_new(u8 numf, u16 frate) {
     Animation_t *anim = (Animation_t *) malloc(sizeof(Animation_t) + (sizeof(Image_t *) * numf));

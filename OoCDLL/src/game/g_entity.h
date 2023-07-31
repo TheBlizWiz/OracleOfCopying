@@ -3,16 +3,21 @@
 
 #include "defs/d_common.h"
 
-typedef struct Entity Entity_t;
+DLLINCLUDE typedef struct Entity Entity_t;
+DLLINCLUDE typedef struct State State_t;
 
-struct Entity {
-
-    double mass;
-    Vector3 force;
-
+struct State {
     Point3 position;
     Vector3 velocity;
     Vector3 acceleration;
+};
+
+struct Entity {
+    double mass;
+    Vector3 force;
+
+    struct State prevstate;
+    struct State currstate;
 };
 
 #endif

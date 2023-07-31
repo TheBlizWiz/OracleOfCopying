@@ -35,6 +35,8 @@ struct Hitbox{
 };
 
 
+DLLINCLUDE Hitbox_t hbox_new(Point3, Point3, Point3, Point3, Point3, Point3, Point3, Point3);
+
 /*
 DLLINCLUDE Hitbox_t hbox_new(u8, u8, u8, u8, u8, u8, u8, u8, i16, i16);
 DLLINCLUDE Hitbox_t hbox_newdefault();

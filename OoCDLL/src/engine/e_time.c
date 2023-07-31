@@ -2,15 +2,13 @@
 #include "defs/d_common.h"
 #include "SDL.h"
 
-void time_start(Time_t t) {
-    zeroset(&t, sizeof(Time_t));
+Time_t time_start() {
+    Time_t t = { 0 };
     t.tick = SDL_GetTicks64();
+    return t;
 }
 
 void time_calc(Time_t t) {
-    u64 currtick = SDL_GetTicks64();
-    double frametime = (double) (currtick - t.tick) / 1000.0;
-    t.time = (double) currtick / 1000.0;
-    t.accumtime += frametime;
-    t.tick = currtick;
+    t.tick = SDL_GetTicks64();
+    t.time = (double) t.tick / 1000.0;
 }

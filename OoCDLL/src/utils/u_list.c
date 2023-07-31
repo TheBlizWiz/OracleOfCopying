@@ -3,6 +3,7 @@
 
 #include "defs/d_common.h"
 #include "defs/d_constants.h"
+#include "defs/d_macros.h"
 
 #include "u_list.h"
 

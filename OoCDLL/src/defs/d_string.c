@@ -4,6 +4,7 @@
 
 #include "d_common.h"
 #include "d_constants.h"
+#include "d_macros.h"
 #include "d_string.h"
 
 Strdata_t *str_alloc(Size_t len) {

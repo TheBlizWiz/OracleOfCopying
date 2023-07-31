@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "d_string.h"
+#include "d_macros.h"
 #include "d_utils.h"
 
 Error_t file_readline(String_t *strptr, FILE *f) {

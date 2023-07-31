@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include "defs/d_constants.h"
+#include "defs/d_macros.h"
 
 #include "game/g_tile.h"
 

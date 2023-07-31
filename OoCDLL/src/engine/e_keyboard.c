@@ -1,5 +1,6 @@
 #include "e_keyboard.h"
 #include "defs/d_constants.h"
+#include "defs/d_macros.h"
 
 Error_t kboard_keyup(App_t *app, SDL_KeyboardEvent *kevt) {
     if (app) {

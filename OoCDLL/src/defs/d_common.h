@@ -8,19 +8,6 @@
 #endif
 
 #include <stdint.h>
-#include <stdio.h>
-#include <string.h>
-
-#ifdef _DEBUG
-#define errprintf printf
-#endif
-
-#ifdef NDEBUG
-#define errprintf //
-#endif
-
-#define zeroset(ptr, sz) memset(ptr, 0, sz)
-#define strncopy(dst, src, szdst) do { strncpy_s(dst, sizeof(dst[0]) * szdst, src, sizeof(dst[0]) * (szdst - 1)); dst[szdst - 1] = '\0'; } while(0)
 
 DLLINCLUDE typedef uint8_t  u8;
 DLLINCLUDE typedef uint16_t u16;

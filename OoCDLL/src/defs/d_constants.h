@@ -81,13 +81,21 @@
 
 // used in g_player.c
 
-// mass of player - 160 lb in kg
-#define PLAYER_MASS 72.57478
-#define PLAYER_MOVE_X_FORCE 1000.0
-#define PLAYER_MOVE_Y_FORCE 1000.0
+// mass of player - ~160 lb in kg
+#define PLAYER_MASS 72.50
+
+
+// TODO: tweak these numbers until they feel just right
+#define PLAYER_MOVE_X_FORCE 10000.0
+#define PLAYER_MOVE_Y_FORCE 10000.0
 #define PLAYER_MOVE_Z_FORCE 1000.0
 
+#define PLAYER_MOVE_X_MAX_VELOCITY 250.0
+#define PLAYER_MOVE_Y_MAX_VELOCITY 250.0
+
 #define GRAVITY_Z_FORCE 100.0
+#define FRICTION_X_FORCE 5000.0
+#define FRICTION_Y_FORCE 5000.0
 
 #define NORTH 0
 #define SOUTH 1

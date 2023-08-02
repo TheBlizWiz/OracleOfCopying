@@ -8,6 +8,8 @@ DLLINCLUDE Error_t phys_resetforces(Entity_t *ent);
 
 DLLINCLUDE Error_t phys_gravity(Entity_t *ent);
 
+DLLINCLUDE Error_t phys_friction(Entity_t *ent);
+
 DLLINCLUDE Error_t phys_calcenvironmentforces(Entity_t *ent);
 
 DLLINCLUDE Error_t phys_integrate(Entity_t *ent, double dt);

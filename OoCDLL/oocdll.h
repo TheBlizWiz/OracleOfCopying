@@ -25,6 +25,8 @@
 #include "libs/hashmap/hashmap.h"
 
 #include "math/m_rng.h"
+#include "math/m_math.h"
+#include "math/m_vector.h"
 #include "math/m_physics.h"
 
 #include "render/r_animation.h"

@@ -37,6 +37,8 @@ Error_t phys_integrate(Entity_t *ent, double dt) {
                     ent->currstate.position.z = 0.0;
                 }
 
+                //if(ent->currstate.position.x )
+
                 ent->force.x = 0.0;
                 ent->force.y = 0.0;
                 ent->force.z = 0.0;
@@ -64,7 +66,31 @@ Error_t phys_gravity(Entity_t *ent) {
     // TODO: actual gravity function with collision n stuff
 
     if (ent) {
-        ent->force.z -= GRAVITY_Z_FORCE;
+        if(ent->currstate.position.z > 0.0)
+            ent->force.z -= GRAVITY_Z_FORCE;
+        return ERROR_NOERROR;
+    }
+    else {
+        errprintf("ERROR: Entity_t *ent is null\n");
+        return ERROR_ISNULLADDR;
+    }
+}
+
+Error_t phys_friction(Entity_t *ent) {
+    if (ent) {
+        if (ent->currstate.velocity.x > 0.0) {
+            ent->force.x -= FRICTION_X_FORCE;
+        }
+        if (ent->currstate.velocity.x < 0.0) {
+            ent->force.x += FRICTION_X_FORCE;
+        }
+        if (ent->currstate.velocity.y > 0.0) {
+            ent->force.y -= FRICTION_Y_FORCE;
+        }
+        if (ent->currstate.velocity.y < 0.0) {
+            ent->force.y += FRICTION_Y_FORCE;
+        }
+        
         return ERROR_NOERROR;
     }
     else {
@@ -76,8 +102,9 @@ Error_t phys_gravity(Entity_t *ent) {
 Error_t phys_calcenvironmentforces(Entity_t *ent) {
     if (ent) {
         Error_t e1 = phys_gravity(ent);
+        Error_t e2 = phys_friction(ent);
         // Error_t e2 = phys_wind or something idk
-        return ERROR_NOERROR + e1;
+        return ERROR_NOERROR + e1 + e2;
     }
     else {
         errprintf("ERROR: Entity_t *ent is null\n");

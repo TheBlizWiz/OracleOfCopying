@@ -20,7 +20,6 @@ int main(int argc, char *argv[]) {
 
     double currenttime = 0.0;
     double newtime = 0.0;
-    double t = 0.0;
     double dt = 0.01;
     double accumulator = 0.0;
     double frametime = 0.0;
@@ -55,8 +54,11 @@ int main(int argc, char *argv[]) {
     }
 
     Image_t *whiteball = atlas_getimage(atlasmap, "whiteball.qoi");
+    Image_t *redball = atlas_getimage(atlasmap, "redball.qoi");
 
-    player = player_new((Point3) {.x = 256.0, .y = 256.0, .z = 0.0}, player_newhbox(), &whiteball);
+    player = player_new((Point3) {
+        .x = 0.0, .y = 0.0, .z = 0.0
+    }, player_newhbox(), &whiteball);
 
     while (run) {
         SDL_RenderClear(ooc->rdr);
@@ -70,10 +72,10 @@ int main(int argc, char *argv[]) {
         newtime = (double) SDL_GetTicks64() / 1000.0;
         frametime = newtime - currenttime;
 
-        if (frametime > 0.25) {
-            frametime = 0.25;
+        if (frametime > 0.5) {
+            frametime = 0.5;
         }
-        
+
         currenttime = newtime;
 
         accumulator += frametime;
@@ -81,9 +83,11 @@ int main(int argc, char *argv[]) {
         while (accumulator >= dt) {
             state_update(&player->ent);
             phys_resetforces(&player->ent);
-            phys_calcobjectforces(&player->ent, player_handleinput(ooc));
-            phys_calcenvironmentforces(&player->ent);
+            phys_calcobjectforces(&player->ent, player_handleinput(ooc, player));
+            //phys_calcenvironmentforces(&player->ent);
             phys_integrate(&player->ent, dt);
+            //player_capvelocity(player);
+            errprintf("%f, %f, %f, %f\n", currenttime, player->ent.currstate.position.x, player->ent.currstate.position.y, player->ent.currstate.position.z);
             accumulator -= dt;
         }
 
@@ -92,7 +96,20 @@ int main(int argc, char *argv[]) {
         tmpstate = phys_interpolate(&player->ent, interp);
         c = SDL_WorldPosToScreenPos(tmpstate.position);
 
-        SDL_BlitImage(ooc, whiteball, c, 1, TF_NONE);
+        switch (player->direction) {
+            case NORTH:
+                SDL_BlitImage(ooc, whiteball, c, 0, TF_NONE);
+                break;
+            case SOUTH:
+                SDL_BlitImage(ooc, whiteball, c, 0, TF_ROT, 180.00);
+                break;
+            case EAST:
+                SDL_BlitImage(ooc, whiteball, c, 0, TF_ROT, 90.00);
+                break;
+            case WEST:
+                SDL_BlitImage(ooc, whiteball, c, 0, TF_ROT, 270.00);
+                break;
+        }
 
         SDL_RenderPresent(ooc->rdr);
         SDL_Delay(15);

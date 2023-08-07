@@ -6,6 +6,7 @@
 #include "defs/d_macros.h"
 
 #include "game/g_tile.h"
+#include "render/r_sdl.h"
 
 TileArray_t *tilearr_new(Size_t len) {
     Size_t tmp1 = len * sizeof(Tile_t);
@@ -36,13 +37,50 @@ Error_t tilearr_free(TileArray_t *tarr) {
     }
 }
 
-Error_t tile_set(Tile_t tile, u32 tid, TileType_e tty, u8 col, i16 e, i16 f, SDL_Texture *ftex, SDL_Texture *ttex) {
-    tile.tileid = tid;
-    tile.ttype = tty;
-    tile.collision = col;
-    tile.elev = e;
-    tile.flags = f;
-    tile.floortex = ftex;
-    tile.tiletex = ttex;
-    return (Error_t) ERROR_NOERROR;
+Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, SDL_Texture **ftx, SDL_Texture **ttx) {
+    if (tile) {
+        tile->tileid = tid;
+        tile->ttype = tty;
+        tile->collision = col;
+        tile->flags = f;
+        tile->floortex = ftx;
+        tile->tiletex = ttx;
+        return (Error_t) ERROR_NOERROR;
+    }
+    else {
+        errprintf("ERROR: Tile_t *tile is null, can't set\n");
+        return ERROR_ISNULLADDR;
+    }
+}
+
+Error_t tile_drawfloor(Tile_t *tile, Coordinate c, App_t *app) {
+    if (app) {
+        if (tile) {
+            return (Error_t) SDL_BlitImage(app, tile->floortex, c, 0, TF_NONE);
+        }
+        else {
+            errprintf("ERROR: Tile_t *tile is null, can't draw Tile_t\n");
+            return ERROR_ISNULLADDR;
+        }
+    }
+    else {
+        errprintf("ERROR: App_t *app is null, can't draw Tile_t\n");
+        return ERROR_ISNULLADDR;
+    }
+}
+
+Error_t tile_drawtile(Tile_t *tile, Coordinate c, App_t *app) {
+    if (app) {
+        if (tile) {
+            return (Error_t) SDL_BlitImage(app, tile->tiletex, c, 0, TF_NONE);
+        }
+        else {
+            errprintf("ERROR: Tile_t *tile is null, can't draw Tile_t\n");
+            return ERROR_ISNULLADDR;
+        }
+    }
+    else {
+        errprintf("ERROR: App_t *app is null, can't draw Tile_t\n");
+        return ERROR_ISNULLADDR;
+    }
 }

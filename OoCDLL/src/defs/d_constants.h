@@ -35,6 +35,19 @@
 // round to 300 to be safe...
 #define MAX_KEYS 300
 
+
+// how many different player actions are possible
+// subject to change
+#define MAX_ACTIONS 5
+
+// player actions timer indexes
+
+#define ACTIONS_PLAYER_MOVE_NORTH 0
+#define ACTIONS_PLAYER_MOVE_SOUTH 1
+#define ACTIONS_PLAYER_MOVE_EAST 2
+#define ACTIONS_PLAYER_MOVE_WEST 3
+#define ACTIONS_PLAYER_MOVE_JUMP 4
+
 // default screen size - subject to change
 #define SCREEN_SIZE_X 800
 #define SCREEN_SIZE_Y 600
@@ -86,16 +99,19 @@
 
 
 // TODO: tweak these numbers until they feel just right
-#define PLAYER_MOVE_X_FORCE 10000.0
-#define PLAYER_MOVE_Y_FORCE 10000.0
+#define PLAYER_MOVE_X_FORCE 0.001
+#define PLAYER_MOVE_Y_FORCE 0.001
 #define PLAYER_MOVE_Z_FORCE 1000.0
 
-#define PLAYER_MOVE_X_MAX_VELOCITY 250.0
-#define PLAYER_MOVE_Y_MAX_VELOCITY 250.0
+#define PLAYER_MOVE_X_MAGIC_NUMBER 250.0
+#define PLAYER_MOVE_Y_MAGIC_NUMBER 8.0
+
+#define PLAYER_MOVE_X_MAX_VELOCITY 240.0
+#define PLAYER_MOVE_Y_MAX_VELOCITY 240.0
 
 #define GRAVITY_Z_FORCE 100.0
-#define FRICTION_X_FORCE 5000.0
-#define FRICTION_Y_FORCE 5000.0
+#define FRICTION_X_FORCE 10000.0
+#define FRICTION_Y_FORCE 10000.0
 
 #define NORTH 0
 #define SOUTH 1

@@ -31,12 +31,18 @@ struct Player {
 
     // pointer to Image_t * in hashmap that corresponds with the player on screen
     Image_t **tex;
+
+    double actiontimers[MAX_ACTIONS];
 };
 
 DLLINCLUDE Player_t *player_new(Point3 pos, Hitbox_t hbox, Image_t **tex);
 DLLINCLUDE Hitbox_t player_newhbox();
-DLLINCLUDE Vector3 player_handleinput(App_t *app, Player_t *player);
+
+DLLINCLUDE Error_t player_handleinput(App_t *app, Player_t *player, double dt);
+
+DLLINCLUDE Vector3 player_calcforce(Player_t *player);
 DLLINCLUDE Error_t player_capvelocity(Player_t *player);
+
 DLLINCLUDE Error_t player_free(Player_t *player);
 
 #endif

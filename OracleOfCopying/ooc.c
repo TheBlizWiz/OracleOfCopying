@@ -81,17 +81,35 @@ int main(int argc, char *argv[]) {
         accumulator += frametime;
 
         while (accumulator >= dt) {
+
+            player_handleinput(ooc, player, dt);
+
+            //foreach (Entity ent) {
+            //     state_update(&ent);
+            //     phys_resetforces(&ent);
+            //     phys_calcobjectforces(&ent, ent->calcforces(&ent)); <-- TODO: how to do with function pointers?
+            //     phys_calcenvironmentforces(&ent);
+            //     phys_integrate(&ent);
+            //     do_collision(&ent);
+            // }
+
             state_update(&player->ent);
             phys_resetforces(&player->ent);
-            phys_calcobjectforces(&player->ent, player_handleinput(ooc, player));
-            //phys_calcenvironmentforces(&player->ent);
+            phys_calcobjectforces(&player->ent, player_calcforce(player));
+            phys_calcenvironmentforces(&player->ent);
             phys_integrate(&player->ent, dt);
-            //player_capvelocity(player);
+            player_capvelocity(player);
+
             errprintf("%f, %f, %f, %f\n", currenttime, player->ent.currstate.position.x, player->ent.currstate.position.y, player->ent.currstate.position.z);
             accumulator -= dt;
         }
 
         interp = accumulator / dt;
+
+        // foreach (Entity ent) {
+        //     tmpstate = phys_interpolate(&player->ent, interp);
+        //     c = SDL_WorldPosToScreenPos(tmpstate.position);
+        // }
 
         tmpstate = phys_interpolate(&player->ent, interp);
         c = SDL_WorldPosToScreenPos(tmpstate.position);

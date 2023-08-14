@@ -41,8 +41,6 @@ DLLINCLUDE typedef struct _TWO_DOUBLES   Vector2;
 DLLINCLUDE typedef struct _THREE_DOUBLES Vector3;
 DLLINCLUDE typedef struct _TWO_DOUBLES   Scalar2;
 DLLINCLUDE typedef struct _THREE_DOUBLES Scalar3;
-DLLINCLUDE typedef struct _TWO_DOUBLES   Angle2;
-DLLINCLUDE typedef struct _THREE_DOUBLES Angle3;
 DLLINCLUDE typedef struct _FOUR_DOUBLES  Quaternion;
 
 DLLINCLUDE typedef Error_t(*DataFree_fnptr)(void *data);
@@ -79,32 +77,17 @@ struct _TWO_U32S {
     u32 y;
 };
 
-// Point2, Vector2, Scalar2, Angle2
+// Point2, Vector2, Scalar2
 struct _TWO_DOUBLES {
-    union {
-        double x;
-        double pitch;
-    };
-    union {
-        double y;
-        double yaw;
-    };
+    double x;
+    double y;
 };
 
-// Point3, Vector3, Scalar3, Angle3
+// Point3, Vector3, Scalar3
 struct _THREE_DOUBLES {
-    union {
-        double x;
-        double pitch;
-    };
-    union {
-        double y;
-        double yaw;
-    };
-    union {
-        double z;
-        double roll;
-    };
+    double x;
+    double y;
+    double z;
 };
 
 // Quaternion

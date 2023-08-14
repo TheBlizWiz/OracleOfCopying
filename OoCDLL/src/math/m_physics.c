@@ -1,5 +1,4 @@
 #include "m_physics.h"
-#include "m_vector.h"
 #include "defs/d_constants.h"
 #include "defs/d_macros.h"
 
@@ -21,46 +20,29 @@ Error_t phys_integrate(Entity_t *ent, double dt) {
         if (dt > 0.0) {
             if (ent->mass > 0.0) {
 
-                ent->currstate.acceleration = vec3_divide(ent->force, ent->mass);
+                ent->currstate.acceleration.x = ent->force.x / ent->mass;
+                ent->currstate.acceleration.y = ent->force.y / ent->mass;
+                ent->currstate.acceleration.z = ent->force.z / ent->mass;
 
-                if (ent->currstate.acceleration.x > 0 && ent->currstate.acceleration.x < 0.1) {
-                    ent->currstate.acceleration.x = 0.0;
-                }
-                if (ent->currstate.acceleration.x < 0 && ent->currstate.acceleration.x > -0.1) {
-                    ent->currstate.acceleration.x = 0.0;
-                }
-                if (ent->currstate.acceleration.y > 0 && ent->currstate.acceleration.y < 0.1) {
-                    ent->currstate.acceleration.y = 0.0;
-                }
-                if (ent->currstate.acceleration.y < 0 && ent->currstate.acceleration.y > -0.1) {
-                    ent->currstate.acceleration.y = 0.0;
-                }
+                ent->currstate.velocity.x += ent->currstate.acceleration.x * dt;
+                ent->currstate.velocity.y += ent->currstate.acceleration.y * dt;
+                ent->currstate.velocity.z += ent->currstate.acceleration.z * dt;
 
-                ent->currstate.velocity = vec3_vadd(ent->currstate.velocity, vec3_multiply(ent->currstate.acceleration, dt));
-
-                if (ent->currstate.velocity.x > 0 && ent->currstate.velocity.x < 0.1) {
-                    ent->currstate.velocity.x = 0.0;
-                }
-                if (ent->currstate.velocity.x < 0 && ent->currstate.velocity.x > -0.1) {
-                    ent->currstate.velocity.x = 0.0;
-                }
-                if (ent->currstate.velocity.y > 0 && ent->currstate.velocity.y < 0.1) {
-                    ent->currstate.velocity.y = 0.0;
-                }
-                if (ent->currstate.velocity.y < 0 && ent->currstate.velocity.y > -0.1) {
-                    ent->currstate.velocity.y = 0.0;
-                }
-
-                ent->currstate.position = vec3_vadd(ent->currstate.position, vec3_multiply(ent->currstate.velocity, dt));
+                ent->currstate.position.x += ent->currstate.velocity.x * dt;
+                ent->currstate.position.y += ent->currstate.velocity.y * dt;
+                ent->currstate.position.z += ent->currstate.velocity.z * dt;
 
                 // temporary, replace with actual ground collision later
                 if (ent->currstate.position.z < 0.0) {
                     ent->currstate.position.z = 0.0;
                 }
 
+                //if(ent->currstate.position.x )
 
+                ent->force.x = 0.0;
+                ent->force.y = 0.0;
+                ent->force.z = 0.0;
 
-                ent->force = (Vector3){ 0.0 };
 
                 return ERROR_NOERROR;
             }
@@ -84,7 +66,8 @@ Error_t phys_gravity(Entity_t *ent) {
     // TODO: actual gravity function with collision n stuff
 
     if (ent) {
-        ent->force.z -= GRAVITY_Z_FORCE;
+        if(ent->currstate.position.z > 0.0)
+            ent->force.z -= GRAVITY_Z_FORCE;
         return ERROR_NOERROR;
     }
     else {
@@ -107,7 +90,7 @@ Error_t phys_friction(Entity_t *ent) {
         if (ent->currstate.velocity.y < 0.0) {
             ent->force.y += FRICTION_Y_FORCE;
         }
-
+        
         return ERROR_NOERROR;
     }
     else {
@@ -131,7 +114,9 @@ Error_t phys_calcenvironmentforces(Entity_t *ent) {
 
 Error_t phys_calcobjectforces(Entity_t *ent, Vector3 v) {
     if (ent) {
-        ent->force = vec3_vadd(ent->force, v);
+        ent->force.x += v.x;
+        ent->force.y += v.y;
+        ent->force.z += v.z;
         return ERROR_NOERROR;
     }
     else {
@@ -143,7 +128,9 @@ Error_t phys_calcobjectforces(Entity_t *ent, Vector3 v) {
 State_t phys_interpolate(Entity_t *ent, double alpha) {
     State_t tmpstate = { 0.0 };
 
-    tmpstate.position = vec3_vadd(vec3_multiply(ent->currstate.position, alpha), vec3_multiply(ent->prevstate.position, (1.0 - alpha)));
+    tmpstate.position.x = (ent->currstate.position.x * alpha) + (ent->prevstate.position.x * (1.0 - alpha));
+    tmpstate.position.y = (ent->currstate.position.y * alpha) + (ent->prevstate.position.y * (1.0 - alpha));
+    tmpstate.position.z = (ent->currstate.position.z * alpha) + (ent->prevstate.position.z * (1.0 - alpha));
 
     return tmpstate;
 }

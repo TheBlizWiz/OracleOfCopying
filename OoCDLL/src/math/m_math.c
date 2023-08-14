@@ -1,7 +1,7 @@
 #include "m_math.h"
 #include <math.h>
 
-const double hypot3(const double x, const double y, const double z) {
+double hypot3(double x, double y, double z) {
     if (x == INFINITY || y == INFINITY || z == INFINITY) {
         return INFINITY;
     }
@@ -31,10 +31,4 @@ const double hypot3(const double x, const double y, const double z) {
 
     return dx * sqrt(1 + dydx * dydx + dzdx * dzdx);
 
-}
-
-const double quadratic(const double a, const double b, const double c, const double x) {
-    double d1 = a * x * x;
-    double d2 = b * x;
-    return d1 + d2 + c;
 }

@@ -15,6 +15,10 @@ int main(int argc, char *argv[]) {
     Error_t e;
     Player_t *player;
 
+    Room_t *room;
+    TileArray_t *tileset;
+    TileType_e ttype = 0;
+
     State_t tmpstate;
     Coordinate c;
 
@@ -56,12 +60,88 @@ int main(int argc, char *argv[]) {
     Image_t *whiteball = atlas_getimage(atlasmap, "whiteball.qoi");
     Image_t *redball = atlas_getimage(atlasmap, "redball.qoi");
 
+    Image_t *northwall = atlas_getimage(atlasmap, "ddd_walls_north.qoi");
+    Image_t *southwall = atlas_getimage(atlasmap, "ddd_walls_south.qoi");
+    Image_t *eastwall = atlas_getimage(atlasmap, "ddd_walls_east.qoi");
+    Image_t *westwall = atlas_getimage(atlasmap, "ddd_walls_west.qoi");
+    Image_t *nwwallcorner = atlas_getimage(atlasmap, "ddd_walls_innercorner_nw.qoi");
+    Image_t *swwallcorner = atlas_getimage(atlasmap, "ddd_walls_innercorner_sw.qoi");
+    Image_t *newallcorner = atlas_getimage(atlasmap, "ddd_walls_innercorner_ne.qoi");
+    Image_t *sewallcorner = atlas_getimage(atlasmap, "ddd_walls_innercorner_se.qoi");
+    Image_t *blank = atlas_getimage(atlasmap, "blank.qoi");
+
+    Image_t *pitfloor = atlas_getimage(atlasmap, "ddd_floors_pit.qoi");
+    Image_t *greenfloor = atlas_getimage(atlasmap, "ddd_floors_patterned_green.qoi");
+    
+    Image_t *block = atlas_getimage(atlasmap, "ddd_objects_block.qoi");
+
+
     player = player_new((Point3) {
-        .x = 0.0, .y = 0.0, .z = 0.0
+        .x = 32.0, .y = 32.0, .z = 0.0
     }, player_newhbox(), &whiteball);
+
+    tileset = tilearr_new(10);
+    if (!tileset) return 7;
+
+    tile_set(&tileset->tiles[0], 0, (int) ttype = WALL, 1, 0, &northwall, &pitfloor);
+    tile_set(&tileset->tiles[1], 1, (int) ttype, 1, 0, &southwall, &pitfloor);
+    tile_set(&tileset->tiles[2], 2, (int) ttype, 1, 0, &eastwall, &pitfloor);
+    tile_set(&tileset->tiles[3], 3, (int) ttype, 1, 0, &westwall, &pitfloor);
+    tile_set(&tileset->tiles[4], 4, (int) ttype, 1, 0, &nwwallcorner, &pitfloor);
+    tile_set(&tileset->tiles[5], 5, (int) ttype, 1, 0, &swwallcorner, &pitfloor);
+    tile_set(&tileset->tiles[6], 6, (int) ttype, 1, 0, &newallcorner, &pitfloor);
+    tile_set(&tileset->tiles[7], 7, (int) ttype, 1, 0, &sewallcorner, &pitfloor);
+    tile_set(&tileset->tiles[8], 8, (int) ttype = EMPTY, 0, 0, &blank, &greenfloor);
+    tile_set(&tileset->tiles[9], 9, (int) ttype = BLOCK_STATIC, 1, 0, &block, &greenfloor);
+
+    room = room_new(0, 0);
+    if (!room) return 8;
+
+    int x = 0;
+    int y = 0;
+
+    for (; x < ROOM_SIZE_X; x++) {
+        for (; y < ROOM_SIZE_Y; y++) {
+            room->tiles[x][y] = &tileset->tiles[8];
+        }
+    }
+
+    x = y = 0;
+
+    for (; x < ROOM_SIZE_X; x++) {
+        room->tiles[x][0] = &tileset->tiles[0];
+    }
+
+    x = y = 0;
+
+    for (; x < ROOM_SIZE_X; x++) {
+        room->tiles[x][ROOM_SIZE_Y - 1] = &tileset->tiles[1];
+    }
+
+    x = y = 0;
+
+    for (; y < ROOM_SIZE_Y; y++) {
+        room->tiles[0][y] = &tileset->tiles[2];
+    }
+
+    x = y = 0;
+
+    for (; y < ROOM_SIZE_Y; y++) {
+        room->tiles[ROOM_SIZE_X - 1][y] = &tileset->tiles[3];
+    }
+
+    room->tiles[0][0] = &tileset->tiles[4];
+    room->tiles[ROOM_SIZE_X - 1][0] = &tileset->tiles[6];
+    room->tiles[0][ROOM_SIZE_Y - 1] = &tileset->tiles[5];
+    room->tiles[ROOM_SIZE_X - 1][ROOM_SIZE_Y - 1] = &tileset->tiles[7];
+
+    room->tiles[4][6] = &tileset->tiles[9];
 
     while (run) {
         SDL_RenderClear(ooc->rdr);
+
+        room_draw(room, ooc);
+
         e = app_doevents(ooc, &evt);
 
         if (e == ERROR_DOEVENTS_TIMETOQUIT) {

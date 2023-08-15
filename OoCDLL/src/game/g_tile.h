@@ -6,6 +6,7 @@
 #include "defs/d_common.h"
 #include "game/g_enums.h"
 #include "game/g_hitbox.h"
+#include "render/r_image.h"
 
 DLLINCLUDE typedef struct Tile Tile_t;
 DLLINCLUDE typedef struct TileArray TileArray_t;
@@ -37,10 +38,10 @@ struct Tile {
     u16 flags;
 
     // pointer to place in Hashmap where the floor texture of the tile is
-    SDL_Texture **floortex;
+    Image_t **floortex;
 
     // pointer to place in Hashmap where the main tile block/wall/etc texture is
-    SDL_Texture **tiletex;
+    Image_t **tiletex;
 };
 
 // Array of Tile_t
@@ -58,11 +59,11 @@ struct TileArray {
     Tile_t tiles[];
 };
 
-TileArray_t *tilearr_new(Size_t len);
-Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, SDL_Texture **ftx, SDL_Texture **ttx);
-Error_t *tilearr_free(TileArray_t *tarr);
+DLLINCLUDE TileArray_t *tilearr_new(Size_t len);
+DLLINCLUDE Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, Image_t **ftx, Image_t **ttx);
+DLLINCLUDE Error_t tilearr_free(TileArray_t *tarr);
 
-Error_t tile_drawfloor(Tile_t *tile, Coordinate c, App_t *app);
-Error_t tile_drawtile(Tile_t *tile, Coordinate c, App_t *app);
+DLLINCLUDE Error_t tile_drawfloor(Tile_t *tile, Coordinate c, App_t *app);
+DLLINCLUDE Error_t tile_drawtile(Tile_t *tile, Coordinate c, App_t *app);
 
 #endif

@@ -12,6 +12,7 @@
 
 Image_t *img_newfromsurface(App_t ooc, char *imgname, SDL_Surface *surf, u8 isrot) {
     Image_t *img;
+
     img = (Image_t *) malloc(sizeof(Image_t));
     if (img) {
         strncopy(img->fname, imgname, MAX_FNAME_LENGTH);
@@ -24,13 +25,10 @@ Image_t *img_newfromsurface(App_t ooc, char *imgname, SDL_Surface *surf, u8 isro
         errprintf("ERROR: no malloc space for new Image_t\n");
         return NULLADDR;
     }
-
-
 }
 
 
 Error_t atlas_load(Hashmap_t *atlasmap, char *jsonfpath, SDL_Texture *atlasimg) {
-
     char *jsontxt = NULLADDR;
     Size_t n = 0;
     FILE *jsonf;
@@ -97,13 +95,10 @@ Image_t *atlas_getimage(Hashmap_t *atlasmap, const char *filename) {
     Image_t *img;
 
     if (atlasmap) {
-
         Image_t tmp;
         zeroset(&tmp, sizeof(Image_t));
         strncopy(tmp.fname, filename, MAX_FNAME_LENGTH);
         img = (Image_t *) hashmap_get(atlasmap, &tmp);
-
-
         if (img) {
             return img;
         }

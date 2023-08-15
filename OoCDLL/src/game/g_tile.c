@@ -37,7 +37,7 @@ Error_t tilearr_free(TileArray_t *tarr) {
     }
 }
 
-Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, SDL_Texture **ftx, SDL_Texture **ttx) {
+Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, Image_t **ftx, Image_t **ttx) {
     if (tile) {
         tile->tileid = tid;
         tile->ttype = tty;
@@ -56,7 +56,7 @@ Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, SDL_Texture
 Error_t tile_drawfloor(Tile_t *tile, Coordinate c, App_t *app) {
     if (app) {
         if (tile) {
-            return (Error_t) SDL_BlitImage(app, tile->floortex, c, 0, TF_NONE);
+            return (Error_t) SDL_BlitImage(app, *(tile->floortex), c, 0, TF_NONE);
         }
         else {
             errprintf("ERROR: Tile_t *tile is null, can't draw Tile_t\n");
@@ -72,7 +72,7 @@ Error_t tile_drawfloor(Tile_t *tile, Coordinate c, App_t *app) {
 Error_t tile_drawtile(Tile_t *tile, Coordinate c, App_t *app) {
     if (app) {
         if (tile) {
-            return (Error_t) SDL_BlitImage(app, tile->tiletex, c, 0, TF_NONE);
+            return (Error_t) SDL_BlitImage(app, *(tile->tiletex), c, 0, TF_NONE);
         }
         else {
             errprintf("ERROR: Tile_t *tile is null, can't draw Tile_t\n");

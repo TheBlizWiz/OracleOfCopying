@@ -17,3 +17,21 @@ Hitbox_t hbox_new(Point3 a, Point3 b, Point3 c, Point3 d, Point3 e, Point3 f, Po
     hb.H = h;
     return hb;
 }
+
+// TODO: this is dumb
+Hitbox_t hbox_newdefault() {
+    Hitbox_t hb = { 0 };
+    hb.B.x = 32;
+    hb.C.y = 32;
+    hb.D.x = 32;
+    hb.D.y = 32;
+    hb.E.z = 32;
+    hb.F.x = 32;
+    hb.F.z = 32;
+    hb.G.y = 32;
+    hb.G.z = 32;
+    hb.H.x = 32;
+    hb.H.y = 32;
+    hb.H.z = 32;
+    return hb;
+}

@@ -59,6 +59,8 @@ struct TileArray {
     Tile_t tiles[];
 };
 
+DLLINCLUDE Tile_t *tile_new(u32, TileType_e, boolean, Hitbox_t, u16, Image_t **, Image_t **);
+
 DLLINCLUDE TileArray_t *tilearr_new(Size_t len);
 DLLINCLUDE Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, Image_t **ftx, Image_t **ttx);
 DLLINCLUDE Error_t tilearr_free(TileArray_t *tarr);

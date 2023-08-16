@@ -171,6 +171,7 @@
     <ClInclude Include="src\game\g_player.h" />
     <ClInclude Include="src\game\g_room.h" />
     <ClInclude Include="src\game\g_tile.h" />
+    <ClInclude Include="src\libs\ary\ary.h" />
     <ClInclude Include="src\libs\cjson\cjson.h" />
     <ClInclude Include="src\libs\dirent\dirent.h" />
     <ClInclude Include="src\libs\hashmap\hashmap.h" />
@@ -187,7 +188,6 @@
     <ClInclude Include="src\render\r_animation.h" />
     <ClInclude Include="src\render\r_image.h" />
     <ClInclude Include="src\render\r_sdl.h" />
-    <ClInclude Include="src\utils\u_array.h" />
     <ClInclude Include="src\utils\u_hash.h" />
     <ClInclude Include="src\utils\u_list.h" />
   </ItemGroup>
@@ -200,6 +200,7 @@
     <ClCompile Include="src\game\g_player.c" />
     <ClCompile Include="src\game\g_room.c" />
     <ClCompile Include="src\game\g_tile.c" />
+    <ClCompile Include="src\libs\ary\ary.c" />
     <ClCompile Include="src\libs\cjson\cjson.c" />
     <ClCompile Include="src\libs\hashmap\hashmap.c" />
     <ClCompile Include="src\math\m_math.c" />
@@ -213,7 +214,6 @@
     <ClCompile Include="src\render\r_animation.c" />
     <ClCompile Include="src\render\r_image.c" />
     <ClCompile Include="src\render\r_sdl.c" />
-    <ClCompile Include="src\utils\u_array.c" />
     <ClCompile Include="src\utils\u_hash.c" />
     <ClCompile Include="src\utils\u_list.c" />
   </ItemGroup>

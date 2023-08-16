@@ -140,9 +140,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\dgmaster.h" />
+    <ClInclude Include="src\file\f_tile.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dgmaster.c" />
+    <ClCompile Include="src\file\f_tile.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

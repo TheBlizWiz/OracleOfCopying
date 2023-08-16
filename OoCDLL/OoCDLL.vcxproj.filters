@@ -105,7 +105,7 @@
     <ClInclude Include="src\math\m_math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\utils\u_array.h">
+    <ClInclude Include="src\libs\ary\ary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -179,7 +179,7 @@
     <ClCompile Include="src\math\m_math.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\utils\u_array.c">
+    <ClCompile Include="src\libs\ary\ary.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

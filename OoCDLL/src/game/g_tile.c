@@ -8,6 +8,24 @@
 #include "game/g_tile.h"
 #include "render/r_sdl.h"
 
+Tile_t *tile_new(u32 tid, TileType_e tty, boolean c, Hitbox_t hb, u16 f, Image_t **ttx, Image_t **ftx) {
+    Tile_t *t = (Tile_t *) malloc(sizeof(Tile_t));
+    if (t) {
+        t->tileid = tid;
+        t->ttype = tty;
+        t->collision = c;
+        t->hbox = hb;
+        t->flags = f;
+        t->tiletex = ttx;
+        t->floortex = ftx;
+        return t;
+    }
+    else {
+        errprintf("ERROR: no malloc space for new Tile_T *\n");
+        return NULLADDR;
+    }
+}
+
 TileArray_t *tilearr_new(Size_t len) {
     Size_t tmp1 = len * sizeof(Tile_t);
     Size_t tmp2 = sizeof(TileArray_t) + tmp1;

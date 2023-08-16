@@ -3,6 +3,8 @@
 
 #include "oocdll.h"
 
+#include "file/f_tile.h"
+
 int main(int argc, char *argv[]);
 
 #endif

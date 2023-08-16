@@ -20,6 +20,7 @@
 #include "game/g_room.h"
 #include "game/g_tile.h"
 
+#include "libs/ary/ary.h"
 #include "libs/cjson/cjson.h"
 #include "libs/dirent/dirent.h"
 #include "libs/hashmap/hashmap.h"

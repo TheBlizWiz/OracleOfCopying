@@ -187,6 +187,7 @@
     <ClInclude Include="src\render\r_animation.h" />
     <ClInclude Include="src\render\r_image.h" />
     <ClInclude Include="src\render\r_sdl.h" />
+    <ClInclude Include="src\utils\u_array.h" />
     <ClInclude Include="src\utils\u_hash.h" />
     <ClInclude Include="src\utils\u_list.h" />
   </ItemGroup>
@@ -212,6 +213,7 @@
     <ClCompile Include="src\render\r_animation.c" />
     <ClCompile Include="src\render\r_image.c" />
     <ClCompile Include="src\render\r_sdl.c" />
+    <ClCompile Include="src\utils\u_array.c" />
     <ClCompile Include="src\utils\u_hash.c" />
     <ClCompile Include="src\utils\u_list.c" />
   </ItemGroup>

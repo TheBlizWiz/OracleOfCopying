@@ -91,7 +91,7 @@ Error_t atlas_load(Hashmap_t *atlasmap, char *jsonfpath, SDL_Texture *atlasimg) 
     }
 }
 
-Image_t *atlas_getimage(Hashmap_t *atlasmap, const char *filename) {
+Image_t **atlas_getimage(Hashmap_t *atlasmap, const char *filename) {
     Image_t *img;
 
     if (atlasmap) {
@@ -100,7 +100,7 @@ Image_t *atlas_getimage(Hashmap_t *atlasmap, const char *filename) {
         strncopy(tmp.fname, filename, MAX_FNAME_LENGTH);
         img = (Image_t *) hashmap_get(atlasmap, &tmp);
         if (img) {
-            return img;
+            return &img;
         }
         else {
             errprintf("ERROR: couldn't find %s in atlas hashmap\n", filename);

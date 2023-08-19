@@ -6,13 +6,6 @@
 		"tiletex":	"blank.qoi",
 		"floortex":	"ddd_floors_patterned_green.qoi"
 	}, {
-		"tileid":	9,
-		"ttype":	3,
-		"collision":	1,
-		"flags":	0,
-		"tiletex":	"ddd_objects_block.qoi",
-		"floortex":	"ddd_floors_patterned_green.qoi"
-	}, {
 		"tileid":	1,
 		"ttype":	1,
 		"collision":	1,
@@ -41,6 +34,13 @@
 		"tiletex":	"ddd_walls_west.qoi",
 		"floortex":	"ddd_floors_pit.qoi"
 	}, {
+		"tileid":	5,
+		"ttype":	1,
+		"collision":	1,
+		"flags":	0,
+		"tiletex":	"ddd_walls_innercorner_se.qoi",
+		"floortex":	"ddd_floors_pit.qoi"
+	}, {
 		"tileid":	6,
 		"ttype":	1,
 		"collision":	1,
@@ -48,11 +48,11 @@
 		"tiletex":	"ddd_walls_innercorner_ne.qoi",
 		"floortex":	"ddd_floors_pit.qoi"
 	}, {
-		"tileid":	5,
+		"tileid":	7,
 		"ttype":	1,
 		"collision":	1,
 		"flags":	0,
-		"tiletex":	"ddd_walls_innercorner_se.qoi",
+		"tiletex":	"ddd_walls_innercorner_sw.qoi",
 		"floortex":	"ddd_floors_pit.qoi"
 	}, {
 		"tileid":	8,
@@ -62,10 +62,10 @@
 		"tiletex":	"ddd_walls_innercorner_nw.qoi",
 		"floortex":	"ddd_floors_pit.qoi"
 	}, {
-		"tileid":	7,
-		"ttype":	1,
+		"tileid":	9,
+		"ttype":	3,
 		"collision":	1,
 		"flags":	0,
-		"tiletex":	"ddd_walls_innercorner_sw.qoi",
-		"floortex":	"ddd_floors_pit.qoi"
+		"tiletex":	"ddd_objects_block.qoi",
+		"floortex":	"ddd_floors_patterned_green.qoi"
 	}]

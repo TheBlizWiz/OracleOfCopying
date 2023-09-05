@@ -20,10 +20,10 @@
 #include "game/g_room.h"
 #include "game/g_tile.h"
 
-#include "libs/ary/ary.h"
 #include "libs/cjson/cjson.h"
 #include "libs/dirent/dirent.h"
 #include "libs/hashmap/hashmap.h"
+#include "libs/ary/ary.h"
 
 #include "math/m_rng.h"
 #include "math/m_math.h"
@@ -34,6 +34,7 @@
 #include "render/r_image.h"
 #include "render/r_sdl.h"
 
+//#include "utils/u_array.h"
 #include "utils/u_hash.h"
 //#include "utils/u_tree.h"
 #include "utils/u_list.h"

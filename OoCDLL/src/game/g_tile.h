@@ -70,6 +70,6 @@ DLLINCLUDE Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, 
 DLLINCLUDE Error_t tile_drawfloor(Tile_t *tile, Coordinate c, App_t *app);
 DLLINCLUDE Error_t tile_drawtile(Tile_t *tile, Coordinate c, App_t *app);
 DLLINCLUDE int tile_compare(const void *Tile_t_a, const void *Tile_t_b);
-DLLINCLUDE Error_t tile_load(const char *fpath, Array_t(Tile_t) *tileset, Hashmap_t *atlasmap);
+//DLLINCLUDE Error_t tile_load(const char *fpath, Array_t(Tile_t) *tileset, Hashmap_t *atlasmap);
 
 #endif

@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "defs/d_common.h"
+#include "d_common.h"
 
 // ------------------------
 // |   FUNCTION MACROS    |

@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>E:\MSVC\source\repos\OracleOfCopying\x64\Debug;E:\MSVC\source\repos\SDL2\VisualC\x64\Release;E:\MSVC\source\repos\SDL_image\VisualC\x64\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\thebl\source\repos\SDL_image\VisualC\x64\Release;C:\Users\thebl\source\repos\SDL\VisualC\x64\Release;C:\Users\thebl\source\repos\OracleOfCopying\x64\Debug</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LibraryPath>E:\MSVC\source\repos\OracleOfCopying\x64\Release;E:\MSVC\source\repos\SDL2\VisualC\x64\Release;E:\MSVC\source\repos\SDL_image\VisualC\x64\Release;$(LibraryPath)</LibraryPath>
@@ -112,7 +112,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>E:\MSVC\source\repos\dirent\include;E:\MSVC\source\repos\OracleOfCopying\AtlasGen\src;E:\MSVC\source\repos\OracleOfCopying\OoCDLL;E:\MSVC\source\repos\OracleOfCopying\OoCDLL\src;E:\MSVC\source\repos\SDL_image;E:\MSVC\source\repos\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -132,7 +132,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>E:\MSVC\source\repos\dirent\include;E:\MSVC\source\repos\OracleOfCopying\AtlasGen\src;E:\MSVC\source\repos\OracleOfCopying\OoCDLL;E:\MSVC\source\repos\OracleOfCopying\OoCDLL\src;E:\MSVC\source\repos\SDL_image;E:\MSVC\source\repos\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>

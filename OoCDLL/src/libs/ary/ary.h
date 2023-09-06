@@ -65,6 +65,8 @@ int ary_cb_cmpchar(const void *a, const void *b);
 int ary_cb_strcmp(const void *a, const void *b);
 int ary_cb_strcasecmp(const void *a, const void *b);
 
+int strcasecmp(const char *a, const char *b);
+
 int ary_cb_voidptrtostr(char **ret, const void *elem);
 int ary_cb_inttostr(char **ret, const void *elem);
 int ary_cb_longtostr(char **ret, const void *elem);

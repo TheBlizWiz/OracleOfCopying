@@ -28,39 +28,6 @@ Tile_t *tile_new(u32 tid, TileType_e tty, boolean c, Hitbox_t hb, u16 f, Image_t
     }
 }
 
-/*
-TileArray_t *tilearr_new(Size_t len) {
-    Size_t tmp1 = len * sizeof(Tile_t);
-    Size_t tmp2 = sizeof(TileArray_t) + tmp1;
-
-    TileArray_t *tarr = (TileArray_t *) malloc(tmp2);
-
-    if (tarr) {
-        zeroset(tarr, tmp1);
-        tarr->alloc = tmp2;
-        tarr->len = len;
-        return tarr;
-    }
-    else {
-        errprintf("ERROR: No malloc space for new TileArray_t\n");
-        return NULLADDR;
-    }
-}
-*/
-
-/*
-Error_t tilearr_free(TileArray_t *tarr) {
-    if (tarr) {
-        free(tarr);
-        return (Error_t) ERROR_NOERROR;
-    }
-    else {
-        errprintf("ERROR: TileArray_t * is null, can't free\n");
-        return (Error_t) ERROR_ISNULLADDR;
-    }
-}
-*/
-
 Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, Image_t **ftx, Image_t **ttx) {
     if (tile) {
         tile->tileid = tid;
@@ -116,7 +83,7 @@ int tile_compare(const void *Tile_t_a, const void *Tile_t_b) {
     return b->tileid - a->tileid;
 }
 
-Error_t tile_load(const char *fpath, Array_t(Tile_t) *tileset, Hashmap_t *atlasmap) {
+Error_t tile_load(const char *fpath, TileArray_t *tileset, Hashmap_t *atlasmap) {
     char *jsontxt = NULLADDR;
     Size_t n = 0;
     FILE *jsonf;
@@ -158,7 +125,7 @@ Error_t tile_load(const char *fpath, Array_t(Tile_t) *tileset, Hashmap_t *atlasm
                             tmp = cJSON_GetObjectItem(node, "floortex")->valuestring;
                             ftex = atlas_getimage(atlasmap, tmp);
 
-                            array_push(tileset, (Tile_t) {
+                            ary_push(tileset, (Tile_t) {
                                 .tileid = tid,
                                 .ttype = tty,
                                 .collision = col,
@@ -169,7 +136,7 @@ Error_t tile_load(const char *fpath, Array_t(Tile_t) *tileset, Hashmap_t *atlasm
                             });
                         }
 
-                        return ERROR_NOERROR;
+                        return (Error_t) ERROR_NOERROR;
                     }
                     else {
                         errprintf("ERROR: no malloc space for parsing json data\n");
@@ -178,7 +145,7 @@ Error_t tile_load(const char *fpath, Array_t(Tile_t) *tileset, Hashmap_t *atlasm
                 }
                 else {
                     errprintf("ERROR: something went wrong reading json file %s\n", fpath);
-                    return e;
+                    return (Error_t) e;
                 }
             }
             else {
@@ -193,6 +160,6 @@ Error_t tile_load(const char *fpath, Array_t(Tile_t) *tileset, Hashmap_t *atlasm
     }
     else {
         errprintf("ERROR: Hashmap_t *atlasmap is null, can't load textures for tiles\n");
-        return ERROR_ISNULLADDR;
+        return (Error_t) ERROR_ISNULLADDR;
     }
 }

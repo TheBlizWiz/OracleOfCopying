@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -18,10 +18,73 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\defs\d_common.h" />
+    <ClInclude Include="src\defs\d_constants.h" />
+    <ClInclude Include="src\defs\d_macros.h" />
+    <ClInclude Include="src\defs\d_string.h" />
+    <ClInclude Include="src\defs\d_utils.h" />
+    <ClInclude Include="src\engine\e_app.h" />
+    <ClInclude Include="src\engine\e_keyboard.h" />
+    <ClInclude Include="src\engine\e_time.h" />
+    <ClInclude Include="src\framework.h" />
+    <ClInclude Include="src\game\g_entity.h" />
+    <ClInclude Include="src\game\g_enums.h" />
+    <ClInclude Include="src\game\g_hitbox.h" />
+    <ClInclude Include="src\game\g_map.h" />
+    <ClInclude Include="src\game\g_object.h" />
+    <ClInclude Include="src\game\g_player.h" />
+    <ClInclude Include="src\game\g_room.h" />
+    <ClInclude Include="src\game\g_tile.h" />
+    <ClInclude Include="src\libs\ary\ary.h" />
+    <ClInclude Include="src\libs\cjson\cjson.h" />
+    <ClInclude Include="src\libs\dirent\dirent.h" />
+    <ClInclude Include="src\libs\hashmap\hashmap.h" />
+    <ClInclude Include="src\math\m_math.h" />
+    <ClInclude Include="src\math\m_physics.h" />
+    <ClInclude Include="src\math\m_rng.h" />
+    <ClInclude Include="src\math\m_vector.h" />
+    <ClInclude Include="src\objects\o_blockpush.h" />
+    <ClInclude Include="src\objects\o_chestclass.h" />
+    <ClInclude Include="src\oocdll.h" />
+    <ClInclude Include="src\render\r_animation.h" />
+    <ClInclude Include="src\render\r_image.h" />
+    <ClInclude Include="src\render\r_sdl.h" />
+    <ClInclude Include="src\utils\u_array.h" />
+    <ClInclude Include="src\utils\u_hash.h" />
+    <ClInclude Include="src\utils\u_list.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\defs\d_string.c" />
+    <ClCompile Include="src\defs\d_utils.c" />
+    <ClCompile Include="src\engine\e_app.c" />
+    <ClCompile Include="src\engine\e_keyboard.c" />
+    <ClCompile Include="src\engine\e_time.c" />
+    <ClCompile Include="src\game\g_entity.c" />
+    <ClCompile Include="src\game\g_hitbox.c" />
+    <ClCompile Include="src\game\g_map.c" />
+    <ClCompile Include="src\game\g_player.c" />
+    <ClCompile Include="src\game\g_room.c" />
+    <ClCompile Include="src\game\g_tile.c" />
+    <ClCompile Include="src\libs\ary\ary.c" />
+    <ClCompile Include="src\libs\cjson\cjson.c" />
+    <ClCompile Include="src\libs\hashmap\hashmap.c" />
+    <ClCompile Include="src\math\m_math.c" />
+    <ClCompile Include="src\math\m_physics.c" />
+    <ClCompile Include="src\math\m_rng.c" />
+    <ClCompile Include="src\math\m_vector.c" />
+    <ClCompile Include="src\oocdll.c" />
+    <ClCompile Include="src\render\r_animation.c" />
+    <ClCompile Include="src\render\r_image.c" />
+    <ClCompile Include="src\render\r_sdl.c" />
+    <ClCompile Include="src\utils\u_array.c" />
+    <ClCompile Include="src\utils\u_hash.c" />
+    <ClCompile Include="src\utils\u_list.c" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>16.0</VCProjectVersion>
+    <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{513d07e8-83da-4b85-b5a0-de225af7ce45}</ProjectGuid>
+    <ProjectGuid>{a82389da-2561-4774-bd5d-0959b7015ab7}</ProjectGuid>
     <RootNamespace>OoCDLL</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -70,14 +133,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <LibraryPath>E:\MSVC\source\repos\SDL_image\VisualC\x64\Release;E:\MSVC\source\repos\SDL2\VisualC\x64\Release;$(LibraryPath)</LibraryPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <LibraryPath>E:\MSVC\source\repos\SDL_image\VisualC\x64\Release;E:\MSVC\source\repos\SDL2\VisualC\x64\Release;$(LibraryPath)</LibraryPath>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -121,16 +176,16 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>E:\MSVC\source\repos\SDL_image;E:\MSVC\source\repos\SDL2\include;E:\MSVC\source\repos\OracleOfCopying\OoCDLL\src</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>C:\Users\thebl\source\repos\OracleOfCopying\OoCDLL\src;C:\Users\thebl\source\repos\SDL_image;C:\Users\thebl\source\repos\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2main.lib;SDL2test.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\thebl\source\repos\SDL_image\VisualC\x64\Debug;C:\Users\thebl\source\repos\SDL\VisualC\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -144,10 +199,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>E:\MSVC\source\repos\SDL_image;E:\MSVC\source\repos\SDL2\include;E:\MSVC\source\repos\OracleOfCopying\OoCDLL\src</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>C:\Users\thebl\source\repos\OracleOfCopying\OoCDLL\src;C:\Users\thebl\source\repos\SDL_image;C:\Users\thebl\source\repos\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -155,77 +209,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>SDL2.lib;SDL2_image.lib;SDL2main.lib;SDL2test.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\thebl\source\repos\SDL\VisualC\x64\Release;C:\Users\thebl\source\repos\SDL_image\VisualC\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="src\defs\d_macros.h" />
-    <ClInclude Include="src\engine\e_keyboard.h" />
-    <ClInclude Include="src\engine\e_time.h" />
-    <ClInclude Include="src\game\g_entity.h" />
-    <ClInclude Include="src\game\g_enums.h" />
-    <ClInclude Include="src\game\g_hitbox.h" />
-    <ClInclude Include="src\game\g_map.h" />
-    <ClInclude Include="src\game\g_object.h" />
-    <ClInclude Include="src\game\g_player.h" />
-    <ClInclude Include="src\game\g_room.h" />
-    <ClInclude Include="src\game\g_tile.h" />
-    <ClInclude Include="src\libs\ary\ary.h" />
-    <ClInclude Include="src\libs\cjson\cjson.h" />
-    <ClInclude Include="src\libs\dirent\dirent.h" />
-    <ClInclude Include="src\libs\hashmap\hashmap.h" />
-    <ClInclude Include="src\math\m_math.h" />
-    <ClInclude Include="src\math\m_physics.h" />
-    <ClInclude Include="src\math\m_rng.h" />
-    <ClInclude Include="oocdll.h" />
-    <ClInclude Include="src\defs\d_common.h" />
-    <ClInclude Include="src\defs\d_constants.h" />
-    <ClInclude Include="src\defs\d_string.h" />
-    <ClInclude Include="src\defs\d_utils.h" />
-    <ClInclude Include="src\engine\e_app.h" />
-    <ClInclude Include="src\math\m_vector.h" />
-    <ClInclude Include="src\render\r_animation.h" />
-    <ClInclude Include="src\render\r_image.h" />
-    <ClInclude Include="src\render\r_sdl.h" />
-    <ClInclude Include="src\utils\u_hash.h" />
-    <ClInclude Include="src\utils\u_list.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\engine\e_keyboard.c" />
-    <ClCompile Include="src\engine\e_time.c" />
-    <ClCompile Include="src\game\g_entity.c" />
-    <ClCompile Include="src\game\g_hitbox.c" />
-    <ClCompile Include="src\game\g_map.c" />
-    <ClCompile Include="src\game\g_player.c" />
-    <ClCompile Include="src\game\g_room.c" />
-    <ClCompile Include="src\game\g_tile.c" />
-    <ClCompile Include="src\libs\ary\ary.c" />
-    <ClCompile Include="src\libs\cjson\cjson.c" />
-    <ClCompile Include="src\libs\hashmap\hashmap.c" />
-    <ClCompile Include="src\math\m_math.c" />
-    <ClCompile Include="src\math\m_physics.c" />
-    <ClCompile Include="src\math\m_rng.c" />
-    <ClCompile Include="oocdll.c" />
-    <ClCompile Include="src\defs\d_string.c" />
-    <ClCompile Include="src\defs\d_utils.c" />
-    <ClCompile Include="src\engine\e_app.c" />
-    <ClCompile Include="src\math\m_vector.c" />
-    <ClCompile Include="src\render\r_animation.c" />
-    <ClCompile Include="src\render\r_image.c" />
-    <ClCompile Include="src\render\r_sdl.c" />
-    <ClCompile Include="src\utils\u_hash.c" />
-    <ClCompile Include="src\utils\u_list.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2.lib" />
-    <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2main.lib" />
-    <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2test.lib" />
-    <Library Include="..\..\SDL_image\VisualC\x64\Release\SDL2_image.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\SDL_image\VisualC\x64\Release\SDL2_image.dll" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

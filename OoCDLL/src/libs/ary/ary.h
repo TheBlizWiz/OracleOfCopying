@@ -7,19 +7,25 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef OOCDLL_EXPORTS
+#define ARY_H_DLLINCLUDE __declspec(dllimport)
+#else
+#define ARY_H_DLLINCLUDE __declspec(dllexport)
+#endif
+
 #define ARY_GROWTH_FACTOR 2.0
 
 /* construct/destruct the element pointed to by `buf` */
-typedef void (*ary_elemcb_t)(void *buf, void *userp);
+ARY_H_DLLINCLUDE typedef void (*ary_elemcb_t)(void *buf, void *userp);
 
 /* the same as the `qsort` comparison function */
-typedef int (*ary_cmpcb_t)(const void *a, const void *b);
+ARY_H_DLLINCLUDE typedef int (*ary_cmpcb_t)(const void *a, const void *b);
 
 /* return a malloc()ed string of `buf` in `ret` and its size, or -1 */
-typedef int (*ary_joincb_t)(char **ret, const void *buf);
+ARY_H_DLLINCLUDE typedef int (*ary_joincb_t)(char **ret, const void *buf);
 
-typedef void *(*ary_xalloc_t)(void *ptr, size_t nmemb, size_t size);
-typedef void (*ary_xdealloc_t)(void *ptr);
+ARY_H_DLLINCLUDE typedef void *(*ary_xalloc_t)(void *ptr, size_t nmemb, size_t size);
+ARY_H_DLLINCLUDE typedef void (*ary_xdealloc_t)(void *ptr);
 
 /* struct size: 6x pointers + 4x size_t's + 1x type */
 #define ary(type)                                       \
@@ -53,58 +59,58 @@ struct ary_char ary(char);
 struct ary_charptr ary(char *);
 
 /* predefined callbacks */
-void ary_cb_freevoidptr(void *buf, void *userp);
-void ary_cb_freecharptr(void *buf, void *userp);
+ARY_H_DLLINCLUDE void ary_cb_freevoidptr(void *buf, void *userp);
+ARY_H_DLLINCLUDE void ary_cb_freecharptr(void *buf, void *userp);
 
-int ary_cb_cmpint(const void *a, const void *b);
-int ary_cb_cmplong(const void *a, const void *b);
-int ary_cb_cmpvlong(const void *a, const void *b);
-int ary_cb_cmpsize_t(const void *a, const void *b);
-int ary_cb_cmpdouble(const void *a, const void *b);
-int ary_cb_cmpchar(const void *a, const void *b);
-int ary_cb_strcmp(const void *a, const void *b);
-int ary_cb_strcasecmp(const void *a, const void *b);
+ARY_H_DLLINCLUDE int ary_cb_cmpint(const void *a, const void *b);
+ARY_H_DLLINCLUDE int ary_cb_cmplong(const void *a, const void *b);
+ARY_H_DLLINCLUDE int ary_cb_cmpvlong(const void *a, const void *b);
+ARY_H_DLLINCLUDE int ary_cb_cmpsize_t(const void *a, const void *b);
+ARY_H_DLLINCLUDE int ary_cb_cmpdouble(const void *a, const void *b);
+ARY_H_DLLINCLUDE int ary_cb_cmpchar(const void *a, const void *b);
+ARY_H_DLLINCLUDE int ary_cb_strcmp(const void *a, const void *b);
+ARY_H_DLLINCLUDE int ary_cb_strcasecmp(const void *a, const void *b);
 
-int strcasecmp(const char *a, const char *b);
+ARY_H_DLLINCLUDE int strcasecmp(const char *a, const char *b);
 
-int ary_cb_voidptrtostr(char **ret, const void *elem);
-int ary_cb_inttostr(char **ret, const void *elem);
-int ary_cb_longtostr(char **ret, const void *elem);
-int ary_cb_vlongtostr(char **ret, const void *elem);
-int ary_cb_size_ttostr(char **ret, const void *elem);
-int ary_cb_doubletostr(char **ret, const void *elem);
-int ary_cb_chartostr(char **ret, const void *elem);
+ARY_H_DLLINCLUDE int ary_cb_voidptrtostr(char **ret, const void *elem);
+ARY_H_DLLINCLUDE int ary_cb_inttostr(char **ret, const void *elem);
+ARY_H_DLLINCLUDE int ary_cb_longtostr(char **ret, const void *elem);
+ARY_H_DLLINCLUDE int ary_cb_vlongtostr(char **ret, const void *elem);
+ARY_H_DLLINCLUDE int ary_cb_size_ttostr(char **ret, const void *elem);
+ARY_H_DLLINCLUDE int ary_cb_doubletostr(char **ret, const void *elem);
+ARY_H_DLLINCLUDE int ary_cb_chartostr(char **ret, const void *elem);
 
 /* forward declarations */
-void ary_freebuf(struct aryb *ary);
-void *ary_detach(struct aryb *ary, size_t *ret);
-int ary_shrinktofit(struct aryb *ary);
-void *ary_splicep(struct aryb *ary, size_t pos, size_t rlen, size_t alen);
-int ary_index(struct aryb *ary, size_t *ret, size_t start, const void *data,
+ARY_H_DLLINCLUDE void ary_freebuf(struct aryb *ary);
+ARY_H_DLLINCLUDE void *ary_detach(struct aryb *ary, size_t *ret);
+ARY_H_DLLINCLUDE int ary_shrinktofit(struct aryb *ary);
+ARY_H_DLLINCLUDE void *ary_splicep(struct aryb *ary, size_t pos, size_t rlen, size_t alen);
+ARY_H_DLLINCLUDE int ary_index(struct aryb *ary, size_t *ret, size_t start, const void *data,
 	ary_cmpcb_t comp);
-int ary_rindex(struct aryb *ary, size_t *ret, size_t start, const void *data,
+ARY_H_DLLINCLUDE int ary_rindex(struct aryb *ary, size_t *ret, size_t start, const void *data,
 	ary_cmpcb_t comp);
-int ary_reverse(struct aryb *ary);
-int ary_join(struct aryb *ary, char **ret, const char *sep,
+ARY_H_DLLINCLUDE int ary_reverse(struct aryb *ary);
+ARY_H_DLLINCLUDE int ary_join(struct aryb *ary, char **ret, const char *sep,
 	ary_joincb_t stringify);
-int ary_swap(struct aryb *ary, size_t a, size_t b);
-int ary_search(struct aryb *ary, size_t *ret, size_t start, const void *data,
+ARY_H_DLLINCLUDE int ary_swap(struct aryb *ary, size_t a, size_t b);
+ARY_H_DLLINCLUDE int ary_search(struct aryb *ary, size_t *ret, size_t start, const void *data,
 	ary_cmpcb_t comp);
-int ary_unique(struct aryb *ary, ary_cmpcb_t comp);
+ARY_H_DLLINCLUDE int ary_unique(struct aryb *ary, ary_cmpcb_t comp);
 
-extern ary_xalloc_t ary_xrealloc;
+ARY_H_DLLINCLUDE extern ary_xalloc_t ary_xrealloc;
 
 /**
  * ary_use_as_realloc() - set a custom allocator function
  * @routine: replacement for realloc(ptr, nmemb, size)
  */
-void ary_use_as_realloc(ary_xalloc_t routine);
+ARY_H_DLLINCLUDE void ary_use_as_realloc(ary_xalloc_t routine);
 
 /**
  * ary_use_as_free() - set a custom deallocator function
  * @routine: replacement for free(ptr)
  */
-void ary_use_as_free(ary_xdealloc_t routine);
+ARY_H_DLLINCLUDE void ary_use_as_free(ary_xdealloc_t routine);
 
 /**
  * ary_init() - initialize an array
@@ -608,7 +614,7 @@ static inline int (ary_grow)(struct aryb *ary, size_t extra) {
 	if (ary->alloc * factor < ary->len + extra)
 		alloc = ary->len + extra;
 	else
-		alloc = ary->alloc * factor;
+		alloc = (size_t) ary->alloc * factor;
 	buf = ary_xrealloc(ary->buf, alloc, ary->sz);
 	if (!buf)
 		return 0;

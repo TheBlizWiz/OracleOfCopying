@@ -11,7 +11,7 @@
 #include "render/r_image.h"
 
 DLLINCLUDE typedef struct Tile Tile_t;
-//DLLINCLUDE typedef struct TileArray TileArray_t;
+DLLINCLUDE typedef struct TileArray TileArray_t;
 
 // Static, non-interactive building blocks of dungeons
 // Has two parts - the floor and the tile
@@ -36,7 +36,6 @@ struct Tile {
     Hitbox_t hbox;
 
     // flags for this tile
-    // usused but maybe useful later?
     u16 flags;
 
     // pointer to place in Hashmap where the floor texture of the tile is
@@ -46,30 +45,13 @@ struct Tile {
     Image_t **tiletex;
 };
 
-// Array of Tile_t
-// This is not the tiles in your Room_t
-// Instead these are a sort of "master pallete" of all tiles needed in the dungeon
-// Rooms are then made of a 2-d array of pointers to these tiles 
-// That way if a tile gets repeated a lot (say like a block, wall, or an empty tile) we don't
-// have like 250 copies of it in memory
-// 
-// Load these from the dungeon file before building rooms
-// and only free them when the dungeon is exited
-//struct TileArray {
-//    Size_t len;
-//    Size_t alloc;
-//    Tile_t tiles[];
-//};
+struct TileArray ary(Tile_t);
 
 DLLINCLUDE Tile_t *tile_new(u32, TileType_e, boolean, Hitbox_t, u16, Image_t **, Image_t **);
-
-//DLLINCLUDE TileArray_t *tilearr_new(Size_t len);
 DLLINCLUDE Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, Image_t **ftx, Image_t **ttx);
-//DLLINCLUDE Error_t tilearr_free(TileArray_t *tarr);
-
 DLLINCLUDE Error_t tile_drawfloor(Tile_t *tile, Coordinate c, App_t *app);
 DLLINCLUDE Error_t tile_drawtile(Tile_t *tile, Coordinate c, App_t *app);
 DLLINCLUDE int tile_compare(const void *Tile_t_a, const void *Tile_t_b);
-//DLLINCLUDE Error_t tile_load(const char *fpath, Array_t(Tile_t) *tileset, Hashmap_t *atlasmap);
+DLLINCLUDE Error_t tile_load(const char *fpath, TileArray_t *tileset, Hashmap_t *atlasmap);
 
 #endif

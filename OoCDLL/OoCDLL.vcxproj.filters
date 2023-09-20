@@ -15,88 +15,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
+    <ClInclude Include="src\oocdll.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\defs\d_common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\defs\d_constants.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\e_app.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\defs\d_string.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="oocdll.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\defs\d_utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\math\m_rng.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\render\r_image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\g_hitbox.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utils\u_hash.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\libs\hashmap\hashmap.h">
+    <ClInclude Include="src\framework.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\render\r_sdl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\libs\dirent\dirent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\libs\cjson\cjson.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utils\u_list.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\g_room.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\g_tile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\g_map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\g_enums.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\render\r_animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\e_keyboard.h">
+    <ClInclude Include="src\render\r_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\g_entity.h">
+    <ClInclude Include="src\objects\o_chestclass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\game\g_object.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\g_player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\math\m_physics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\e_time.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\defs\d_macros.h">
+    <ClInclude Include="src\objects\o_blockpush.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\math\m_vector.h">
@@ -105,45 +42,126 @@
     <ClInclude Include="src\math\m_math.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\math\m_physics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\m_rng.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libs\hashmap\hashmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libs\dirent\dirent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libs\cjson\cjson.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\libs\ary\ary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\g_tile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\g_entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\g_enums.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\g_hitbox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\g_map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\g_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\g_player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\game\g_room.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\e_time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\e_app.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\e_keyboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\defs\d_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\defs\d_common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\defs\d_constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\defs\d_macros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\defs\d_string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\u_array.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\u_hash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\u_list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\engine\e_app.c">
+    <ClCompile Include="src\oocdll.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\defs\d_string.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="oocdll.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\defs\d_utils.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\math\m_rng.c">
+    <ClCompile Include="src\render\r_animation.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\render\r_image.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\g_hitbox.c">
+    <ClCompile Include="src\render\r_sdl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\utils\u_hash.c">
+    <ClCompile Include="src\math\m_math.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math\m_physics.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math\m_rng.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math\m_vector.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\libs\hashmap\hashmap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\render\r_sdl.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\libs\cjson\cjson.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\utils\u_list.c">
+    <ClCompile Include="src\libs\ary\ary.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\g_entity.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\g_hitbox.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\g_map.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game\g_player.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\game\g_room.c">
@@ -152,44 +170,29 @@
     <ClCompile Include="src\game\g_tile.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\g_map.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\render\r_animation.c">
+    <ClCompile Include="src\engine\e_app.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\e_keyboard.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\g_player.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\math\m_physics.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\e_time.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\game\g_entity.c">
+    <ClCompile Include="src\defs\d_string.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\math\m_vector.c">
+    <ClCompile Include="src\defs\d_utils.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\math\m_math.c">
+    <ClCompile Include="src\utils\u_array.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\libs\ary\ary.c">
+    <ClCompile Include="src\utils\u_hash.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2main.lib" />
-    <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2test.lib" />
-    <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2.lib" />
-    <Library Include="..\..\SDL_image\VisualC\x64\Release\SDL2_image.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\SDL_image\VisualC\x64\Release\SDL2_image.dll" />
+    <ClCompile Include="src\utils\u_list.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

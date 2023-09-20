@@ -1,5 +1,6 @@
 #include <string.h>
 
+#include "defs/d_common.h"
 #include "defs/d_macros.h"
 #include "engine/e_app.h"
 #include "g_room.h"

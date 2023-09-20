@@ -15,13 +15,13 @@ int main(int argc, char *argv[]) {
     Error_t e;
     Player_t *player;
 
-    Room_t *room;
-    TileType_e ttype = 0;
+    //Room_t *room;
+    //TileType_e ttype = 0;
 
     State_t tmpstate;
     Coordinate c;
 
-    Array_t(Tile_t) tileset;
+    //TileArray_t tileset;
 
     double currenttime = 0.0;
     double newtime = 0.0;
@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    atlas = IMG_LoadTexture(ooc->rdr, "E:\\MSVC\\source\\repos\\OracleOfCopying\\OracleOfCopying\\textures\\atlases\\dancingdragondungeon\\atlasimg.qoi");
+    atlas = IMG_LoadTexture(ooc->rdr, "D:\\OracleOfCopying\\OracleOfCopying\\textures\\atlases\\dancingdragondungeon\\atlasimg.qoi");
     if (!atlas) {
         errprintf("ERROR: atlas is null... uhhh\n");
         return 2;
@@ -53,27 +53,34 @@ int main(int argc, char *argv[]) {
         return 3;
     }
 
-    e = atlas_load(atlasmap, "E:\\MSVC\\source\\repos\\OracleOfCopying\\OracleOfCopying\\textures\\atlases\\dancingdragondungeon\\atlasdata.json", atlas);
+    e = atlas_load(atlasmap, "D:\\OracleOfCopying\\OracleOfCopying\\textures\\atlases\\dancingdragondungeon\\atlasdata.json", atlas);
     if (e != ERROR_NOERROR) {
         errprintf("ERROR: something wrong with atlas_load\n");
     }
 
-    array_init(&tileset, 0);
+    //ary_init(&tileset, 0);
 
-    e = tile_load("E:\\MSVC\\source\\repos\\OracleOfCopying\\tiles.json", &tileset, atlasmap);
-    if (e != ERROR_NOERROR) {
-        errprintf("ERROR: something wrong with tile_load\n");
+    //e = tile_load("E:\\MSVC\\source\\repos\\OracleOfCopying\\tiles.json", &tileset, atlasmap);
+    //if (e != ERROR_NOERROR) {
+    //    errprintf("ERROR: something wrong with tile_load\n");
+    //}
+
+    //ary_sort(&tileset, tile_compare);
+
+    Image_t *whiteball = atlas_getimage(atlasmap, "whiteball.qoi");
+    if (!whiteball) {
+        errprintf("ERROR: whiteball.qoi is null\n");
+        return 10;
     }
-    array_sort(&tileset, tile_compare);
 
     player = player_new((Point3) {
         .x = 32.0, .y = 32.0, .z = 0.0
-    }, player_newhbox(), atlas_getimage(atlasmap, "whiteball.qoi"));
+    }, player_newhbox(), whiteball);
 
     while (run) {
         SDL_RenderClear(ooc->rdr);
 
-        room_draw(room, ooc);
+        //room_draw(room, ooc);
 
         e = app_doevents(ooc, &evt);
 
@@ -113,15 +120,16 @@ int main(int argc, char *argv[]) {
             phys_integrate(&player->ent, dt);
             player_capvelocity(player);
 
-            errprintf("%f, %f, %f, %f\n", currenttime, player->ent.currstate.position.x, player->ent.currstate.position.y, player->ent.currstate.position.z);
+            //errprintf("%f, %f, %f, %f\n", currenttime, player->ent.currstate.position.x, player->ent.currstate.position.y, player->ent.currstate.position.z);
             accumulator -= dt;
         }
 
         interp = accumulator / dt;
 
         // foreach (Entity ent) {
-        //     tmpstate = phys_interpolate(&player->ent, interp);
+        //     tmpstate = phys_interpolate(ent, interp);
         //     c = SDL_WorldPosToScreenPos(tmpstate.position);
+        //     SDL_BlitImage(ooc, texture, c, 0, TF);
         // }
 
         tmpstate = phys_interpolate(&player->ent, interp);
@@ -129,16 +137,16 @@ int main(int argc, char *argv[]) {
 
         switch (player->direction) {
             case NORTH:
-                //SDL_BlitImage(ooc, whiteball, c, 0, TF_NONE);
+                SDL_BlitImage(ooc, whiteball, c, 0, TF_NONE);
                 break;
             case SOUTH:
-                //SDL_BlitImage(ooc, whiteball, c, 0, TF_ROT, 180.00);
+                SDL_BlitImage(ooc, whiteball, c, 0, TF_ROT, 180.00);
                 break;
             case EAST:
-                //SDL_BlitImage(ooc, whiteball, c, 0, TF_ROT, 90.00);
+                SDL_BlitImage(ooc, whiteball, c, 0, TF_ROT, 90.00);
                 break;
             case WEST:
-                //SDL_BlitImage(ooc, whiteball, c, 0, TF_ROT, 270.00);
+                SDL_BlitImage(ooc, whiteball, c, 0, TF_ROT, 270.00);
                 break;
         }
 
@@ -147,7 +155,7 @@ int main(int argc, char *argv[]) {
     }
 
     player_free(player);
-    array_release(&tileset);
+    //ary_release(&tileset);
     hashmap_free(atlasmap);
     SDL_DestroyTexture(atlas);
 

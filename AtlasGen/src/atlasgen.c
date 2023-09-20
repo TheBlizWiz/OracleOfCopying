@@ -2,14 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "atlas/a_node.h"
-#include "atlas/a_json.h"
-
-#include "cargs/c_cmdargs.h"
-
-#include "img/i_surface.h"
-
-#include "oocdll.h"
+#include "atlasgen.h"
 
 int main(int argc, char *argv[]) {
     SDL_Init(SDL_INIT_VIDEO);

@@ -15,22 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ooc.c">
+    <ClCompile Include="src\ooc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2main.lib" />
-    <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2test.lib" />
-    <Library Include="..\..\SDL2\VisualC\x64\Release\SDL2.lib" />
-    <Library Include="..\..\SDL_image\VisualC\x64\Release\SDL2_image.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SDL2.dll" />
-    <None Include="..\..\SDL_image\VisualC\x64\Release\SDL2_image.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ooc.h">
+    <ClInclude Include="src\ooc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

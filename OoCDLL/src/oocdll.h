@@ -21,6 +21,7 @@
 #include "game/g_tile.h"
 
 #include "libs/cjson/cjson.h"
+#include "libs/csv/csv.h"
 #include "libs/dirent/dirent.h"
 #include "libs/hashmap/hashmap.h"
 #include "libs/ary/ary.h"

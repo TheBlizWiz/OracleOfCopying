@@ -38,17 +38,17 @@ struct Tile {
     // flags for this tile
     u16 flags;
 
-    // pointer to place in Hashmap where the floor texture of the tile is
-    Image_t **floortex;
+    // Image_t in Hashmap where the floor texture of the tile is
+    Image_t *floortex;
 
-    // pointer to place in Hashmap where the main tile block/wall/etc texture is
-    Image_t **tiletex;
+    // Image_t in Hashmap where the main tile block/wall/etc texture is
+    Image_t *tiletex;
 };
 
 struct TileArray ary(Tile_t);
 
-DLLINCLUDE Tile_t *tile_new(u32, TileType_e, boolean, Hitbox_t, u16, Image_t **, Image_t **);
-DLLINCLUDE Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, Image_t **ftx, Image_t **ttx);
+DLLINCLUDE Tile_t *tile_new(u32, TileType_e, boolean, Hitbox_t, u16, Image_t *, Image_t *);
+DLLINCLUDE Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, Image_t *ftx, Image_t *ttx);
 DLLINCLUDE Error_t tile_drawfloor(Tile_t *tile, Coordinate c, App_t *app);
 DLLINCLUDE Error_t tile_drawtile(Tile_t *tile, Coordinate c, App_t *app);
 DLLINCLUDE int tile_compare(const void *Tile_t_a, const void *Tile_t_b);

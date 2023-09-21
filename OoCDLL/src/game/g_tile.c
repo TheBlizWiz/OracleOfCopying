@@ -10,7 +10,7 @@
 #include "game/g_hitbox.h"
 #include "render/r_sdl.h"
 
-Tile_t *tile_new(u32 tid, TileType_e tty, boolean c, Hitbox_t hb, u16 f, Image_t **ttx, Image_t **ftx) {
+Tile_t *tile_new(u32 tid, TileType_e tty, boolean c, Hitbox_t hb, u16 f, Image_t *ttx, Image_t *ftx) {
     Tile_t *t = (Tile_t *) malloc(sizeof(Tile_t));
     if (t) {
         t->tileid = tid;
@@ -28,7 +28,7 @@ Tile_t *tile_new(u32 tid, TileType_e tty, boolean c, Hitbox_t hb, u16 f, Image_t
     }
 }
 
-Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, Image_t **ftx, Image_t **ttx) {
+Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, Image_t *ftx, Image_t *ttx) {
     if (tile) {
         tile->tileid = tid;
         tile->ttype = tty;
@@ -47,7 +47,7 @@ Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, Image_t **f
 Error_t tile_drawfloor(Tile_t *tile, Coordinate c, App_t *app) {
     if (app) {
         if (tile) {
-            return (Error_t) SDL_BlitImage(app, *(tile->floortex), c, 0, TF_NONE);
+            return (Error_t) SDL_BlitImage(app, tile->floortex, c, 0, TF_NONE);
         }
         else {
             errprintf("ERROR: Tile_t *tile is null, can't draw Tile_t\n");
@@ -63,7 +63,7 @@ Error_t tile_drawfloor(Tile_t *tile, Coordinate c, App_t *app) {
 Error_t tile_drawtile(Tile_t *tile, Coordinate c, App_t *app) {
     if (app) {
         if (tile) {
-            return (Error_t) SDL_BlitImage(app, *(tile->tiletex), c, 0, TF_NONE);
+            return (Error_t) SDL_BlitImage(app, tile->tiletex, c, 0, TF_NONE);
         }
         else {
             errprintf("ERROR: Tile_t *tile is null, can't draw Tile_t\n");
@@ -95,8 +95,8 @@ Error_t tile_load(const char *fpath, TileArray_t *tileset, Hashmap_t *atlasmap) 
     TileType_e tty;
     boolean col;
     u16 f;
-    Image_t **ftex;
-    Image_t **ttex;
+    Image_t *ftex;
+    Image_t *ttex;
     char *tmp;
 
     // TODO: replace with read from json file

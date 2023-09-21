@@ -3,7 +3,7 @@
 #include "defs/d_constants.h"
 #include "defs/d_macros.h"
 
-Player_t *player_new(Point3 pos, Hitbox_t hbox, Image_t **tex) {
+Player_t *player_new(Point3 pos, Hitbox_t hbox, Image_t *tex) {
     Player_t *player = (Player_t *) malloc(sizeof(Player_t));
     if (player) {
 

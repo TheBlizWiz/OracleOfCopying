@@ -363,3 +363,18 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/x64/Release/AtlasGen.exe
+/x64/Release/AtlasGen.pdb
+/x64/Release/DungeonMaster.exe
+/x64/Release/DungeonMaster.pdb
+/x64/Release/OoCDLL.dll
+/x64/Release/OoCDLL.pdb
+/x64/Release/OracleOfCopying.exe
+/x64/Release/OracleOfCopying.pdb
+/x64/Release/Qoiconv.exe
+/x64/Release/Qoiconv.pdb
+/OoCDLL/OoCDLL.vcxproj.filters
+/OoCDLL/OoCDLL.vcxproj
+/x64/Debug/OoCDLL.lib
+/x64/Debug/OoCDLL.exp
+/OoCDLL/src/libs/csv/LICENSE.txt

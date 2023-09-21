@@ -29,13 +29,13 @@ struct Player {
     // TODO: should this be set by player velocity or directly from the controls?
     u8 direction;
 
-    // pointer to Image_t * in hashmap that corresponds with the player on screen
-    Image_t **tex;
+    // Image_t * in hashmap that corresponds with the player on screen
+    Image_t *tex;
 
     double actiontimers[MAX_ACTIONS];
 };
 
-DLLINCLUDE Player_t *player_new(Point3 pos, Hitbox_t hbox, Image_t **tex);
+DLLINCLUDE Player_t *player_new(Point3 pos, Hitbox_t hbox, Image_t *tex);
 DLLINCLUDE Hitbox_t player_newhbox();
 
 DLLINCLUDE Error_t player_handleinput(App_t *app, Player_t *player, double dt);

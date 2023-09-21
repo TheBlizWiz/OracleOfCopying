@@ -1,3 +1,5 @@
+#pragma warning(disable: 4244)
+
 #ifndef ARY_H
 #define ARY_H
 
@@ -97,6 +99,8 @@ ARY_H_DLLINCLUDE int ary_swap(struct aryb *ary, size_t a, size_t b);
 ARY_H_DLLINCLUDE int ary_search(struct aryb *ary, size_t *ret, size_t start, const void *data,
 	ary_cmpcb_t comp);
 ARY_H_DLLINCLUDE int ary_unique(struct aryb *ary, ary_cmpcb_t comp);
+
+ARY_H_DLLINCLUDE void *ary_xrealloc_builtin(void *ptr, size_t nmemb, size_t size);
 
 ARY_H_DLLINCLUDE extern ary_xalloc_t ary_xrealloc;
 

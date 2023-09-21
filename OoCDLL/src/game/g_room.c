@@ -1,8 +1,10 @@
 #include <string.h>
 
 #include "defs/d_common.h"
+#include "defs/d_utils.h"
 #include "defs/d_macros.h"
 #include "engine/e_app.h"
+#include "libs/csv/csv.h"
 #include "g_room.h"
 #include "g_tile.h"
 
@@ -17,6 +19,56 @@ Room_t *room_new(u64 t, u8 id) {
     else {
         errprintf("ERROR: no malloc space for new Room_t\n");
         return NULLADDR;
+    }
+}
+
+Error_t room_load(Room_t *room, TileArray_t *tarr, const wchar_t *fpath) {
+    if (room) {
+        if (tarr) {
+            char *row;
+            const char *col;
+            int tid, rownum = 0, colnum = 0;
+            Tile_t tgt = { 0 };
+            Size_t idx = 0;
+            CsvHandle hdl = CsvOpen(fpath);
+            if (hdl) {
+
+                while (row = CsvReadNextRow(hdl)) {
+                    while (col = CsvReadNextCol(row, hdl)) {
+                        tid = atoi(col);
+                        tgt.tileid = tid;
+
+                        int tilefound = ary_search(tarr, &idx, 0, &tgt, tile_compare);
+
+
+                        if (tilefound) {
+                            room->tiles[rownum][colnum] = &tarr->buf[idx];
+                        }
+                        else {
+                            room->tiles[rownum][colnum] = NULLADDR;
+                        }
+
+                        colnum++;
+                    }
+                    rownum++;
+                }
+
+                CsvClose(hdl);
+                return ERROR_NOERROR;
+            }
+            else {
+                errprintf("ERROR: Couldn't open .dg file\n");
+                return ERROR_FILE_NOTFOUND;
+            }
+        }
+        else {
+            errprintf("ERROR: TileArray_t *tarr is null\n");
+            return ERROR_ISNULLADDR;
+        }
+    }
+    else {
+        errprintf("ERROR: Room_t *room is null");
+        return ERROR_ISNULLADDR;
     }
 }
 

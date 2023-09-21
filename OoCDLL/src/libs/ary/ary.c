@@ -1,17 +1,19 @@
+#pragma warning (disable : 4244)
+
 #include "ary.h"
 #include <ctype.h>
 
 /* taken from OpenBSD */
 #define MUL_NO_OVERFLOW	((size_t)1 << (sizeof(size_t) * 4))
 
-static void *ary_xrealloc_builtin(void *ptr, size_t nmemb, size_t size) {
+void *ary_xrealloc_builtin(void *ptr, size_t nmemb, size_t size) {
     if ((nmemb >= MUL_NO_OVERFLOW || size >= MUL_NO_OVERFLOW) &&
         nmemb > 0 && SIZE_MAX / nmemb < size)
         return NULL;
     return realloc(ptr, nmemb * size);
 }
 
-ary_xalloc_t ary_xrealloc = ary_xrealloc_builtin;
+static ary_xalloc_t ary_xrealloc = ary_xrealloc_builtin;
 static ary_xdealloc_t ary_xfree = free;
 
 void ary_cb_freevoidptr(void *buf, void *userp) {

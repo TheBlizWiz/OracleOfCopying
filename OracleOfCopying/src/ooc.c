@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
     State_t tmpstate;
     Coordinate c;
 
-    TileArray_t tileset;
+    Array_t(Tile_t) tileset = NULLADDR;
 
     double currenttime = 0.0;
     double newtime = 0.0;
@@ -58,15 +58,13 @@ int main(int argc, char *argv[]) {
         errprintf("ERROR: something wrong with atlas_load\n");
     }
 
-    ary_init(&tileset, 0);
+    array_start(tileset, 1, tile_free);
 
-    e = tile_load("C:\\Users\\thebl\\source\\repos\\OracleOfCopying\\tiles.json", &tileset, atlasmap);
+    e = tile_load("C:\\Users\\thebl\\source\\repos\\OracleOfCopying\\tiles.json", tileset, atlasmap);
     if (e != ERROR_NOERROR) {
         errprintf("ERROR: something wrong with tile_load\n");
         return 98;
     }
-
-    ary_sort(&tileset, tile_compare);
 
     room = room_new(0, 0);
     if (!room) {
@@ -74,9 +72,8 @@ int main(int argc, char *argv[]) {
         return 97;
     }
 
-
     // dont remove that L in front, this is a widechar string for the csv reader
-    e = room_load(room, &tileset, L"C:\\Users\\thebl\\source\\repos\\OracleOfCopying\\dungeon.dg");
+    e = room_load(room, tileset, L"C:\\Users\\thebl\\source\\repos\\OracleOfCopying\\dungeon.dg");
     if (e != ERROR_NOERROR) {
         errprintf("ERROR: something went wrong with room_load, code %lld\n", e);
         return 99;
@@ -184,8 +181,9 @@ int main(int argc, char *argv[]) {
     }
 
     player_free(player);
-    ary_setlen(&tileset, 0);
-    ary_release(&tileset);
+
+    array_stop(tileset, tile_free);
+
     hashmap_free(atlasmap);
     SDL_DestroyTexture(atlas);
     room_free(room);

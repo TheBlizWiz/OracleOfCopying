@@ -10,6 +10,7 @@
 #include "game/g_hitbox.h"
 #include "render/r_sdl.h"
 
+
 Tile_t *tile_new(u32 tid, TileType_e tty, boolean c, Hitbox_t hb, u16 f, Image_t *ttx, Image_t *ftx) {
     Tile_t *t = (Tile_t *) malloc(sizeof(Tile_t));
     if (t) {
@@ -18,8 +19,8 @@ Tile_t *tile_new(u32 tid, TileType_e tty, boolean c, Hitbox_t hb, u16 f, Image_t
         t->collision = c;
         t->hbox = hb;
         t->flags = f;
-        t->tiletex = ttx;
-        t->floortex = ftx;
+        t->tiletex = &ttx;
+        t->floortex = &ftx;
         return t;
     }
     else {
@@ -34,8 +35,8 @@ Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, Image_t *ft
         tile->ttype = tty;
         tile->collision = col;
         tile->flags = f;
-        tile->floortex = ftx;
-        tile->tiletex = ttx;
+        tile->floortex = &ftx;
+        tile->tiletex = &ttx;
         return (Error_t) ERROR_NOERROR;
     }
     else {
@@ -44,10 +45,21 @@ Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, Image_t *ft
     }
 }
 
+
+Error_t tile_free(Tile_t *t) {
+    if (t) {
+        free(t);
+        return (Error_t) ERROR_NOERROR;
+    }
+    else {
+        return (Error_t) ERROR_ISNULLADDR;
+    }
+}
+
 Error_t tile_drawfloor(Tile_t *tile, Coordinate c, App_t *app) {
     if (app) {
         if (tile) {
-            return (Error_t) SDL_BlitImage(app, tile->floortex, c, 0, TF_NONE);
+            return (Error_t) SDL_BlitImage(app, *(tile->floortex), c, 0, TF_NONE);
         }
         else {
             errprintf("ERROR: Tile_t *tile is null, can't draw Tile_t\n");
@@ -63,7 +75,7 @@ Error_t tile_drawfloor(Tile_t *tile, Coordinate c, App_t *app) {
 Error_t tile_drawtile(Tile_t *tile, Coordinate c, App_t *app) {
     if (app) {
         if (tile) {
-            return (Error_t) SDL_BlitImage(app, tile->tiletex, c, 0, TF_NONE);
+            return (Error_t) SDL_BlitImage(app, *(tile->tiletex), c, 0, TF_NONE);
         }
         else {
             errprintf("ERROR: Tile_t *tile is null, can't draw Tile_t\n");
@@ -83,7 +95,7 @@ int tile_compare(const void *Tile_t_a, const void *Tile_t_b) {
     return b->tileid - a->tileid;
 }
 
-Error_t tile_load(const char *fpath, TileArray_t *tileset, Hashmap_t *atlasmap) {
+Error_t tile_load(const char *fpath, Array_t(Tile_t) tileset, Hashmap_t *atlasmap) {
     char *jsontxt = NULLADDR;
     Size_t n = 0;
     FILE *jsonf;
@@ -125,15 +137,65 @@ Error_t tile_load(const char *fpath, TileArray_t *tileset, Hashmap_t *atlasmap) 
                             tmp = cJSON_GetObjectItem(node, "floortex")->valuestring;
                             ftex = atlas_getimage(atlasmap, tmp);
 
-                            ary_push(tileset, (Tile_t) {
+                            Tile_t newtile = {
                                 .tileid = tid,
-                                    .ttype = tty,
-                                    .collision = col,
-                                    .hbox = hb,
-                                    .flags = f,
-                                    .floortex = ftex,
-                                    .tiletex = ttex
-                            });
+                                .ttype = tty,
+                                .collision = col,
+                                .flags = f,
+                                .hbox = hb,
+                                .tiletex = &ttex,
+                                .floortex = &ftex
+                            };
+
+                            // array_push(tileset, newtile);
+
+                            do {
+                                Size_t __CURRENT_CAP__ = ((tileset) ? (&((GenArrayData_t *) (tileset))[-1])->cap : (Size_t) 0); 
+                                if (__CURRENT_CAP__ <= ((tileset) ? (&((GenArrayData_t *) (tileset))[-1])->len : (Size_t) 0)) {
+                                    do {
+                                        const Size_t __DESIRED_SIZE__ = (((__CURRENT_CAP__) ? ((__CURRENT_CAP__) << 1) : 1)) * sizeof(*((tileset))) + sizeof(GenArrayData_t); 
+                                        if ((tileset)) {
+                                            void *__PTR0__ = (&((GenArrayData_t *) ((tileset)))[-1]); void *__PTR1__ = realloc(__PTR0__, __DESIRED_SIZE__); 
+                                            if (__PTR1__) {
+                                                ((tileset)) = ((void *) &((GenArrayData_t *) (__PTR1__))[1]); 
+                                                do {
+                                                    if (((tileset))) {
+                                                        (&((GenArrayData_t *) (((tileset))))[-1])->cap = ((((__CURRENT_CAP__) ? ((__CURRENT_CAP__) << 1) : 1)));
+                                                    }
+                                                } while (0);
+                                            }
+                                        }
+                                        else {
+                                            void *__PTR2__ = malloc(__DESIRED_SIZE__); 
+                                            if (__PTR2__) {
+                                                ((tileset)) = ((void *) &((GenArrayData_t *) (__PTR2__))[1]); 
+                                                do {
+                                                    if (((tileset))) {
+                                                        (&((GenArrayData_t *) (((tileset))))[-1])->len = (0);
+                                                    }
+                                                } while (0);
+                                                do {
+                                                    if (((tileset))) {
+                                                        (&((GenArrayData_t *) (((tileset))))[-1])->elem_free = (((void *) 0));
+                                                    }
+                                                } while (0);
+                                                do {
+                                                    if (((tileset))) {
+                                                        (&((GenArrayData_t *) (((tileset))))[-1])->cap = ((((__CURRENT_CAP__) ? ((__CURRENT_CAP__) << 1) : 1)));
+                                                    }
+                                                } while (0);
+                                            }
+                                        }
+                                    } while (0);
+                                } 
+                                (tileset)[((tileset) ? (&((GenArrayData_t *) (tileset))[-1])->len : (Size_t) 0)] = (newtile);
+                                do {
+                                    if ((tileset)) {
+                                        (&((GenArrayData_t *) ((tileset)))[-1])->len = (((tileset) ? (&((GenArrayData_t *) (tileset))[-1])->len : (Size_t) 0) + 1);
+                                    }
+                                } while (0);
+                            } while (0);
+
                         }
                         return (Error_t) ERROR_NOERROR;
                     }

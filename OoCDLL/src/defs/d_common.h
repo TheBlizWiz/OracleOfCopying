@@ -29,9 +29,6 @@ DLLINCLUDE typedef uint64_t Size_t;
 DLLINCLUDE typedef int64_t  Ssize_t;
 DLLINCLUDE typedef int64_t  Error_t;
 
-DLLINCLUDE typedef struct TreeNode TreeNode_t;
-DLLINCLUDE typedef struct Tree Tree_t;
-
 // yeah these break the rules but i also use them frequently and writing _t got annoying
 
 DLLINCLUDE typedef struct _TWO_U32S      Coordinate;
@@ -45,23 +42,8 @@ DLLINCLUDE typedef struct _TWO_DOUBLES   Angle2;
 DLLINCLUDE typedef struct _THREE_DOUBLES Angle3;
 DLLINCLUDE typedef struct _FOUR_DOUBLES  Quaternion;
 
-DLLINCLUDE typedef Error_t(*DataFree_fnptr)(void *data);
-DLLINCLUDE typedef i32(*DataCmp_fnptr)(const void *data, const void *tgtdata);
-
-struct TreeNode {
-    u32 key;
-    void *data;
-    DataFree_fnptr datafree;
-    DataCmp_fnptr datacmp;
-
-    struct TreeNode *left;
-    struct TreeNode *right;
-};
-
-struct Tree {
-    struct TreeNode_t **root;
-    Size_t size;
-};
+DLLINCLUDE typedef Error_t(*free_fnptr)(void *data);
+DLLINCLUDE typedef i32(*cmp_fnptr)(const void *data, const void *tgtdata);
 
 union color {
     struct {

@@ -7,7 +7,7 @@
 
 #include "u_list.h"
 
-ListNode_t *listnode_new(u32 key, void *data, DataFree_fnptr datafree, DataCmp_fnptr datacmp) {
+ListNode_t *listnode_new(u32 key, void *data, free_fnptr datafree, cmp_fnptr datacmp) {
     if (data) {
         ListNode_t *node = (ListNode_t *) malloc(sizeof(ListNode_t));
         if (node) {
@@ -29,7 +29,7 @@ ListNode_t *listnode_new(u32 key, void *data, DataFree_fnptr datafree, DataCmp_f
     }
 }
 
-ListNode_t *list_addtohead(ListNode_t *head, u32 key, void *data, DataFree_fnptr datafree, DataCmp_fnptr datacmp) {
+ListNode_t *list_addtohead(ListNode_t *head, u32 key, void *data, free_fnptr datafree, cmp_fnptr datacmp) {
     ListNode_t *node = listnode_new(key, data, datafree, datacmp);
     if (node) {
         node->next = head;
@@ -40,7 +40,7 @@ ListNode_t *list_addtohead(ListNode_t *head, u32 key, void *data, DataFree_fnptr
     }
 }
 
-ListNode_t *list_addtotail(ListNode_t *head, u32 key, void *data, DataFree_fnptr datafree, DataCmp_fnptr datacmp) {
+ListNode_t *list_addtotail(ListNode_t *head, u32 key, void *data, free_fnptr datafree, cmp_fnptr datacmp) {
     if (!head) {
         return listnode_new(key, data, datafree, datacmp);
     }
@@ -50,7 +50,7 @@ ListNode_t *list_addtotail(ListNode_t *head, u32 key, void *data, DataFree_fnptr
     }
 }
 
-ListNode_t *list_addsortedbykey(ListNode_t *head, u32 key, void *data, DataFree_fnptr datafree, DataCmp_fnptr datacmp) {
+ListNode_t *list_addsortedbykey(ListNode_t *head, u32 key, void *data, free_fnptr datafree, cmp_fnptr datacmp) {
     if (!head || head->key > key) {
         ListNode_t *node = listnode_new(key, data, datafree, datacmp);
         node->next = head;
@@ -63,7 +63,7 @@ ListNode_t *list_addsortedbykey(ListNode_t *head, u32 key, void *data, DataFree_
     }
 }
 
-ListNode_t *list_addsortedbydata(ListNode_t *head, u32 key, void *data, DataFree_fnptr datafree, DataCmp_fnptr datacmp) {
+ListNode_t *list_addsortedbydata(ListNode_t *head, u32 key, void *data, free_fnptr datafree, cmp_fnptr datacmp) {
     if (!head || (head->datacmp(head->data, data) > 0)) {
         ListNode_t *node = listnode_new(key, data, datafree, datacmp);
         node->next = head;

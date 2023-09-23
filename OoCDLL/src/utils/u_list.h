@@ -9,8 +9,8 @@ DLLINCLUDE typedef struct List List_t;
 struct ListNode {
     u32 key;
     void *data;
-    DataFree_fnptr datafree;
-    DataCmp_fnptr datacmp;
+    free_fnptr datafree;
+    cmp_fnptr datacmp;
 
     struct ListNode *next;
 };
@@ -25,15 +25,15 @@ struct List {
 // thank you for the help
 
 
-DLLINCLUDE ListNode_t *listnode_new(u32 key, void *data, DataFree_fnptr datafree, DataCmp_fnptr datacmp);
+DLLINCLUDE ListNode_t *listnode_new(u32 key, void *data, free_fnptr datafree, cmp_fnptr datacmp);
 
-DLLINCLUDE ListNode_t *list_addtohead(ListNode_t *head, u32 key, void *data, DataFree_fnptr datafree, DataCmp_fnptr datacmp);
+DLLINCLUDE ListNode_t *list_addtohead(ListNode_t *head, u32 key, void *data, free_fnptr datafree, cmp_fnptr datacmp);
 
-DLLINCLUDE ListNode_t *list_addtotail(ListNode_t *head, u32 key, void *data, DataFree_fnptr datafree, DataCmp_fnptr datacmp);
+DLLINCLUDE ListNode_t *list_addtotail(ListNode_t *head, u32 key, void *data, free_fnptr datafree, cmp_fnptr datacmp);
 
-DLLINCLUDE ListNode_t *list_addsortedbykey(ListNode_t *head, u32 key, void *data, DataFree_fnptr datafree, DataCmp_fnptr datacmp);
+DLLINCLUDE ListNode_t *list_addsortedbykey(ListNode_t *head, u32 key, void *data, free_fnptr datafree, cmp_fnptr datacmp);
 
-DLLINCLUDE ListNode_t *list_addsortedbydata(ListNode_t *head, u32 key, void *data, DataFree_fnptr datafree, DataCmp_fnptr datacmp);
+DLLINCLUDE ListNode_t *list_addsortedbydata(ListNode_t *head, u32 key, void *data, free_fnptr datafree, cmp_fnptr datacmp);
 
 DLLINCLUDE ListNode_t *list_searchbykey(ListNode_t *head, const u32 tgtkey);
 

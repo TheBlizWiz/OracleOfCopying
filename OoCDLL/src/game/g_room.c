@@ -22,14 +22,14 @@ Room_t *room_new(u64 t, u8 id) {
     }
 }
 
-Error_t room_load(Room_t *room, TileArray_t *tarr, const wchar_t *fpath) {
+Error_t room_load(Room_t *room, Array_t(Tile_t) tileset, const wchar_t *fpath) {
     if (room) {
-        if (tarr) {
+        if (tileset) {
             char *row;
             const char *col;
             int tid, rownum = 0, colnum = 0;
             Tile_t tgt = { 0 };
-            Size_t idx = 0;
+            Size_t idx;
             CsvHandle hdl = CsvOpen(fpath);
             if (hdl) {
 
@@ -38,11 +38,13 @@ Error_t room_load(Room_t *room, TileArray_t *tarr, const wchar_t *fpath) {
                         tid = atoi(col);
                         tgt.tileid = tid;
 
-                        int tilefound = ary_search(tarr, &idx, 0, &tgt, tile_compare);
+                        const Tile_t *tmptile = &tgt;
+
+                        int tilefound = array_search(tileset, &idx, 0, tmptile, tile_compare);
 
 
                         if (tilefound) {
-                            room->tiles[rownum][colnum] = &tarr->buf[idx];
+                            room->tiles[rownum][colnum] = &(tileset[idx]);
                         }
                         else {
                             room->tiles[rownum][colnum] = NULLADDR;
@@ -62,7 +64,7 @@ Error_t room_load(Room_t *room, TileArray_t *tarr, const wchar_t *fpath) {
             }
         }
         else {
-            errprintf("ERROR: TileArray_t *tarr is null\n");
+            errprintf("ERROR: TileArray_t *tileset is null\n");
             return ERROR_ISNULLADDR;
         }
     }

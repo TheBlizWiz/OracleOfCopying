@@ -49,5 +49,8 @@ DLLINCLUDE u8 dbl_epsilon(double, double, double);
  */
 DLLINCLUDE int rng(int, int);
 
+DLLINCLUDE void *xalloc(void *ptr, Size_t nmemb, Size_t sz);
+DLLINCLUDE int strcasecmp(const char *a, const char *b);
+
 #endif
 

@@ -18,6 +18,9 @@
 #define errprintf //
 #endif
 
+// From OpenBSD
+#define MUL_NO_OVERFLOW	((Size_t)1 << (sizeof(Size_t) * 4))
+
 #define zeroset(ptr, sz) memset(ptr, 0, sz)
 #define strncopy(dst, src, szdst) do { strncpy_s(dst, sizeof(dst[0]) * szdst, src, sizeof(dst[0]) * (szdst - 1)); dst[szdst - 1] = '\0'; } while(0)
 

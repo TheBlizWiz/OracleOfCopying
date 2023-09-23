@@ -378,3 +378,5 @@ FodyWeavers.xsd
 /x64/Debug/OoCDLL.lib
 /x64/Debug/OoCDLL.exp
 /OoCDLL/src/libs/csv/LICENSE.txt
+/x64/Release/OoCDLL.exp
+/x64/Release/OoCDLL.lib

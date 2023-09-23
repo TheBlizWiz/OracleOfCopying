@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
 
 #include "d_string.h"
 #include "d_macros.h"
@@ -135,4 +137,30 @@ u8 dbl_epsilon(double d, double exptval, double epsilon) {
 
 int rng(int lo, int hi) {
     return (rand() % (hi - lo + 1)) + lo;
+}
+
+void *xalloc(void *ptr, Size_t nmemb, Size_t sz) {
+    if ((nmemb >= MUL_NO_OVERFLOW || sz >= MUL_NO_OVERFLOW) &&
+        nmemb > 0 && SIZE_MAX / nmemb < sz)
+        return NULL;
+    else
+        return realloc(ptr, nmemb * sz);
+}
+
+int strcasecmp(const char *a, const char *b) {
+    const unsigned char *pA = (const unsigned char *) a;
+    const unsigned char *pB = (const unsigned char *) b;
+    int result;
+
+    if (pA == pB) {
+        return 0;
+    }
+
+    while ((result = tolower(*pA) - tolower(*pB++)) == 0) {
+        if (*pA++ == '\0') {
+            break;
+        }
+    }
+
+    return result;
 }

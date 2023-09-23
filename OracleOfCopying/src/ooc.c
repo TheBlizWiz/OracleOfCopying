@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
     ary_sort(&tileset, tile_compare);
 
     room = room_new(0, 0);
-    if(!room) { 
+    if (!room) {
         errprintf("ERROR: no malloc space for new room_t");
         return 97;
     }
@@ -184,6 +184,7 @@ int main(int argc, char *argv[]) {
     }
 
     player_free(player);
+    ary_setlen(&tileset, 0);
     ary_release(&tileset);
     hashmap_free(atlasmap);
     SDL_DestroyTexture(atlas);

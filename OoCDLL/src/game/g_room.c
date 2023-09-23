@@ -90,11 +90,18 @@ Error_t room_draw(Room_t *room, App_t *app) {
 }
 
 Error_t room_drawfloor(Room_t *room, App_t *app) {
-    Error_t e = ERROR_NOERROR;
+    Error_t e = ERROR_NOERROR, tmp = ERROR_NOERROR;
     Coordinate c = { 0 };
     for (u8 y = 0; y < ROOM_SIZE_Y; y++) {
         for (u8 x = 0; x < ROOM_SIZE_X; x++) {
-            e += tile_drawfloor(room->tiles[x][y], c, app);
+            tmp = tile_drawfloor(room->tiles[x][y], c, app);
+            
+            if (!e) {
+                errprintf("ERROR: room_drawfloor threw an error, code %lld\n", e);
+            }
+
+            e += tmp;
+            tmp = ERROR_NOERROR;
             c.x += TILE_PX_SIZE_X;
         }
         c.y += TILE_PX_SIZE_Y;
@@ -103,11 +110,18 @@ Error_t room_drawfloor(Room_t *room, App_t *app) {
 }
 
 Error_t room_drawtile(Room_t *room, App_t *app) {
-    Error_t e = ERROR_NOERROR;
+    Error_t e = ERROR_NOERROR, tmp = ERROR_NOERROR;
     Coordinate c = { 0 };
     for (u8 y = 0; y < ROOM_SIZE_Y; y++) {
         for (u8 x = 0; x < ROOM_SIZE_X; x++) {
-            e += tile_drawtile(room->tiles[x][y], c, app);
+            tmp = tile_drawtile(room->tiles[x][y], c, app);
+
+            if (!tmp) {
+                errprintf("ERROR: room_drawtile threw an error, code %lld\n", e);
+            }
+
+            e += tmp;
+            tmp = ERROR_NOERROR;
             c.x += TILE_PX_SIZE_X;
         }
         c.y += TILE_PX_SIZE_Y;

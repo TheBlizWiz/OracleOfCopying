@@ -127,15 +127,14 @@ Error_t tile_load(const char *fpath, TileArray_t *tileset, Hashmap_t *atlasmap) 
 
                             ary_push(tileset, (Tile_t) {
                                 .tileid = tid,
-                                .ttype = tty,
-                                .collision = col,
-                                .hbox = hb,
-                                .flags = f,
-                                .floortex = ftex,
-                                .tiletex = ttex
+                                    .ttype = tty,
+                                    .collision = col,
+                                    .hbox = hb,
+                                    .flags = f,
+                                    .floortex = ftex,
+                                    .tiletex = ttex
                             });
                         }
-
                         return (Error_t) ERROR_NOERROR;
                     }
                     else {

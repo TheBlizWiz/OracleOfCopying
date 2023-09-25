@@ -8,7 +8,7 @@
 #include "game/g_hitbox.h"
 #include "libs/hashmap/hashmap.h"
 #include "render/r_image.h"
-#include "utils/u_array.h"
+#include "utils/u_list.h"
 
 DLLINCLUDE typedef struct Tile Tile_t;
 
@@ -37,22 +37,22 @@ struct Tile {
 
     // flags for this tile
     u16 flags;
+    
+    // file name of floor texture
+    char floortex[MAX_FNAME_LENGTH];
 
-    // Image_t in Hashmap where the floor texture of the tile is
-    Image_t **floortex;
-
-    // Image_t in Hashmap where the main tile block/wall/etc texture is
-    Image_t **tiletex;
+    // file name of tile texture
+    char tiletex[MAX_FNAME_LENGTH];
 };
 
-DLLINCLUDE Tile_t *tile_new(u32, TileType_e, boolean, Hitbox_t, u16, Image_t *, Image_t *);
-DLLINCLUDE Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, Image_t *ftx, Image_t *ttx);
+DLLINCLUDE Tile_t *tile_new(u32, TileType_e, boolean, Hitbox_t, u16, char *, char *);
+DLLINCLUDE Error_t tile_set(Tile_t *tile, u32 tid, int tty, boolean col, u16 f, char *ftx, char *ttx);
 
 DLLINCLUDE Error_t tile_free(Tile_t *t);
 
-DLLINCLUDE Error_t tile_drawfloor(Tile_t *tile, Coordinate c, App_t *app);
-DLLINCLUDE Error_t tile_drawtile(Tile_t *tile, Coordinate c, App_t *app);
-DLLINCLUDE int tile_compare(const void *Tile_t_a, const void *Tile_t_b);
-DLLINCLUDE Error_t tile_load(const char *fpath, Array_t(Tile_t) tileset, Hashmap_t *atlasmap);
+DLLINCLUDE Error_t tile_drawfloor(Tile_t *tile, Hashmap_t **atlasmap, Coordinate c, App_t *app);
+DLLINCLUDE Error_t tile_drawtile(Tile_t *tile, Hashmap_t **atlasmap, Coordinate c, App_t *app);
+DLLINCLUDE i32 tile_compare(const void *Tile_t_a, const void *Tile_t_b);
+DLLINCLUDE Error_t tile_load(const char *fpath, ListNode_t **tileset, Hashmap_t **atlasmap);
 
 #endif

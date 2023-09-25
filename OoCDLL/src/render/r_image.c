@@ -91,14 +91,14 @@ Error_t atlas_load(Hashmap_t *atlasmap, char *jsonfpath, SDL_Texture *atlasimg) 
     }
 }
 
-Image_t *atlas_getimage(Hashmap_t *atlasmap, const char *filename) {
+Image_t *atlas_getimage(Hashmap_t **atlasmap, const char *filename) {
     Image_t *img;
 
-    if (atlasmap) {
+    if (atlasmap && *(atlasmap)) {
         Image_t tmp;
         zeroset(&tmp, sizeof(Image_t));
         strncopy(tmp.fname, filename, MAX_FNAME_LENGTH);
-        img = (Image_t *) hashmap_get(atlasmap, &tmp);
+        img = (Image_t *) hashmap_get(*atlasmap, &tmp);
         if (img) {
             return img;
         }

@@ -24,6 +24,6 @@ struct Image {
 DLLINCLUDE Image_t *img_newfromsurface(App_t ooc, char *imgname, SDL_Surface *surf, u8 isrot);
 
 DLLINCLUDE Error_t atlas_load(Hashmap_t *atlasmap, char *jsonfpath, SDL_Texture *atlasimg);
-DLLINCLUDE Image_t *atlas_getimage(Hashmap_t *atlasmap, const char *filename);
+DLLINCLUDE Image_t *atlas_getimage(Hashmap_t **atlasmap, const char *filename);
 
 #endif

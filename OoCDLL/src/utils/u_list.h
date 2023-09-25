@@ -4,7 +4,6 @@
 #include "defs/d_common.h"
 
 DLLINCLUDE typedef struct ListNode ListNode_t;
-DLLINCLUDE typedef struct List List_t;
 
 struct ListNode {
     u32 key;
@@ -13,11 +12,6 @@ struct ListNode {
     cmp_fnptr datacmp;
 
     struct ListNode *next;
-};
-
-struct List {
-    struct ListNode **headptr;
-    Size_t size;
 };
 
 // NOTE: u_list.h and u_list.c are adapted from GH user Leyxargon

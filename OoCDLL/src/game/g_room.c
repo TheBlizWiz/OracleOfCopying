@@ -22,50 +22,39 @@ Room_t *room_new(u64 t, u8 id) {
     }
 }
 
-Error_t room_load(Room_t *room, Array_t(Tile_t) tileset, const wchar_t *fpath) {
+Error_t room_load(Room_t *room, ListNode_t **tileset, const wchar_t *fpath) {
     if (room) {
-        if (tileset) {
-            char *row;
-            const char *col;
-            int tid, rownum = 0, colnum = 0;
-            Tile_t tgt = { 0 };
-            Size_t idx;
-            CsvHandle hdl = CsvOpen(fpath);
-            if (hdl) {
+        char *row;
+        const char *col;
+        int tid, rownum = 0, colnum = 0;
+        Tile_t tgt = { 0 };
+        CsvHandle hdl = CsvOpen(fpath);
+        if (hdl) {
+            while (row = CsvReadNextRow(hdl)) {
+                while (col = CsvReadNextCol(row, hdl)) {
+                    tid = atoi(col);
+                    tgt.tileid = tid;
 
-                while (row = CsvReadNextRow(hdl)) {
-                    while (col = CsvReadNextCol(row, hdl)) {
-                        tid = atoi(col);
-                        tgt.tileid = tid;
-
-                        const Tile_t *tmptile = &tgt;
-
-                        int tilefound = array_search(tileset, &idx, 0, tmptile, tile_compare);
-
-
-                        if (tilefound) {
-                            room->tiles[rownum][colnum] = &(tileset[idx]);
-                        }
-                        else {
-                            room->tiles[rownum][colnum] = NULLADDR;
-                        }
-
-                        colnum++;
+                    ListNode_t *tnode = list_searchbykey(*tileset, tid);
+                    if (tnode) {
+                        room->tiles[rownum][colnum] = (Tile_t **) &tnode->data;
                     }
-                    rownum++;
-                }
+                    else {
+                        errprintf("ERROR: couldn't find Tile_t with id %d\n", tid);
+                        room->tiles[rownum][colnum] = NULLADDR;
+                    }
 
-                CsvClose(hdl);
-                return ERROR_NOERROR;
+                    colnum++;
+                }
+                rownum++;
             }
-            else {
-                errprintf("ERROR: Couldn't open .dg file\n");
-                return ERROR_FILE_NOTFOUND;
-            }
+
+            CsvClose(hdl);
+            return ERROR_NOERROR;
         }
         else {
-            errprintf("ERROR: TileArray_t *tileset is null\n");
-            return ERROR_ISNULLADDR;
+            errprintf("ERROR: Couldn't open .dg file\n");
+            return ERROR_FILE_NOTFOUND;
         }
     }
     else {
@@ -85,20 +74,20 @@ Error_t room_free(Room_t *room) {
     }
 }
 
-Error_t room_draw(Room_t *room, App_t *app) {
-    Error_t e1 = room_drawfloor(room, app);
-    Error_t e2 = room_drawtile(room, app);
+Error_t room_draw(Room_t *room, Hashmap_t **atlasmap, App_t *app) {
+    Error_t e1 = room_drawfloor(room, atlasmap, app);
+    Error_t e2 = room_drawtile(room, atlasmap, app);
     return e1 + e2;
 }
 
-Error_t room_drawfloor(Room_t *room, App_t *app) {
+Error_t room_drawfloor(Room_t *room, Hashmap_t **atlasmap, App_t *app) {
     Error_t e = ERROR_NOERROR, tmp = ERROR_NOERROR;
     Coordinate c = { 0 };
     for (u8 y = 0; y < ROOM_SIZE_Y; y++) {
         for (u8 x = 0; x < ROOM_SIZE_X; x++) {
-            tmp = tile_drawfloor(room->tiles[x][y], c, app);
-            
-            if (!e) {
+            tmp = tile_drawfloor(*(room->tiles[x][y]), atlasmap, c, app);
+
+            if (tmp) {
                 errprintf("ERROR: room_drawfloor threw an error, code %lld\n", e);
             }
 
@@ -111,12 +100,12 @@ Error_t room_drawfloor(Room_t *room, App_t *app) {
     return e;
 }
 
-Error_t room_drawtile(Room_t *room, App_t *app) {
+Error_t room_drawtile(Room_t *room, Hashmap_t **atlasmap, App_t *app) {
     Error_t e = ERROR_NOERROR, tmp = ERROR_NOERROR;
     Coordinate c = { 0 };
     for (u8 y = 0; y < ROOM_SIZE_Y; y++) {
         for (u8 x = 0; x < ROOM_SIZE_X; x++) {
-            tmp = tile_drawtile(room->tiles[x][y], c, app);
+            tmp = tile_drawtile(*(room->tiles[x][y]), atlasmap, c, app);
 
             if (!tmp) {
                 errprintf("ERROR: room_drawtile threw an error, code %lld\n", e);

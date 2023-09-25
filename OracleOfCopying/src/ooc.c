@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
     State_t tmpstate;
     Coordinate c;
 
-    Array_t(Tile_t) tileset = NULLADDR;
+    ListNode_t *tileset = NULLADDR;
 
     double currenttime = 0.0;
     double newtime = 0.0;
@@ -58,9 +58,7 @@ int main(int argc, char *argv[]) {
         errprintf("ERROR: something wrong with atlas_load\n");
     }
 
-    array_start(tileset, 1, tile_free);
-
-    e = tile_load("C:\\Users\\thebl\\source\\repos\\OracleOfCopying\\tiles.json", tileset, atlasmap);
+    e = tile_load("C:\\Users\\thebl\\source\\repos\\OracleOfCopying\\tiles.json", &tileset, &atlasmap);
     if (e != ERROR_NOERROR) {
         errprintf("ERROR: something wrong with tile_load\n");
         return 98;
@@ -73,13 +71,13 @@ int main(int argc, char *argv[]) {
     }
 
     // dont remove that L in front, this is a widechar string for the csv reader
-    e = room_load(room, tileset, L"C:\\Users\\thebl\\source\\repos\\OracleOfCopying\\dungeon.dg");
+    e = room_load(room, &tileset, L"C:\\Users\\thebl\\source\\repos\\OracleOfCopying\\dungeon.dg");
     if (e != ERROR_NOERROR) {
         errprintf("ERROR: something went wrong with room_load, code %lld\n", e);
         return 99;
     }
 
-    Image_t *whiteball = atlas_getimage(atlasmap, "whiteball.qoi");
+    Image_t *whiteball = atlas_getimage(&atlasmap, "whiteball.qoi");
     if (!whiteball) {
         errprintf("ERROR: whiteball.qoi is null\n");
         return 10;
@@ -92,7 +90,7 @@ int main(int argc, char *argv[]) {
     while (run) {
         SDL_RenderClear(ooc->rdr);
 
-        room_draw(room, ooc);
+        room_draw(room, &atlasmap, ooc);
 
         e = app_doevents(ooc, &evt);
 

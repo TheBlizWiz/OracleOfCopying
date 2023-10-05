@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{e6dfd7f4-3191-4b7c-b6f3-18ab3fbf001f}</ProjectGuid>
+    <ProjectGuid>{ab967fab-4445-435f-a9fc-3cdac63a1bce}</ProjectGuid>
     <RootNamespace>OracleOfCopying</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -104,12 +104,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\thebl\source\repos\SDL_image;C:\Users\thebl\source\repos\SDL\include;C:\Users\thebl\source\repos\OracleOfCopying\OracleOfCopying\src;C:\Users\thebl\source\repos\OracleOfCopying\OoCDLL\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\thebl\source\repos\SDL_ttf;C:\Users\thebl\source\repos\SDL_mixer\include;C:\Users\thebl\source\repos\SDL_image;C:\Users\thebl\source\repos\SDL\include;C:\Users\thebl\source\repos\OracleOfCopying\OoCDLL\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;oocdll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;OoCDLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\thebl\source\repos\SDL_image\VisualC\x64\Debug;C:\Users\thebl\source\repos\SDL\VisualC\x64\Debug;C:\Users\thebl\source\repos\OracleOfCopying\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -121,15 +123,17 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\thebl\source\repos\SDL_image;C:\Users\thebl\source\repos\SDL\include;C:\Users\thebl\source\repos\OracleOfCopying\OracleOfCopying\src;C:\Users\thebl\source\repos\OracleOfCopying\OoCDLL\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\thebl\source\repos\SDL_ttf;C:\Users\thebl\source\repos\SDL_mixer\include;C:\Users\thebl\source\repos\SDL_image;C:\Users\thebl\source\repos\SDL\include;C:\Users\thebl\source\repos\OracleOfCopying\OoCDLL\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;oocdll.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Users\thebl\source\repos\SDL\VisualC\x64\Release;C:\Users\thebl\source\repos\SDL_image\VisualC\x64\Release;C:\Users\thebl\source\repos\OracleOfCopying\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;OoCDLL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\thebl\source\repos\SDL_image\VisualC\x64\Release;C:\Users\thebl\source\repos\SDL\VisualC\x64\Release;C:\Users\thebl\source\repos\OracleOfCopying\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -18,16 +18,10 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="qoiconv.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="qoiconv.c" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{67e1b1aa-bcb0-4039-8d3e-449d3dd48588}</ProjectGuid>
+    <ProjectGuid>{5114a1f8-bd70-4b7f-8d99-bf72baca1593}</ProjectGuid>
     <RootNamespace>Qoiconv</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -110,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\thebl\source\repos\stb;C:\Users\thebl\source\repos\dirent\include;C:\Users\thebl\source\repos\qoi</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\thebl\source\repos\qoi;C:\Users\thebl\source\repos\stb;C:\Users\thebl\source\repos\dirent\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,7 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\thebl\source\repos\stb;C:\Users\thebl\source\repos\dirent\include;C:\Users\thebl\source\repos\qoi</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\thebl\source\repos\qoi;C:\Users\thebl\source\repos\stb;C:\Users\thebl\source\repos\dirent\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,6 +128,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\qoiconv.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\qoiconv.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

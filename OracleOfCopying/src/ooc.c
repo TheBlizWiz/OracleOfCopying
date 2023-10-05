@@ -6,6 +6,8 @@
 
 int main(int argc, char *argv[]) {
 
+    /*
+
     App_t *ooc;
 
     boolean run = 1;
@@ -180,7 +182,7 @@ int main(int argc, char *argv[]) {
 
     player_free(player);
 
-    array_stop(tileset, tile_free);
+    //array_stop(tileset, tile_free);
 
     hashmap_free(atlasmap);
     SDL_DestroyTexture(atlas);
@@ -188,6 +190,8 @@ int main(int argc, char *argv[]) {
 
     app_stop(ooc, SDL_INIT_EVERYTHING);
     app_free(ooc);
+
+    */
 
     return 0;
 }

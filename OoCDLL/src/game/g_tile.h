@@ -7,11 +7,12 @@
 #include "game/g_enums.h"
 #include "game/g_hitbox.h"
 #include "libs/hashmap/hashmap.h"
+#include "libs/vec/vec.h"
 #include "render/r_image.h"
 #include "utils/u_list.h"
 
 DLLINCLUDE typedef struct Tile Tile_t;
-
+DLLINCLUDE typedef vec_t(Tile_t *) TileArray_t;
 
 // Static, non-interactive building blocks of dungeons
 // Has two parts - the floor and the tile
@@ -53,6 +54,6 @@ DLLINCLUDE Error_t tile_free(Tile_t *t);
 DLLINCLUDE Error_t tile_drawfloor(Tile_t *tile, Hashmap_t **atlasmap, Coordinate c, App_t *app);
 DLLINCLUDE Error_t tile_drawtile(Tile_t *tile, Hashmap_t **atlasmap, Coordinate c, App_t *app);
 DLLINCLUDE i32 tile_compare(const void *Tile_t_a, const void *Tile_t_b);
-DLLINCLUDE Error_t tile_load(const char *fpath, ListNode_t **tileset, Hashmap_t **atlasmap);
+DLLINCLUDE Error_t tile_load(const char *fpath, TileArray_t *tileset, Hashmap_t **atlasmap);
 
 #endif

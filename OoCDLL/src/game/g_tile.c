@@ -106,7 +106,7 @@ i32 tile_compare(const void *Tile_t_a, const void *Tile_t_b) {
     return b->tileid - a->tileid;
 }
 
-Error_t tile_load(const char *fpath, ListNode_t **tileset, Hashmap_t **atlasmap) {
+Error_t tile_load(const char *fpath, TileArray_t *tileset, Hashmap_t **atlasmap) {
     char *jsontxt = NULLADDR;
     Size_t n = 0;
     FILE *jsonf;
@@ -125,47 +125,54 @@ Error_t tile_load(const char *fpath, ListNode_t **tileset, Hashmap_t **atlasmap)
     Hitbox_t hb = hbox_newdefault();
 
     if (atlasmap) {
-        if (fopen_s(&jsonf, fpath, "rb") == 0) {
-            e = file_read(jsonf, &jsontxt, &n);
+        if (tileset) {
+            if (fopen_s(&jsonf, fpath, "rb") == 0) {
+                e = file_read(jsonf, &jsontxt, &n);
 
-            if (e == ERROR_NOERROR) {
-                root = cJSON_Parse(jsontxt);
-                if (root) {
-                    for (node = root->child; node != NULLADDR; node = node->next) {
+                if (e == ERROR_NOERROR) {
+                    root = cJSON_Parse(jsontxt);
+                    if (root) {
+                        for (node = root->child; node != NULLADDR; node = node->next) {
 
-                        tid = cJSON_GetObjectItem(node, "tileid")->valueint;
-                        tty = cJSON_GetObjectItem(node, "ttype")->valueint;
-                        col = cJSON_GetObjectItem(node, "collision")->valueint;
-                        f = cJSON_GetObjectItem(node, "flags")->valueint;
+                            tid = cJSON_GetObjectItem(node, "tileid")->valueint;
+                            tty = cJSON_GetObjectItem(node, "ttype")->valueint;
+                            col = cJSON_GetObjectItem(node, "collision")->valueint;
+                            f = cJSON_GetObjectItem(node, "flags")->valueint;
 
-                        // TODO: add Hitbox here
+                            // TODO: add Hitbox here
 
-                        ttex = cJSON_GetObjectItem(node, "tiletex")->valuestring;
-                        ftex = cJSON_GetObjectItem(node, "floortex")->valuestring;
+                            ttex = cJSON_GetObjectItem(node, "tiletex")->valuestring;
+                            ftex = cJSON_GetObjectItem(node, "floortex")->valuestring;
 
-                        Tile_t *newtile = tile_new(tid, tty, col, hb, f, ttex, ftex);
-                        *tileset = list_addtohead(*tileset, tid, newtile, tile_free, tile_compare);
+                            Tile_t *newtile = tile_new(tid, tty, col, hb, f, ttex, ftex);
+
+                            vec_push(tileset, newtile);
+                        }
+
+                        cJSON_Delete(root);
+                        free(jsontxt);
+                        fclose(jsonf);
+                        return (Error_t) ERROR_NOERROR;
                     }
-
-                    cJSON_Delete(root);
-                    free(jsontxt);
-                    fclose(jsonf);
-                    return (Error_t) ERROR_NOERROR;
+                    else {
+                        errprintf("ERROR: no malloc space for parsing json data\n");
+                        fclose(jsonf);
+                        return (Error_t) ERROR_MALLOC_NOSPACE;
+                    }
                 }
                 else {
-                    errprintf("ERROR: no malloc space for parsing json data\n");
-                    fclose(jsonf);
-                    return (Error_t) ERROR_MALLOC_NOSPACE;
+                    errprintf("ERROR: something went wrong reading json file %s\n", fpath);
+                    return (Error_t) e;
                 }
             }
             else {
-                errprintf("ERROR: something went wrong reading json file %s\n", fpath);
-                return (Error_t) e;
+                errprintf("ERROR: couldn't open json file %s\n", fpath);
+                return (Error_t) ERROR_FILE_NOTFOUND;
             }
         }
         else {
-            errprintf("ERROR: couldn't open json file %s\n", fpath);
-            return (Error_t) ERROR_FILE_NOTFOUND;
+            errprintf("ERROR: tileset is null\n");
+            return (Error_t) ERROR_ISNULLADDR;
         }
     }
     else {

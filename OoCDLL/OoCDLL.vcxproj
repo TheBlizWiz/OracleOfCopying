@@ -33,6 +33,7 @@
     <ClCompile Include="src\libs\cjson\cjson.c" />
     <ClCompile Include="src\libs\csv\csv.c" />
     <ClCompile Include="src\libs\hashmap\hashmap.c" />
+    <ClCompile Include="src\libs\vec\vec.c" />
     <ClCompile Include="src\math\m_math.c" />
     <ClCompile Include="src\math\m_physics.c" />
     <ClCompile Include="src\math\m_rng.c" />
@@ -67,6 +68,7 @@
     <ClInclude Include="src\libs\csv\csv.h" />
     <ClInclude Include="src\libs\dirent\dirent.h" />
     <ClInclude Include="src\libs\hashmap\hashmap.h" />
+    <ClInclude Include="src\libs\vec\vec.h" />
     <ClInclude Include="src\math\m_math.h" />
     <ClInclude Include="src\math\m_physics.h" />
     <ClInclude Include="src\math\m_rng.h" />

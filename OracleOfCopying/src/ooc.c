@@ -6,8 +6,6 @@
 
 int main(int argc, char *argv[]) {
 
-    /*
-
     App_t *ooc;
 
     boolean run = 1;
@@ -23,7 +21,7 @@ int main(int argc, char *argv[]) {
     State_t tmpstate;
     Coordinate c;
 
-    ListNode_t *tileset = NULLADDR;
+    TileArray_t tileset;
 
     double currenttime = 0.0;
     double newtime = 0.0;
@@ -59,6 +57,8 @@ int main(int argc, char *argv[]) {
     if (e != ERROR_NOERROR) {
         errprintf("ERROR: something wrong with atlas_load\n");
     }
+
+    memset(&tileset, 0, sizeof(tileset));
 
     e = tile_load("C:\\Users\\thebl\\source\\repos\\OracleOfCopying\\tiles.json", &tileset, &atlasmap);
     if (e != ERROR_NOERROR) {
@@ -182,7 +182,7 @@ int main(int argc, char *argv[]) {
 
     player_free(player);
 
-    //array_stop(tileset, tile_free);
+    vec_deinit(&tileset);
 
     hashmap_free(atlasmap);
     SDL_DestroyTexture(atlas);
@@ -190,8 +190,6 @@ int main(int argc, char *argv[]) {
 
     app_stop(ooc, SDL_INIT_EVERYTHING);
     app_free(ooc);
-
-    */
 
     return 0;
 }

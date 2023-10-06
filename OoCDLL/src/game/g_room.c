@@ -22,7 +22,7 @@ Room_t *room_new(u64 t, u8 id) {
     }
 }
 
-Error_t room_load(Room_t *room, ListNode_t **tileset, const wchar_t *fpath) {
+Error_t room_load(Room_t *room, TileArray_t *tileset, const wchar_t *fpath) {
     if (room) {
         char *row;
         const char *col;
@@ -35,9 +35,11 @@ Error_t room_load(Room_t *room, ListNode_t **tileset, const wchar_t *fpath) {
                     tid = atoi(col);
                     tgt.tileid = tid;
 
-                    ListNode_t *tnode = list_searchbykey(*tileset, tid);
-                    if (tnode) {
-                        room->tiles[rownum][colnum] = (Tile_t **) &tnode->data;
+                    Size_t idx;
+                    vec_search(tileset, idx, &tgt, tile_compare);
+
+                    if (idx != -1) {
+                        room->tiles[rownum][colnum] = (Tile_t **) &tileset;
                     }
                     else {
                         errprintf("ERROR: couldn't find Tile_t with id %d\n", tid);
